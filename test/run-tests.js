@@ -108,11 +108,12 @@ for (const [file, label] of [
 }
 
 /* ---------- 5. konsistensi dist vs src ---------- */
-t('dist sinkron dengan src', () => {
-    for (const f of ['awg-core', 'awg-maps', 'awg-widgets', 'awg-charts', 'awg-select2']) {
-        const s = fs.statSync(path.join(ROOT, `js/${f}.js`));
-        const d = fs.statSync(path.join(ROOT, `dist/${f}.js`));
-        assert(d.mtimeMs >= s.mtimeMs, `dist/${f}.js lebih lama dari src — jalankan npm run build`);
+/* Cek berbasis konten (hash), bukan mtime: CI checkout tidak menjamin urutan mtime. */
+t('dist sinkron dengan src (identik byte-per-byte)', () => {
+    for (const f of ['awg-core', 'awg-maps', 'awg-widgets', 'awg-charts', 'awg-select2', 'awg-datatable', 'awg-datepicker']) {
+        const s = fs.readFileSync(path.join(ROOT, `js/${f}.js`));
+        const d = fs.readFileSync(path.join(ROOT, `dist/${f}.js`));
+        assert(s.equals(d), `dist/${f}.js berbeda dari src — jalankan npm run build`);
     }
 });
 

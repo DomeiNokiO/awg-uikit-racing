@@ -32,11 +32,14 @@ jobs:
       - name: Build dist
         run: npm run build
 
-      - name: Verifikasi dist sinkron
+      - name: Verifikasi build reproducible (dist tidak berubah saat rebuild)
         run: |
-          for f in awg-core awg-maps awg-widgets awg-charts awg-select2 awg-datatable awg-datepicker; do
-            [ dist/$f.js -nt js/$f.js ] || { echo "::error::dist/$f.js stale"; exit 1; }
-          done
+          npm run build
+          git diff --exit-code dist/ || {
+            echo "::error::rebuild menghasilkan dist berbeda dari yang di-commit"
+            git diff --stat dist/
+            exit 1
+          }
 
       - name: Smoke test halaman (HTTP 200)
         run: |
