@@ -2378,53 +2378,91 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
 
         __renderDemoFallback() {
             this.__demoActive = true;
+            if (this.map) { try { this.map.remove(); } catch(e){} }
+            const rect = this.el.getBoundingClientRect();
+            const wBox = Math.max(Math.floor(rect.width), this.el.clientWidth || 600);
+            const hBox = Math.max(Math.floor(rect.height), 280);
+            const markers = (this.o.markers || []);
+            const lats = markers.length ? markers.map(m => m.lat) : [this.o.lat];
+            const lngs = markers.length ? markers.map(m => m.lng) : [this.o.lng];
+            let minLat = Math.min(...lats), maxLat = Math.max(...lats);
+            let minLng = Math.min(...lngs), maxLng = Math.max(...lngs);
+            if (!markers.length) { minLat -= 0.02; maxLat += 0.02; minLng -= 0.02; maxLng += 0.02; }
+            const padLat = Math.max(0.005, (maxLat - minLat) * 0.25);
+            const padLng = Math.max(0.005, (maxLng - minLng) * 0.25);
+
+            const svgNS = 'http://www.w3.org/2000/svg';
             this.el.innerHTML = '';
             const wrap = document.createElement('div');
             wrap.className = 'awg-map';
-            wrap.style.cssText = 'width:100%;height:100%;min-height:280px;position:relative;overflow:hidden;background:linear-gradient(135deg,#e0f2fe 0%,#f0f9ff 100%);border-radius:var(--awg-radius);';
+            wrap.style.cssText = `width:100%;height:${hBox}px;position:relative;overflow:hidden;background:linear-gradient(135deg,#dbeafe 0%,#eff6ff 100%);border-radius:var(--awg-radius);`;
+
             const title = document.createElement('h4');
             title.textContent = 'Peta Node Demo (Offline Fallback)';
-            title.style.cssText = 'position:absolute;top:.8rem;left:.8rem;right:.8rem;z-index:3;margin:0;background:rgba(255,255,255,.9);padding:.45rem .75rem;border-radius:8px;font-size:.78rem;font-weight:700;box-shadow:var(--awg-shadow);';
+            title.style.cssText = 'position:absolute;top:.8rem;left:.8rem;right:.8rem;z-index:3;margin:0;background:rgba(255,255,255,.92);padding:.45rem .75rem;border-radius:8px;font-size:.78rem;font-weight:700;box-shadow:var(--awg-shadow);';
             wrap.appendChild(title);
-            const markers = (this.o.markers || []);
-            const wBox = Math.max(this.el.clientWidth || 600, 300), hBox = 280;
-            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            svg.setAttribute('width', '100%'); svg.setAttribute('height', '100%'); svg.setAttribute('viewBox', `0 0 ${wBox} ${hBox}`);
+
+            const svg = document.createElementNS(svgNS, 'svg');
+            svg.setAttribute('width', '100%'); svg.setAttribute('height', '100%');
+            svg.setAttribute('preserveAspectRatio', 'none');
+            svg.setAttribute('viewBox', `0 0 ${wBox} ${hBox}`);
             svg.style.cssText = 'position:absolute;inset:0;display:block;';
-            for (let i = 0; i <= wBox; i += 60) { const line = document.createElementNS('http://www.w3.org/2000/svg', 'line'); line.setAttribute('x1', i); line.setAttribute('y1', 0); line.setAttribute('x2', i); line.setAttribute('y2', hBox); line.setAttribute('stroke', '#cbd5e1'); line.setAttribute('stroke-width', '1'); svg.appendChild(line); }
-            for (let i = 0; i <= hBox; i += 60) { const line = document.createElementNS('http://www.w3.org/2000/svg', 'line'); line.setAttribute('x1', 0); line.setAttribute('y1', i); line.setAttribute('x2', wBox); line.setAttribute('y2', i); line.setAttribute('stroke', '#cbd5e1'); line.setAttribute('stroke-width', '1'); svg.appendChild(line); }
-            [[20,140,580,140,'#94a3b8'],[140,20,160,260,'#94a3b8'],[320,20,300,260,'#94a3b8'],[460,20,480,260,'#94a3b8']].forEach(([x1,y1,x2,y2,stroke])=>{
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+
+            const blocks = [
+                [60,60,120,100,'#bfdbfe'], [180,50,260,120,'#bfdbfe'], [340,80,420,150,'#bfdbfe'],
+                [520,40,620,130,'#bfdbfe'], [680,70,760,160,'#bfdbfe'],
+                [40,200,130,260,'#c7d2fe'], [200,230,290,290,'#c7d2fe'], [360,210,460,280,'#c7d2fe'],
+                [540,250,640,310,'#c7d2fe'], [700,220,780,300,'#c7d2fe'],
+                [90,350,170,410,'#ddd6fe'], [260,340,350,420,'#ddd6fe'], [440,360,540,420,'#ddd6fe'],
+                [620,350,720,410,'#ddd6fe']
+            ];
+            blocks.forEach(([x1,y1,x2,y2,fill])=>{
+                const rect = document.createElementNS(svgNS, 'rect');
+                rect.setAttribute('x', x1); rect.setAttribute('y', y1);
+                rect.setAttribute('width', x2-x1); rect.setAttribute('height', y2-y1);
+                rect.setAttribute('fill', fill); rect.setAttribute('rx', 4);
+                svg.appendChild(rect);
+            });
+
+            const roads = [
+                [0,145,wBox,145,'#64748b',5], [0,285,wBox,285,'#64748b',5],
+                [140,0,140,hBox,'#64748b',5], [330,0,330,hBox,'#64748b',5], [560,0,560,hBox,'#64748b',5], [720,0,720,hBox,'#64748b',5]
+            ];
+            roads.forEach(([x1,y1,x2,y2,stroke,width])=>{
+                const line = document.createElementNS(svgNS, 'line');
                 line.setAttribute('x1', x1); line.setAttribute('y1', y1); line.setAttribute('x2', x2); line.setAttribute('y2', y2);
-                line.setAttribute('stroke', stroke); line.setAttribute('stroke-width', '4'); line.setAttribute('stroke-linecap', 'round');
+                line.setAttribute('stroke', stroke); line.setAttribute('stroke-width', width); line.setAttribute('stroke-linecap', 'round');
                 svg.appendChild(line);
             });
-            const lats = markers.map(m => m.lat), lngs = markers.map(m => m.lng);
-            const minLat = Math.min(...lats) || this.o.lat, maxLat = Math.max(...lats) || this.o.lat;
-            const minLng = Math.min(...lngs) || this.o.lng, maxLng = Math.max(...lngs) || this.o.lng;
-            const padLat = Math.max(0.005, (maxLat - minLat) * 0.2), padLng = Math.max(0.005, (maxLng - minLng) * 0.2);
+
             function yy(lat) { return hBox - ((lat - (minLat - padLat)) / ((maxLat + padLat) - (minLat - padLat))) * hBox; }
             function xx(lng) { return ((lng - (minLng - padLng)) / ((maxLng + padLng) - (minLng - padLng))) * wBox; }
+
             markers.forEach((m, i) => {
                 const cx = xx(m.lng), cy = yy(m.lat);
-                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-                const col = i === 0 ? '#2563eb' : (m.popup && String(m.popup).includes('DOWN') ? '#dc2626' : '#16a34a');
-                const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                pulse.setAttribute('cx', cx); pulse.setAttribute('cy', cy); pulse.setAttribute('r', 12); pulse.setAttribute('fill', col); pulse.setAttribute('opacity', .18);
-                g.appendChild(pulse);
-                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                circle.setAttribute('cx', cx); circle.setAttribute('cy', cy); circle.setAttribute('r', 7); circle.setAttribute('fill', col); circle.setAttribute('stroke', '#fff'); circle.setAttribute('stroke-width', '2');
-                g.appendChild(circle);
-                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                text.setAttribute('x', cx); text.setAttribute('y', cy - 14); text.setAttribute('text-anchor', 'middle');
-                text.setAttribute('fill', '#0f172a'); text.setAttribute('font-size', '11'); text.setAttribute('font-weight', '700');
-                text.textContent = m.title || ('Node ' + (i + 1));
-                g.appendChild(text);
-                const tip = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+                const col = i === 0 ? '#2563eb' : (String(m.popup || '').includes('DOWN') ? '#dc2626' : '#16a34a');
+                const g = document.createElementNS(svgNS, 'g');
+                g.setAttribute('transform', `translate(${cx}, ${cy})`);
+                g.style.cursor = 'pointer';
+
+                const pin = document.createElementNS(svgNS, 'path');
+                pin.setAttribute('d', 'M0,-22 C-7,-22 -12,-16 -12,-10 C-12,-2 -2,10 0,22 C2,10 12,-2 12,-10 C12,-16 7,-22 0,-22 Z');
+                pin.setAttribute('fill', col); pin.setAttribute('stroke', '#fff'); pin.setAttribute('stroke-width', '2.5');
+                g.appendChild(pin);
+
+                const label = document.createElementNS(svgNS, 'text');
+                label.setAttribute('x', 0); label.setAttribute('y', -34); label.setAttribute('text-anchor', 'middle');
+                label.setAttribute('fill', '#0f172a'); label.setAttribute('font-size', '12'); label.setAttribute('font-weight', '700');
+                label.setAttribute('style', 'text-shadow:0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;');
+                label.textContent = m.title || ('Node ' + (i + 1));
+                g.appendChild(label);
+
+                const tip = document.createElementNS(svgNS, 'title');
                 tip.textContent = m.popup ? String(m.popup).replace(/<[^>]+>/g, ' ') : (m.title || 'Node');
                 g.appendChild(tip);
                 svg.appendChild(g);
             });
+
             wrap.appendChild(svg);
             this.el.appendChild(wrap);
         }
