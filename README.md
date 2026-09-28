@@ -22,6 +22,14 @@ Node.js, Python, Go, Ruby, React/Vue/Svelte, atau bahasa apa pun yang menghasilk
 |---|---|
 | ![Mobile 320](docs/screenshots/shot07-mobile320.png) | ![Drawer](docs/screenshots/shot08-mobile-drawer.png) |
 
+| Charts NMS — desktop | Charts NMS — dark mode | Charts — tooltip crosshair |
+|---|---|---|
+| ![Charts](docs/screenshots/shot09-charts-desktop.png) | ![Charts dark](docs/screenshots/shot10-charts-dark.png) | ![Tooltip](docs/screenshots/shot11-chart-tooltip.png) |
+
+| Charts di HP 320px |
+|---|
+| ![Charts mobile](docs/screenshots/shot09-charts-mobile.png) |
+
 *Screenshot diambil dengan Chrome headless (viewport asli) — lihat `docs/screenshots/README.md`.*
 
 | | |
@@ -29,11 +37,13 @@ Node.js, Python, Go, Ruby, React/Vue/Svelte, atau bahasa apa pun yang menghasilk
 | **Author** | **AWGNET-RACING & AGENT AI TEAM** |
 | **Versi** | 1.0.0 |
 | **Lisensi** | MIT |
-| **Ukuran** | CSS ±5 KB + core JS ±3 KB + select2 ±3 KB (gzip) |
-| **Dependensi** | 0 (ikon: FontAwesome opsional via CDN) |
+| **Ukuran** | CSS ±8 KB + core ±3 KB + select2 ±3.6 KB + charts ±3.7 KB (gzip) |
+| **Dependensi** | 0 — font Inter + ikon SVG self-hosted, tanpa CDN |
 
 ## Fitur utama
 - 🎨 **Design tokens** (Inter + slate + biru; `--awg-*`) — light & **dark mode** persist
+- 🔤 **Font & ikon 100% lokal** — Inter woff2 (5 bobot) + sprite SVG ±60 ikon (`assets/icons.svg`), nol request keluar
+- 📊 **Charts/NMS** (`awg-charts.js`): line/area multi-seri + crosshair tooltip, bar, donut, gauge zona ambang — SVG murni, tema-aware, live-update 2 dtk, responsif
 - 📐 **App shell**: sidebar gelap + drawer mobile + topbar blur + grid + utilitas
 - 🧩 **40+ komponen**: buttons, badges, chips, avatars, cards, stats, lists, tables
   (striped/compact/sticky/tfoot), alerts, toasts, empty-state, spinner, progress,
@@ -57,16 +67,19 @@ python3 -m http.server 8877        # buka http://localhost:8877/index.html  (sho
 ```html
 <link rel="stylesheet" href="/assets/awg-uikit.min.css">
 <script src="/assets/awg-core.min.js"></script>
-<script src="/assets/awg-select2.min.js"></script>
+<script src="/assets/awg-select2.min.js"></script>   <!-- opsional -->
+<script src="/assets/awg-charts.min.js"></script>    <!-- opsional -->
+<!-- deploy: salin folder dist/ (sudah berisi fonts/ + assets/icons.svg) ke public/assets/ -->
 ```
 
 ## Dokumentasi
-- `docs/getting-started.md` — pasang, dark mode, layout dasar, prinsip
+- `docs/getting-started.md` — pasang, dark mode, layout dasar, prinsip, font/ikon lokal
 - `docs/components.md` — semua komponen CSS
+- `docs/charts.md` — grafik NMS: line/area/bar/donut/gauge + pola polling real-time
 - `docs/forms.md` — field, kontrol, validasi, integrasi Laravel
 - `docs/dropdown.md` — menu, submenu, popover, pola tabel
 - `docs/select2.md` — searchable select (single/multi/remote/tag) + API
-- `docs/js-api.md` — window.Awg lengkap + aturan anti-XSS
+- `docs/js-api.md` — window.Awg / window.AwgChart / window.AwgSelect + aturan anti-XSS
 - `adapters/README.md` — resep per stack (PHP/Laravel, Express, Flask, Go, React/Vue/Svelte)
 - `templates/blade/` — app shell siap-copy untuk Laravel
 - `css/tokens.json` — sumber token untuk tooling (SCSS/Tailwind config/Figma)
@@ -75,13 +88,15 @@ python3 -m http.server 8877        # buka http://localhost:8877/index.html  (sho
 ```
 awg-uikit-racing/
 ├── css/    awg-uikit.css · tokens.json
-├── js/     awg-core.js · awg-select2.js
-├── dist/   hasil build (min + sumber)
-├── docs/   getting-started · components · forms · dropdown · select2 · js-api
-├── templates/blade/  app-shell.blade.php · fk-head pattern
+├── js/     awg-core.js · awg-select2.js · awg-charts.js
+├── fonts/  inter-{400..800}.woff2   (self-hosted)
+├── assets/ icons.svg                 (sprite ±60 ikon)
+├── dist/   hasil build (min + sumber + fonts/ + assets/)
+├── docs/   getting-started · components · charts · forms · dropdown · select2 · js-api
+├── templates/blade/  awg-layout · example-crud
 ├── adapters/README.md
 ├── scripts/build.sh
-└── index.html   ← showcase interaktif semua komponen
+└── index.html   ← showcase interaktif semua komponen (termasuk dashboard NMS live)
 ```
 
 ## Prefix & konvensi

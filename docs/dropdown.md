@@ -4,15 +4,15 @@
 ```html
 <div class="awg-dropdown">
     <button class="awg-btn awg-btn-ghost" data-awg-drop="menu1">
-        <i class="fa-solid fa-sliders"></i> Aksi <i class="fa-solid fa-caret-down"></i>
+        <svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-sliders"></use></svg> Aksi <svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-chevron-down"></use></svg>
     </button>
     <div class="awg-dropdown-menu" id="menu1">
         <div class="awg-dropdown-title">Cabang</div>
-        <button class="awg-dropdown-item"><i class="fa-regular fa-eye"></i> Lihat</button>
-        <button class="awg-dropdown-item active"><i class="fa-solid fa-check"></i> Edit <span class="right">Ctrl+E</span></button>
-        <button class="awg-dropdown-item" disabled><i class="fa-solid fa-lock"></i> Hapus</button>
+        <button class="awg-dropdown-item"><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-eye"></use></svg> Lihat</button>
+        <button class="awg-dropdown-item active"><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-check"></use></svg> Edit <span class="right">Ctrl+E</span></button>
+        <button class="awg-dropdown-item" disabled><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-power"></use></svg> Hapus</button>
         <div class="awg-dropdown-sep"></div>
-        <button class="awg-dropdown-item danger"><i class="fa-regular fa-trash-can"></i> Hapus permanen</button>
+        <button class="awg-dropdown-item danger"><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-trash"></use></svg> Hapus permanen</button>
     </div>
 </div>
 ```
@@ -25,7 +25,7 @@
 ## Submenu 2 level (hover)
 ```html
 <div class="awg-dropdown-sub">
-    <button class="awg-dropdown-item"><i class="fa-solid fa-share"></i> Ekspor</button>
+    <button class="awg-dropdown-item"><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-share"></use></svg> Ekspor</button>
     <div class="awg-dropdown-menu">
         <button class="awg-dropdown-item">Excel</button>
         <button class="awg-dropdown-item">PDF</button>

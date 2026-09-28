@@ -9,8 +9,8 @@
 
 @section('topbar-actions')
 <div class="awg-flex" style="margin-left:auto;gap:.5rem">
-    <button class="awg-btn awg-btn-ghost" id="btnExport"><i class="fa-solid fa-file-export"></i> Export</button>
-    <button class="awg-btn awg-btn-primary" id="btnAdd"><i class="fa-solid fa-plus"></i> Tambah</button>
+    <button class="awg-btn awg-btn-ghost" id="btnExport"><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-download"></use></svg> Export</button>
+    <button class="awg-btn awg-btn-primary" id="btnAdd"><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-plus"></use></svg> Tambah</button>
 </div>
 @endsection
 
@@ -74,14 +74,14 @@
                     <div class="awg-dropdown">
                         <button class="awg-btn awg-btn-ghost awg-btn-sm awg-btn-icon" data-awg-drop="row${r.id}">⋮</button>
                         <div class="awg-dropdown-menu left" id="row${r.id}">
-                            <button class="awg-dropdown-item" data-edit="${r.id}"><i class="fa-regular fa-pen"></i> Edit</button>
+                            <button class="awg-dropdown-item" data-edit="${r.id}"><svg class="awg-ic sm"><use href="/assets/assets/icons.svg#ic-pen"></use></svg> Edit</button>
                             <div class="awg-dropdown-sep"></div>
-                            <button class="awg-dropdown-item danger" data-del="${r.id}"><i class="fa-regular fa-trash-can"></i> Hapus</button>
+                            <button class="awg-dropdown-item danger" data-del="${r.id}"><svg class="awg-ic sm"><use href="/assets/assets/icons.svg#ic-trash"></use></svg> Hapus</button>
                         </div>
                     </div>
                 </td>
             </tr>`).join('')
-            : `<tr><td colspan="5"><div class="awg-empty"><span class="ico"><i class="fa-regular fa-folder-open"></i></span><b>Tidak ada data</b></div></td></tr>`;
+            : `<tr><td colspan="5"><div class="awg-empty"><span class="ico"><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-folder"></use></svg></span><b>Tidak ada data</b></div></td></tr>`;
         document.getElementById('tableInfo').textContent = `Menampilkan ${j.data.length} dari ${j.total}`;
         pager(j.total, Math.ceil(j.total / (j.per || 10)));
     }

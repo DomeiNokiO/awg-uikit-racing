@@ -1,6 +1,6 @@
 # 📦 Komponen CSS — AWG-UIKIT-RACING
 
-Semua kelas berprefix `awg-`. Ikon contoh memakai FontAwesome 6 (opsional).
+Semua kelas berprefix `awg-`. Ikon contoh memakai sprite lokal `assets/icons.svg` (`<svg class="awg-ic"><use href="assets/icons.svg#ic-*"/></svg>`).
 
 ## Buttons
 | Kelas | Keterangan |
@@ -12,7 +12,7 @@ Semua kelas berprefix `awg-`. Ikon contoh memakai FontAwesome 6 (opsional).
 | `disabled` / `.disabled` | state mati |
 
 ```html
-<button class="awg-btn awg-btn-primary"><i class="fa-solid fa-plus"></i> Tambah</button>
+<button class="awg-btn awg-btn-primary"><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-plus"></use></svg> Tambah</button>
 ```
 
 ## Badges & status
@@ -24,7 +24,7 @@ Semua kelas berprefix `awg-`. Ikon contoh memakai FontAwesome 6 (opsional).
 ## Chips (filter aktif/hapus)
 ```html
 <span class="awg-chip">Filter <span class="x">✕</span></span>
-<span class="awg-chip active"><i class="fa-solid fa-check"></i> Aktif saja</span>
+<span class="awg-chip active"><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-check"></use></svg> Aktif saja</span>
 ```
 
 ## Avatars
@@ -48,7 +48,7 @@ Semua kelas berprefix `awg-`. Ikon contoh memakai FontAwesome 6 (opsional).
 ## Stat (kartu angka dashboard)
 ```html
 <div class="awg-card"><div class="awg-stat">
-    <div class="ico ok"><i class="fa-solid fa-receipt"></i></div>
+    <div class="ico ok"><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-receipt"></use></svg></div>
     <div><div class="num">312</div><div class="lbl">Transaksi</div><div class="trend up">▲ 8%</div></div>
 </div></div>
 ```
@@ -78,9 +78,9 @@ Semua kelas berprefix `awg-`. Ikon contoh memakai FontAwesome 6 (opsional).
 
 ## Alert / Toast / Empty / Spinner / Progress / Skeleton / Tooltip
 ```html
-<div class="awg-alert ok"><i class="fa-solid fa-circle-check"></i> Pesan <button class="x" onclick="this.parentElement.remove()">✕</button></div>
+<div class="awg-alert ok"><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-check-circle"></use></svg> Pesan <button class="x" onclick="this.parentElement.remove()">✕</button></div>
 Awg.toast('Tersimpan', 'ok');            <!-- info|ok|warn|bad -->
-<div class="awg-empty"><span class="ico"><i class="fa-regular fa-folder-open"></i></span><b>Kosong</b><span class="awg-small">…</span></div>
+<div class="awg-empty"><span class="ico"><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-folder"></use></svg></span><b>Kosong</b><span class="awg-small">…</span></div>
 <span class="awg-spinner sm"></span> <!-- .lg -->
 <div class="awg-progress ok striped"><span style="width:100%"></span></div>
 <div class="awg-skel text" style="width:60%"></div> <!-- .rect .circle -->
@@ -99,7 +99,7 @@ Awg.toast('Tersimpan', 'ok');            <!-- info|ok|warn|bad -->
 ## Accordion
 ```html
 <div class="awg-acc-item open">
-    <button class="awg-acc-head">Pertanyaan <i class="fa-solid fa-chevron-right chev"></i></button>
+    <button class="awg-acc-head">Pertanyaan <svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-chevron-right chev"></use></svg></button>
     <div class="awg-acc-body">Jawaban…</div>
 </div>
 ```

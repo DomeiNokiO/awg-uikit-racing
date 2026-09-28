@@ -4,7 +4,7 @@
 > Author: **AWGNET-RACING & AGENT AI TEAM** · License: MIT
 
 ## Prinsip desain
-1. **Zero dependency** — hanya CSS + vanilla JS. Tidak butuh Bootstrap/jQuery/Tailwind.
+1. **Zero dependency & zero CDN** — hanya CSS + vanilla JS; font Inter (woff2) dan sprite ikon SVG ikut di repo (`fonts/`, `assets/`). Tidak butuh Bootstrap/jQuery/Tailwind/FontAwesome.
 2. **Prefix `awg-`** — semua kelas, token (`--awg-*`), dan atribut (`data-awg-*`) memakai prefix sehingga tidak pernah bentrok dengan library lain.
 3. **Deklatif dulu, API belakangan** — komponen aktif lewat atribut `data-awg-*`; fungsi JS (`Awg.*`) tersedia bila butuh kontrol penuh.
 4. **Mobile-first responsif** — diuji dari viewport 320px; modal jadi fullscreen di HP, tombol min. 44px.
@@ -17,10 +17,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/awg-uikit.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css">
+    <link rel="icon" href="/assets/assets/icons.svg">
     <script>/* anti-flash dark mode */
     try{const t=localStorage.getItem('awg-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 </head>
@@ -28,10 +26,13 @@
     <!-- … konten … -->
     <script src="/assets/awg-core.min.js"></script>
     <script src="/assets/awg-select2.min.js"></script>   <!-- opsional, hanya jika pakai select2 -->
+    <script src="/assets/awg-charts.min.js"></script>    <!-- opsional, hanya jika pakai chart -->
 </body>
 </html>
 ```
-Font Awesome dipakai untuk ikon (opsional — kalau tidak mau CDN, ganti dengan SVG/ikon sendiri; kelas tetap jalan).
+Font & ikon sudah **self-hosted** di repo: `fonts/*.woff2` (Inter, 5 bobot) dimuat otomatis lewat `@font-face` di `awg-uikit.css`; ikon pakai sprite `<svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-*"></svg>` (±60 ikon stroke). **Tidak ada request ke CDN/host luar sama sekali.**
+
+> Bila menyalin manual: salin `fonts/` dan `assets/icons.svg` juga ke server (path relatif terhadap css: `../fonts/`), atau pakai `dist/` yang sudah berisi semuanya (font di `dist/fonts/`, ikon di `dist/assets/`).
 
 ## Struktur folder
 ```
@@ -65,7 +66,7 @@ Awg.theme.set('dark'); Awg.theme.toggle();
     <div class="awg-overlay"></div>
     <div class="awg-main">
         <header class="awg-topbar">
-            <button class="awg-menu-btn" data-awg-menu><i class="fa-solid fa-bars"></i></button>
+            <button class="awg-menu-btn" data-awg-menu><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-menu"></use></svg></button>
             <div class="awg-crumbs"><b>Judul</b></div>
         </header>
         <div class="awg-content"> … </div>

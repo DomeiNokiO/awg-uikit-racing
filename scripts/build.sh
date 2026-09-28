@@ -15,13 +15,19 @@ minify_js() {
     perl -0pe 's{^\s*/\*.*?\*/}{}gsm; s{^\s*//.*$}{}gm; s/\n{2,}/\n/g' "$1"
 }
 
-minify_css css/awg-uikit.css > dist/awg-uikit.min.css
+minify_css css/awg-uikit.css | sed "s|\.\./fonts/|fonts/|g" > dist/awg-uikit.min.css
 minify_js js/awg-core.js > dist/awg-core.min.js
 minify_js js/awg-select2.js > dist/awg-select2.min.js
+minify_js js/awg-charts.js > dist/awg-charts.min.js
 cp css/tokens.json dist/awg-tokens.json
 cp css/awg-uikit.css dist/awg-uikit.css
 cp js/awg-core.js dist/awg-core.js
 cp js/awg-select2.js dist/awg-select2.js
+cp js/awg-charts.js dist/awg-charts.js
+mkdir -p dist/fonts dist/assets
+cp fonts/*.woff2 dist/fonts/
+cp assets/icons.svg dist/assets/
+sed "s|\.\./fonts/|fonts/|g" css/awg-uikit.css > dist/awg-uikit.css
 
 total=0
 for f in dist/*.min.*; do

@@ -12,6 +12,10 @@ Diambil dengan Chrome headless (CDP) — viewport asli, bukan resize manual.
 | shot06-dark.png | 1360×900 | Dark mode penuh |
 | shot07-mobile320.png | 320×700 (iPhone SE) | 0 scroll horizontal, grid 1 kolom, sidebar drawer tertutup |
 | shot08-mobile-drawer.png | 320×700 | Sidebar drawer terbuka + overlay |
+| shot09-charts-desktop.png | 1360×900 | Dashboard NMS: line live 2 seri, bar utilisasi, gauge CPU/RAM zona, donut ONT, sparkline |
+| shot09-charts-mobile.png | 320×700 | Chart di HP: SVG menyusut, viewBox adaptif, 0 overflow |
+| shot10-charts-dark.png | 1360×900 | Chart ikut dark mode (grid/teks/warna tema) |
+| shot11-chart-tooltip.png | 1360×900 | Crosshair + tooltip hover pada chart trafik (nilai In/Out per titik) |
 
 Terverifikasi numerik (JS di halaman): `scrollWidth == clientWidth` di 320px,
 sidebar `translateX(-264px)`, `.awg-menu-btn` tampil, grid-cols-4 → 1 kolom.
