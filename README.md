@@ -49,7 +49,7 @@ Node.js, Python, Go, Ruby, React/Vue/Svelte, atau bahasa apa pun yang menghasilk
 | **Author** | **AWGNET-RACING & AGENT AI TEAM** |
 | **Versi** | 1.2.0 |
 | **Lisensi** | MIT |
-| **Ukuran** | CSS ±9 KB + core ±3 KB + select2 ±3.6 KB + charts ±3.7 KB + datatable ±4 KB + datepicker ±3 KB + widgets ±5 KB (gzip) |
+| **Ukuran** | CSS ±10 KB + core ±3.5 KB + select2 ±3.6 KB + charts ±3.8 KB + datatable ±2.7 KB + datepicker ±2.5 KB + widgets ±3.7 KB + maps ±1.5 KB (gzip) |
 | **Dependensi** | 0 — font Inter + ikon SVG self-hosted, tanpa CDN |
 
 ## Fitur utama v1.2

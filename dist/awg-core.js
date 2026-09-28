@@ -66,21 +66,32 @@
         const icons = { info: 'ℹ️', ok: '✅', bad: '⛔', warn: '⚠️' };
         const el = document.createElement('div');
         el.className = 'awg-toast awg-flex ' + type;
-        el.innerHTML = '<span>' + (icons[type] || '') + '</span><span class="awg-flex-1"></span>';
-        el.lastElementChild.textContent = msg; // teks selalu aman (anti-XSS)
+        el.setAttribute('role', 'status');
+        el.setAttribute('aria-live', 'polite');
+        el.setAttribute('aria-atomic', 'true');
+        const icon = document.createElement('span');
+        icon.setAttribute('aria-hidden', 'true');
+        icon.textContent = icons[type] || '';
+        const txt = document.createElement('span');
+        txt.className = 'awg-flex-1';
+        txt.textContent = msg; // teks aman (anti-XSS)
+        el.appendChild(icon);
+        el.appendChild(txt);
         zone.appendChild(el);
         setTimeout(() => { el.classList.add('hide'); setTimeout(() => el.remove(), 250); }, ms);
         return el;
     };
 
-    /* ---------- modal ---------- */
+    /* ---------- modal (a11y + focus trap) ---------- */
     Awg.modal = {
         open(id) {
             const bd = document.getElementById(id);
             if (!bd) return;
+            bd.dataset.lastFocus = document.activeElement?.id || '';
             bd.classList.add('open');
             document.body.style.overflow = 'hidden';
-            const first = bd.querySelector('input:not([type=hidden]), select, textarea, .awg-sel-trigger');
+            Awg.trapFocus(bd);
+            const first = bd.querySelector('input:not([type=hidden]):not([disabled]), select:not([disabled]), textarea:not([disabled]), .awg-sel-trigger, [href], button:not([disabled])');
             if (first) setTimeout(() => first.focus({ preventScroll: true }), 60);
         },
         close(id) {
@@ -88,6 +99,10 @@
             if (!bd) return;
             bd.classList.remove('open');
             if (!Awg.$('.awg-backdrop.open')) document.body.style.overflow = '';
+            const lastId = bd.dataset.lastFocus;
+            const last = lastId ? document.getElementById(lastId) : null;
+            (last || bd).blur();
+            if (last) setTimeout(() => last.focus({ preventScroll: true }), 0);
         },
         init() {
             document.addEventListener('click', e => {
@@ -106,11 +121,42 @@
             });
         }
     };
+    Awg.trapFocus = function (root) {
+        const focusable = () => root.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
+        root._trapHandler = e => {
+            if (e.key !== 'Tab') return;
+            const list = Array.from(focusable()).filter(el => el.offsetParent !== null);
+            if (!list.length) { e.preventDefault(); return; }
+            const first = list[0], last = list[list.length - 1];
+            if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        };
+        root.addEventListener('keydown', root._trapHandler);
+    };
+    Awg.untrapFocus = function (root) {
+        if (root && root._trapHandler) root.removeEventListener('keydown', root._trapHandler);
+    };
 
-    /* ---------- drawer ---------- */
+    /* ---------- drawer (a11y + focus trap) ---------- */
     Awg.drawer = {
-        open(id) { const d = document.getElementById(id); if (d) { d.classList.add('open'); } },
-        close(id) { const d = document.getElementById(id); if (d) { d.classList.remove('open'); } },
+        open(id) {
+            const d = document.getElementById(id);
+            if (!d) return;
+            d.dataset.lastFocus = document.activeElement?.id || '';
+            d.classList.add('open');
+            Awg.trapFocus(d);
+            const first = d.querySelector('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled])');
+            if (first) setTimeout(() => first.focus({ preventScroll: true }), 60);
+        },
+        close(id) {
+            const d = document.getElementById(id);
+            if (!d) return;
+            d.classList.remove('open');
+            Awg.untrapFocus(d);
+            const lastId = d.dataset.lastFocus;
+            const last = lastId ? document.getElementById(lastId) : null;
+            if (last) setTimeout(() => last.focus({ preventScroll: true }), 0);
+        },
         init() {
             document.addEventListener('click', e => {
                 const o = e.target.closest('[data-awg-drawer-open]');
@@ -118,7 +164,7 @@
                 const c = e.target.closest('[data-awg-drawer-close]');
                 if (c) { Awg.drawer.close(c.dataset.awgDrawerClose); return; }
                 if (e.target.classList.contains('awg-overlay'))
-                    Awg.$$('.awg-drawer.open').forEach(d => d.classList.remove('open'));
+                    Awg.$$('.awg-drawer.open').forEach(d => Awg.drawer.close(d.id));
             });
         }
     };

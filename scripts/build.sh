@@ -22,6 +22,7 @@ minify_js js/awg-charts.js > dist/awg-charts.min.js
 minify_js js/awg-datatable.js > dist/awg-datatable.min.js
 minify_js js/awg-datepicker.js > dist/awg-datepicker.min.js
 minify_js js/awg-widgets.js > dist/awg-widgets.min.js
+minify_js js/awg-maps.js > dist/awg-maps.min.js
 cp css/tokens.json dist/awg-tokens.json
 cp css/awg-uikit.css dist/awg-uikit.css
 cp js/awg-core.js dist/awg-core.js
@@ -30,9 +31,12 @@ cp js/awg-charts.js dist/awg-charts.js
 cp js/awg-datatable.js dist/awg-datatable.js
 cp js/awg-datepicker.js dist/awg-datepicker.js
 cp js/awg-widgets.js dist/awg-widgets.js
-mkdir -p dist/fonts dist/assets
+cp js/awg-maps.js dist/awg-maps.js
+mkdir -p dist/fonts dist/assets dist/libs/leaflet/images
 cp fonts/*.woff2 dist/fonts/
 cp assets/icons.svg dist/assets/
+cp assets/pin-awg.svg dist/assets/
+cp -r libs/leaflet/* dist/libs/leaflet/
 sed "s|\.\./fonts/|fonts/|g" css/awg-uikit.css > dist/awg-uikit.css
 
 total=0

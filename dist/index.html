@@ -4,7 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AWG-UIKIT-RACING — Showcase</title>
-<link rel="stylesheet" href="awg-uikit.css">
+<link rel="stylesheet" href="libs/leaflet/leaflet.css">
+<script src="libs/leaflet/leaflet.js"></script>
+<link rel="stylesheet" href="awg-uikit.min.css">
 <link rel="icon" href="assets/icons.svg#ic-flag">
 <script>try{const t=localStorage.getItem('awg-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 <style>
@@ -41,6 +43,7 @@
         <a class="awg-nav-link" href="#tree"><svg class="awg-ic"><use href="assets/icons.svg#ic-network"></use></svg> Treeview <span class="count">new</span></a>
         <a class="awg-nav-link" href="#kanban"><svg class="awg-ic"><use href="assets/icons.svg#ic-kanban"></use></svg> Kanban <span class="count">new</span></a>
         <a class="awg-nav-link" href="#lb"><svg class="awg-ic"><use href="assets/icons.svg#ic-image"></use></svg> Lightbox <span class="count">new</span></a>
+        <a class="awg-nav-link" href="#maps"><svg class="awg-ic"><use href="assets/icons.svg#ic-map"></use></svg> Maps <span class="count">new</span></a>
         <a class="awg-nav-link" href="#feed"><svg class="awg-ic"><use href="assets/icons.svg#ic-bell"></use></svg> Feedback</a>
         <a class="awg-nav-link" href="#nav"><svg class="awg-ic"><use href="assets/icons.svg#ic-compass"></use></svg> Navigation</a>
         <a class="awg-nav-link" href="#over"><svg class="awg-ic"><use href="assets/icons.svg#ic-square"></use></svg> Overlays</a>
@@ -518,6 +521,28 @@
 <div class="awg-tiny awg-muted" style="margin-top:.5rem">Klik gambar → overlay full · ←→/seret navigasi grup · Esc tutup.</div>
 </div>
 
+<!-- MAPS -->
+<div class="demo-sec" id="maps"><h2>18 · Maps (Leaflet lokal + adapter Google/MapLibre)</h2>
+<div class="awg-card">
+    <div class="awg-card-head">
+        Peta lokasi node / ODP
+        <div class="awg-flex" style="gap:.5rem">
+            <button class="awg-btn awg-btn-sm awg-btn-soft" data-map-provider="leaflet">Leaflet</button>
+            <button class="awg-btn awg-btn-sm awg-btn-ghost" data-map-provider="gmaps" disabled>GMaps (needs key)</button>
+            <button class="awg-btn awg-btn-sm awg-btn-ghost" data-map-provider="maplibre" disabled>MapLibre</button>
+        </div>
+    </div>
+    <div class="awg-card-body">
+        <div id="nodeMap" data-awg-map='{"lat":-7.4211,"lng":109.2404,"zoom":14,"markers":[{"lat":-7.4211,"lng":109.2404,"title":"ODC-SPG-01","popup":"<b>ODC-SPG-01</b><br>OLT: ZTE C320, port 4 aktif."},{"lat":-7.4250,"lng":109.2450,"title":"ODP-12","popup":"<b>ODP-SPG-12</b><br>12 ONT terpasang."}]}' style="height:360px"></div>
+        <div class="awg-grid cols-3 awg-mt-2">
+            <div class="awg-stat soft"><b class="awg-stat-num">2</b><span class="awg-stat-label">Marker demo</span></div>
+            <div class="awg-stat soft"><b class="awg-stat-num">Leaflet</b><span class="awg-stat-label">Self-hosted</span></div>
+            <div class="awg-stat soft"><b class="awg-stat-num">OSM</b><span class="awg-stat-label">Tile default</span></div>
+        </div>
+    </div>
+</div>
+</div>
+
 <!-- FEEDBACK -->
 <div class="demo-sec" id="feed"><h2>09 · Feedback</h2>
 <div class="awg-card"><div class="awg-card-body">
@@ -618,6 +643,7 @@
 <script src="awg-datatable.min.js"></script>
 <script src="awg-datepicker.min.js"></script>
 <script src="awg-widgets.min.js"></script>
+<script src="awg-maps.min.js"></script>
 <script>
 // OTP input auto-advance
 document.querySelectorAll('[data-awg-otp]').forEach(box => {
