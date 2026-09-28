@@ -42,6 +42,22 @@
     <div class="awg-crumbs"><a href="#">NMS</a><span class="sep">/</span><b>Dashboard</b></div>
     <div class="awg-flex" style="margin-left:auto;gap:.5rem">
         <button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-palette><svg class="awg-ic"><use href="../assets/icons.svg#ic-search"></use></svg> <span class="awg-hide-xs">Cari…</span></button>
+        <div class="awg-notif-wrap" data-awg-notif>
+            <button class="awg-btn awg-btn-ghost awg-btn-sm awg-bell-btn" data-awg-notif-btn aria-label="Notifikasi">
+                <svg class="awg-ic"><use href="../assets/icons.svg#ic-bell"></use></svg><span class="cnt" data-awg-notif-count hidden>0</span>
+            </button>
+            <div class="awg-notif-panel" role="dialog" aria-label="Panel notifikasi">
+                <div class="awg-notif-head"><h4>Notifikasi</h4><button class="awg-btn awg-btn-ghost" data-awg-notif-mark>Tandai dibaca</button></div>
+                <div class="awg-notif-tabs">
+                    <button class="active" data-filter="all">Semua</button>
+                    <button data-filter="ticket">Tiket</button>
+                    <button data-filter="billing">Tagihan</button>
+                    <button data-filter="system">Sistem</button>
+                </div>
+                <div class="awg-notif-list"></div>
+            </div>
+        </div>
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-density-toggle><svg class="awg-ic"><use href="../assets/icons.svg#ic-sliders"></use></svg> <span class="awg-hide-xs">Padat</span></button>
         <button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-theme-toggle><svg class="awg-ic"><use href="../assets/icons.svg#ic-contrast"></use></svg> <span class="awg-hide-xs">Tema</span></button>
         <button class="awg-btn awg-btn-primary awg-btn-sm" onclick="Awg.toast('Polling SNMP berjalan','ok')"><svg class="awg-ic"><use href="../assets/icons.svg#ic-refresh"></use></svg> <span class="awg-hide-xs">Refresh</span></button>
     </div>
@@ -62,6 +78,19 @@
     <div class="awg-card"><div class="awg-stat"><div class="ico ok"><svg class="awg-ic"><use href="../assets/icons.svg#ic-wifi"></use></svg></div><div><div class="num">1.482</div><div class="lbl">ONT online</div><div class="trend up">▲ 12</div></div></div></div>
     <div class="awg-card"><div class="awg-stat"><div class="ico warn"><svg class="awg-ic"><use href="../assets/icons.svg#ic-alert-triangle"></use></svg></div><div><div class="num">3</div><div class="lbl">Alert aktif</div><div class="trend down">▼ 1 sejak 1h</div></div></div></div>
     <div class="awg-card"><div class="awg-stat"><div class="ico bad"><svg class="awg-ic"><use href="../assets/icons.svg#ic-power"></use></svg></div><div><div class="num">2</div><div class="lbl">Node down</div><div class="trend down">p2p-09 · brg-05</div></div></div></div>
+</div>
+
+<div class="awg-card" style="margin-bottom:1rem">
+    <div class="awg-card-head">Kesehatan Radio &amp; Link (live)</div>
+    <div class="awg-card-body">
+        <div class="awg-gauge-row">
+            <div id="gRssi" data-awg-gauge='{"value":-67,"min":-90,"max":-40,"unit":"dBm","label":"RSSI rata-rata"}'></div>
+            <div id="gSnr" data-awg-gauge='{"value":28,"min":10,"max":40,"unit":"dB","label":"SNR OLT"}'></div>
+            <div id="gUtil" data-awg-gauge='{"value":76,"min":0,"max":100,"unit":"%","label":"Utilisasi uplink"}'></div>
+            <div class="awg-gauge"><span class="val">2.412</span><span class="unit">ONT terpantau</span></div>
+        </div>
+        <p class="awg-tiny awg-muted" style="margin:.6rem 0 0">Nilai bergerak otomatis tiap 3 detik untuk mendemokan komponen gauge — data contoh.</p>
+    </div>
 </div>
 
 <div class="awg-grid cols-3" style="margin-bottom:1rem">
@@ -132,8 +161,26 @@
 <script src="../js/awg-widgets.js"></script>
 <script src="../js/awg-maps.js"></script>
 <script src="assets/awg-shared.js"></script>
+<script src="assets/awg-notif-chat.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded',()=>{
+    AwgNotif.items = [
+      {id:1, type:'ticket',  icon:'../assets/icons.svg#ic-zap',          title:'WO-104 · Gangguan Budi Santoso', text:'RSSI -82 dBm di ODP-SPG-12. Eskalasi ke Tim Grafika.', time:'2 mnt lalu', unread:true, href:'work-order.html'},
+      {id:2, type:'system',  icon:'../assets/icons.svg#ic-power',        title:'Node p2p-09 down',               text:' unreachable via ICMP & SNMP sejak 09.41.', time:'18 mnt lalu', unread:true},
+      {id:3, type:'system',  icon:'../assets/icons.svg#ic-cpu',          title:'CPU OLT-Solo-01 87%',            text:'Melewati threshold 85% selama 10 menit.', time:'1 jam lalu', unread:true},
+      {id:4, type:'billing', icon:'../assets/icons.svg#ic-receipt',      title:'INV-2026-0930 terbit',           text:'347 pelanggan · total Rp 52.048.000.', time:'3 jam lalu', unread:false, href:'billing.html'},
+      {id:5, type:'system',  icon:'../assets/icons.svg#ic-check-circle', title:'Backup config OLT selesai',      text:'ZTE C320 Solo · 2.412 ONT · sukses.', time:'Kemarin', unread:false},
+    ];
+    AwgNotif.init();
+    // gauge live-update demo
+    const g1=document.getElementById('gRssi'), g2=document.getElementById('gSnr'), g3=document.getElementById('gUtil');
+    setInterval(()=>{
+        const rw=(v,s,mn,mx)=>Math.max(mn,Math.min(mx,v+(Math.random()-.5)*s));
+        g1._awgGauge.set(rw(-67,4,-90,-40));
+        g2._awgGauge.set(rw(28,3,10,40));
+        g3._awgGauge.set(rw(76,6,20,99));
+    },3000);
+
     const traffic=document.getElementById('traffic24')._awgChart;
     let rx=[620,580,540,610,780,950,1100,1180,1240,1190,1080,980],
         tx=[210,195,180,240,340,410,480,510,520,490,430,390];

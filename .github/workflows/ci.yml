@@ -54,7 +54,11 @@ jobs:
                    templates/auth/login.html templates/auth/register.html \
                    templates/auth/forgot-password.html templates/auth/2fa.html \
                    templates/errors/403.html templates/errors/404.html \
-                   templates/errors/500.html templates/errors/503.html; do
+                   templates/errors/500.html templates/errors/503.html \
+                   templates/chat.html templates/work-order.html templates/invoice.html \
+                   templates/search.html templates/email/reset-password.html templates/email/invoice-issued.html \
+                   templates/email/welcome.html templates/email/tech-dispatch.html \
+                   ../landing.html ../docs.html; do
             CODE=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:8899/$p")
             if [ "$CODE" != "200" ]; then
               echo "::error::$p returned $CODE"

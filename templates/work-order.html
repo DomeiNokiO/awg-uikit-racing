@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Detail Work Order · AWG-UIKIT-RACING</title>
+<link rel="stylesheet" href="../css/awg-uikit.css">
+<link rel="icon" href="../assets/icons.svg#ic-flag">
+<script>try{const t=localStorage.getItem('awg-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="awg-app">
+<aside class="awg-sidebar">
+    <div class="awg-brand-box"><div class="logo"><svg class="awg-ic"><use href="../assets/icons.svg#ic-flag"></use></svg></div><div><b>AWG-APP</b><small>Work Order</small></div></div>
+    <nav>
+        <div class="awg-nav-label">Operasi</div>
+        <a class="awg-nav-link" href="nms-dashboard.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-gauge"></use></svg> Dashboard NOC</a>
+        <a class="awg-nav-link" href="admin-dashboard.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-users"></use></svg> Admin</a>
+        <a class="awg-nav-link" href="franchise-dashboard.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-store"></use></svg> Kasir</a>
+        <div class="awg-nav-label">Tiket</div>
+        <a class="awg-nav-link active" href="work-order.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-zap"></use></svg> WO-104</a>
+        <a class="awg-nav-link" href="chat.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-chat"></use></svg> Pesan</a>
+    </nav>
+    <div class="awg-side-foot">
+        <div class="awg-avatar">AK<i class="status"></i></div>
+        <div class="awg-flex-1"><b>AWGNET-RACING</b><small>& AGENT AI TEAM</small></div>
+        <button class="awg-nav-link" style="width:auto" data-awg-theme-toggle title="Tema"><svg class="awg-ic"><use href="../assets/icons.svg#ic-moon"></use></svg></button>
+    </div>
+</aside>
+<div class="awg-overlay"></div>
+
+<div class="awg-main">
+<header class="awg-topbar">
+    <button class="awg-menu-btn" data-awg-menu><svg class="awg-ic lg"><use href="../assets/icons.svg#ic-menu"></use></svg></button>
+    <div class="awg-crumbs"><a href="nms-dashboard.html">Operasi</a><span class="sep">/</span><a href="#">Work Order</a><span class="sep">/</span><b>WO-104</b></div>
+    <div class="awg-flex" style="margin-left:auto;gap:.5rem">
+        <div class="awg-notif-wrap" data-awg-notif>
+            <button class="awg-btn awg-btn-ghost awg-btn-sm awg-bell-btn" data-awg-notif-btn aria-label="Notifikasi">
+                <svg class="awg-ic"><use href="../assets/icons.svg#ic-bell"></use></svg><span class="cnt" data-awg-notif-count hidden>0</span>
+            </button>
+        </div>
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-density-toggle><svg class="awg-ic"><use href="../assets/icons.svg#ic-sliders"></use></svg> <span class="awg-hide-xs">Padat</span></button>
+    </div>
+</header>
+
+<div class="awg-content">
+<div class="awg-page-head">
+    <div>
+        <h1>WO-104 · Gangguan pelanggan Budi Santoso</h1>
+        <p>Dibuat 28 Sep 2026 07.15 oleh NOC Ayu · <b>SLA 6 jam</b> · sisa <b>4j 21m</b></p>
+    </div>
+    <div class="awg-flex" style="gap:.5rem">
+        <span class="awg-badge warn"><span class="dot"></span>On Site</span>
+        <span class="awg-badge bad">Prioritas Tinggi</span>
+    </div>
+</div>
+
+<div class="awg-wo-grid">
+    <div style="display:flex;flex-direction:column;gap:1rem;min-width:0">
+        <div class="awg-card">
+            <div class="awg-card-head">Detail Laporan</div>
+            <div class="awg-card-body">
+                <div class="awg-wo-meta">
+                    <div class="cell"><small>Pelanggan</small><b>Budi Santoso</b></div>
+                    <div class="cell"><small>Paket</small><b>Play 10 Mbps</b></div>
+                    <div class="cell"><small>ODP</small><b>ODP-SPG-12 · port 7</b></div>
+                    <div class="cell"><small>ONT SN</small><b class="awg-mono">ZTEGC2F40A1B</b></div>
+                    <div class="cell"><small>RSSI terukur</small><b>-82 dBm</b></div>
+                    <div class="cell"><small>Koordinat</small><b class="awg-mono">-7.4211, 109.2404</b></div>
+                </div>
+                <div class="awg-alert warn" style="margin-top:1rem">
+                    <svg class="awg-ic"><use href="../assets/icons.svg#ic-alert-triangle"></use></svg>
+                    Keluhan: koneksi putus-nyambung sejak 23.00 kemarin. Ping ke 8.8.8.8 rata-rata 480 ms, packet loss 34%.
+                    <button class="x" onclick="this.closest('.awg-alert').remove()" aria-label="Tutup">✕</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="awg-card">
+            <div class="awg-card-head">Diagnosa &amp; Tindakan</div>
+            <div class="awg-card-body">
+                <div data-awg-timeline>
+                    <div class="awg-tl-item done">
+                        <span class="awg-tl-title">07.15 · Tiket dibuat NOC</span>
+                        <span class="awg-tl-sub">Verifikasi redaman ODP via U2000: 26.4 dB (normal 22 dB).</span>
+                    </div>
+                    <div class="awg-tl-item done">
+                        <span class="awg-tl-title">07.40 · Eskalasi ke Tim Grafika</span>
+                        <span class="awg-tl-sub">Teknisi Andi + Ridwan ditugaskan, spare drop core 80 m disiapkan.</span>
+                    </div>
+                    <div class="awg-tl-item pending">
+                        <span class="awg-tl-title">09.10 · Teknisi tiba di lokasi</span>
+                        <span class="awg-tl-sub">Check-in GPS terverifikasi, jarak 240 m dari ODP.</span>
+                    </div>
+                    <div class="awg-tl-item pending">
+                        <span class="awg-tl-title">Berikutnya · Penggantian drop core</span>
+                        <span class="awg-tl-sub">Estimasi 45 menit kerja + testing 15 menit.</span>
+                    </div>
+                    <div class="awg-tl-item pending">
+                        <span class="awg-tl-title">Penutupan</span>
+                        <span class="awg-tl-sub">Wajib foto hasil + speedtest min. 9 Mbps sebelum ditutup.</span>
+                    </div>
+                </div>
+                <div class="awg-flex" style="gap:.5rem;margin-top:1rem;flex-wrap:wrap">
+                    <button class="awg-btn awg-btn-primary" onclick="Awg.toast('Status diperbarui: menunggu konfirmasi teknisi','ok')"><svg class="awg-ic"><use href="../assets/icons.svg#ic-refresh"></use></svg> Perbarui Status</button>
+                    <button class="awg-btn awg-btn-soft" onclick="Awg.toast('Eskalasi dikirim ke NOC lead','info')"><svg class="awg-ic"><use href="../assets/icons.svg#ic-alert-triangle"></use></svg> Eskalasi</button>
+                    <button class="awg-btn awg-btn-danger" onclick="Awg.confirm('Tutup WO-104?','Pastikan foto hasil &amp; speedtest sudah terlampir. Tindakan ini tercatat di audit log.',()=>Awg.toast('WO-104 ditutup','ok'),{danger:false,yes:'Ya, tutup'})"><svg class="awg-ic"><use href="../assets/icons.svg#ic-check-circle"></use></svg> Tutup Tiket</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1rem;min-width:0">
+        <div class="awg-card">
+            <div class="awg-card-head">Teknisi Ditugaskan</div>
+            <div class="awg-card-body">
+                <div class="awg-list-item">
+                    <span class="awg-avatar sm">AN</span>
+                    <div class="li-main"><div class="li-title">Andi Prasetyo</div><div class="li-sub">Lead teknisi · 6 th pengalaman</div></div>
+                    <span class="awg-badge ok">On site</span>
+                </div>
+                <div class="awg-list-item">
+                    <span class="awg-avatar sm">RD</span>
+                    <div class="li-main"><div class="li-title">Ridwan Hakim</div><div class="li-sub">Asisten · helper splice</div></div>
+                    <span class="awg-badge ok">On site</span>
+                </div>
+                <div class="awg-flex" style="gap:.5rem;margin-top:.75rem">
+                    <a class="awg-btn awg-btn-ghost awg-btn-sm awg-flex-1" href="chat.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-chat"></use></svg> Chat</a>
+                    <button class="awg-btn awg-btn-ghost awg-btn-sm awg-flex-1" onclick="Awg.toast('Menelepon Andi… (demo)','info')"><svg class="awg-ic"><use href="../assets/icons.svg#ic-pointer"></use></svg> Telepon</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="awg-card">
+            <div class="awg-card-head">Lampiran</div>
+            <div class="awg-card-body">
+                <div class="awg-empty" style="padding:1.2rem">
+                    <span class="ico"><svg class="awg-ic"><use href="../assets/icons.svg#ic-image"></use></svg></span>
+                    <b>Belum ada lampiran</b>
+                    <span class="awg-tiny awg-muted">Foto hasil kerja &amp; speedtest akan muncul di sini setelah teknisi mengunggah.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="awg-card">
+            <div class="awg-card-head">Riwayat Pelanggan</div>
+            <div class="awg-card-body">
+                <div class="awg-list-item"><svg class="awg-ic"><use href="../assets/icons.svg#ic-check-circle"></use></svg><div class="li-main"><div class="li-title">WO-90 · 26 Sep</div><div class="li-sub">Ganti router · selesai</div></div></div>
+                <div class="awg-list-item"><svg class="awg-ic"><use href="../assets/icons.svg#ic-check-circle"></use></svg><div class="li-main"><div class="li-title">WO-77 · 12 Agu</div><div class="li-sub">Realokasi port ODP · selesai</div></div></div>
+                <div class="awg-list-item"><svg class="awg-ic"><use href="../assets/icons.svg#ic-alert-circle"></use></svg><div class="li-main"><div class="li-title">WO-61 · 28 Jul</div><div class="li-sub">Tagihan tertunda · selesai</div></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="awg-divider">AWG-UIKIT-RACING · © AWGNET-RACING &amp; AGENT AI TEAM · MIT · 100% lokal tanpa CDN</div>
+</div>
+</div>
+<script src="../js/awg-core.js"></script>
+<script src="../js/awg-widgets.js"></script>
+<script src="assets/awg-shared.js"></script>
+<script src="assets/awg-notif-chat.js"></script>
+<script>
+AwgNotif.items = [
+  {id:1, type:'ticket',  icon:'../assets/icons.svg#ic-zap',      title:'WO-104 diupdate teknisi', text:'Andi check-in di lokasi 09.10.', time:'5 mnt lalu', unread:true},
+  {id:2, type:'billing', icon:'../assets/icons.svg#ic-receipt',  title:'INV-2026-0930 terbit', text:'Rp 450.000 · jatuh tempo 2 Okt 2026.', time:'1 jam lalu', unread:false, href:'billing.html'},
+];
+AwgNotif.init();
+</script>
+</body>
+</html>

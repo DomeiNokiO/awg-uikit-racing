@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AWG-UIKIT-RACING — UI kit dashboard ISP & bisnis, tanpa CDN</title>
+<meta name="description" content="Design system CSS + vanilla JS untuk dashboard ISP/NMS, kasir, dan admin. 22+ komponen, dark mode, tabel & chart SVG murni. Lisensi MIT, satu kali beli pakai selamanya.">
+<link rel="stylesheet" href="css/awg-uikit.css">
+<link rel="icon" href="assets/icons.svg#ic-flag">
+<style>
+    .lp-hero { padding: 5rem 1.5rem 3.5rem; max-width: 880px; margin: 0 auto; text-align: left; }
+    .lp-hero h1 { font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.12; margin: 0 0 1rem; letter-spacing: -0.02em; }
+    .lp-hero h1 em { font-style: normal; color: var(--awg-brand); }
+    .lp-hero p.lead { font-size: 1.08rem; color: var(--awg-ink-2); max-width: 560px; line-height: 1.65; margin: 0 0 1.6rem; }
+    .lp-cta-row { display: flex; gap: .7rem; flex-wrap: wrap; align-items: center; }
+    .lp-shots { max-width: 1120px; margin: 0 auto 4rem; padding: 0 1.5rem; }
+    .lp-shots img { border-radius: 14px; border: 1px solid var(--awg-line); box-shadow: var(--awg-shadow); width: 100%; }
+    .lp-section { max-width: 880px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+    .lp-section > h2 { font-size: 1.55rem; margin: 0 0 .4rem; letter-spacing: -0.01em; }
+    .lp-section > p.sub { color: var(--awg-ink-2); margin: 0 0 1.6rem; max-width: 60ch; line-height: 1.6; }
+    .lp-feats { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+    .lp-feat { border: 1px solid var(--awg-line); border-radius: 14px; padding: 1.15rem 1.2rem; background: var(--awg-surface); }
+    .lp-feat:nth-child(2) { transform: translateY(14px); }
+    .lp-feat .awg-ic { width: 1.4rem; height: 1.4rem; color: var(--awg-brand); margin-bottom: .5rem; }
+    .lp-feat b { display: block; margin-bottom: .25rem; font-size: .95rem; }
+    .lp-feat p { margin: 0; color: var(--awg-ink-2); font-size: .84rem; line-height: 1.6; }
+    .lp-pricing { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 760px; }
+    @media (max-width: 640px) { .lp-pricing { grid-template-columns: 1fr; } .lp-feat:nth-child(2) { transform: none; } }
+    .lp-plan { border: 1px solid var(--awg-line); border-radius: 16px; padding: 1.4rem; background: var(--awg-surface); }
+    .lp-plan.solo { border-color: var(--awg-brand); box-shadow: 0 0 0 1px var(--awg-brand); }
+    .lp-plan .price { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.02em; margin: .2rem 0 .1rem; }
+    .lp-plan .per { color: var(--awg-ink-2); font-size: .8rem; margin-bottom: 1rem; display: block; }
+    .lp-plan ul { margin: 0 0 1.2rem; padding: 0; list-style: none; font-size: .84rem; color: var(--awg-ink-2); line-height: 1.5; }
+    .lp-plan li { padding: .3rem 0; display: flex; gap: .5rem; align-items: baseline; }
+    .lp-plan li .awg-ic { color: var(--awg-ok); flex: none; }
+    .lp-faq details { border: 1px solid var(--awg-line); border-radius: 12px; padding: .9rem 1.1rem; margin-bottom: .6rem; background: var(--awg-surface); }
+    .lp-faq summary { cursor: pointer; font-weight: 600; font-size: .92rem; }
+    .lp-faq details p { color: var(--awg-ink-2); font-size: .86rem; line-height: 1.65; margin: .6rem 0 0; }
+    .lp-nav { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--awg-bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--awg-line); }
+    .lp-nav .in { max-width: 1120px; margin: 0 auto; display: flex; align-items: center; gap: 1rem; padding: .8rem 1.5rem; }
+    .lp-nav .brand { font-weight: 800; display: flex; align-items: center; gap: .5rem; }
+    .lp-nav .links { margin-left: auto; display: flex; gap: 1.2rem; align-items: center; font-size: .88rem; }
+    @media (max-width: 640px) { .lp-nav .links a:not(.awg-btn) { display: none; } }
+    .lp-nav a { color: var(--awg-ink-2); font-weight: 500; }
+    .lp-foot { border-top: 1px solid var(--awg-line); margin-top: 3rem; padding: 2rem 1.5rem 3rem; text-align: center; color: var(--awg-ink-3); font-size: .8rem; line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<nav class="lp-nav" aria-label="Navigasi utama">
+    <div class="in">
+        <span class="brand"><svg class="awg-ic"><use href="assets/icons.svg#ic-flag"></use></svg> AWG-UIKIT-RACING</span>
+        <div class="links">
+            <a href="#fitur">Fitur</a>
+            <a href="#harga">Harga</a>
+            <a href="#faq">FAQ</a>
+            <a class="awg-btn awg-btn-ghost awg-btn-sm" href="index.html">Lihat komponen</a>
+            <a class="awg-btn awg-btn-primary awg-btn-sm" href="#harga">Beli lisensi</a>
+        </div>
+    </div>
+</nav>
+
+<header class="lp-hero">
+    <h1>Dashboard ISP yang biasa Anda bayar vendor — sekarang <em>satu folder CSS &amp; JS</em>.</h1>
+    <p class="lead">22 komponen siap produksi: tabel dengan bulk action, chart SVG live, peta Leaflet, kanban work order, chat, hingga invoice siap cetak. Tanpa jQuery, tanpa CDN, tanpa build step wajib.</p>
+    <div class="lp-cta-row">
+        <a class="awg-btn awg-btn-primary awg-btn-lg" href="index.html">Jelajahi semua komponen</a>
+        <a class="awg-btn awg-btn-ghost awg-btn-lg" href="templates/nms-dashboard.html">Lihat demo dashboard NMS</a>
+    </div>
+</header>
+
+<section class="lp-shots" aria-label="Tangkapan layar">
+    <img src="docs/screenshots/shot01-desktop.png" alt="Tampilan dashboard NMS AWG-UIKIT-RACING dengan sidebar gelap, kartu statistik, dan grafik trafik" loading="lazy">
+</section>
+
+<section class="lp-section" id="fitur">
+    <h2>Dibangun dari operasional nyata, bukan mockup</h2>
+    <p class="sub">Setiap komponen lahir dari dashboard ISP yang berjalan: monitoring OLT ZTE, work order teknisi, tagihan pelanggan. Yang tidak terpakai di lapangan, tidak masuk kit.</p>
+    <div class="lp-feats">
+        <div class="lp-feat">
+            <svg class="awg-ic"><use href="assets/icons.svg#ic-table"></use></svg>
+            <b>DataTable lengkap</b>
+            <p>Cari, sort, pagination, bulk action, dan export. 1.000 baris tetap mulus karena render per halaman.</p>
+        </div>
+        <div class="lp-feat">
+            <svg class="awg-ic"><use href="assets/icons.svg#ic-chart"></use></svg>
+            <b>Chart SVG murni</b>
+            <p>Line, bar, donut — dengan tooltip, crosshair, dan update live. Nol dependensi chart library.</p>
+        </div>
+        <div class="lp-feat">
+            <svg class="awg-ic"><use href="assets/icons.svg#ic-map-pin"></use></svg>
+            <b>Peta offline-safe</b>
+            <p>Leaflet self-hosted. Saat tile OSM gagal, fallback SVG otomatis menampilkan posisi node berlabel.</p>
+        </div>
+        <div class="lp-feat">
+            <svg class="awg-ic"><use href="assets/icons.svg#ic-contrast"></use></svg>
+            <b>Tiga mode tema</b>
+            <p>Terang, gelap, ikuti sistem. Plus toggle densitas compact untuk layar NOC yang padat data.</p>
+        </div>
+        <div class="lp-feat">
+            <svg class="awg-ic"><use href="assets/icons.svg#ic-wifi"></use></svg>
+            <b>Komponen ISP spesifik</b>
+            <p>Gauge RSSI/SNR, monitoring PON, work order dengan SLA — vocabulary jaringan, bukan generic admin.</p>
+        </div>
+        <div class="lp-feat">
+            <svg class="awg-ic"><use href="assets/icons.svg#ic-shield"></use></svg>
+            <p style="margin-top:0"><b>Audited &amp; teruji</b></p>
+            <p>Escaping XSS, guard CSV injection, sanitasi popup peta. 20 test regresi jalan di setiap push (CI hijau).</p>
+        </div>
+    </div>
+</section>
+
+<section class="lp-section" id="harga">
+    <h2>Lisensi jelas, sekali bayar</h2>
+    <p class="sub">Tanpa langganan, tanpa telemetry, tanpa akun. Kode turun ke laptop Anda dan tetap jalan 10 tahun lagi.</p>
+    <div class="lp-pricing">
+        <div class="lp-plan solo">
+            <span class="awg-badge">Paling sering diambil</span>
+            <div class="price">Rp 1.499.000</div>
+            <span class="per">lisensi tim · sekali bayar</span>
+            <ul>
+                <li><svg class="awg-ic sm"><use href="assets/icons.svg#ic-check"></use></svg> Proyek komersial tanpa batas</li>
+                <li><svg class="awg-ic sm"><use href="assets/icons.svg#ic-check"></use></svg> Update minor &amp; patch selamanya</li>
+                <li><svg class="awg-ic sm"><use href="assets/icons.svg#ic-check"></use></svg> Template email + landing + docs</li>
+                <li><svg class="awg-ic sm"><use href="assets/icons.svg#ic-check"></use></svg> Dukungan via email, respons 2 hari kerja</li>
+            </ul>
+            <a class="awg-btn awg-btn-primary awg-btn-block" href="mailto:lisensi@awgnet.id?subject=Lisensi%20Tim%20AWG-UIKIT">Email untuk invoice lisensi</a>
+        </div>
+        <div class="lp-plan">
+            <div class="price">Gratis</div>
+            <span class="per">MIT · untuk semua</span>
+            <ul>
+                <li><svg class="awg-ic sm"><use href="assets/icons.svg#ic-check"></use></svg> Kode penuh di GitHub</li>
+                <li><svg class="awg-ic sm"><use href="assets/icons.svg#ic-check"></use></svg> Komersial boleh, atribusi wajar</li>
+                <li><svg class="awg-ic sm"><use href="assets/icons.svg#ic-check"></use></svg> Dukungan komunitas via issue</li>
+            </ul>
+            <a class="awg-btn awg-btn-ghost awg-btn-block" href="https://github.com/DomeiNokiO/awg-uikit-racing">Clone dari GitHub</a>
+        </div>
+    </div>
+    <p class="awg-tiny awg-muted" style="max-width:760px;margin:.8rem auto 0">Kenapa ada dua? Lisensi tim membeli kecepatan: onboarding call 60 menit, prioritas permintaan komponen, dan hak meminta fitur dirancang untuk kasus Anda. Kode kedua lisensi identik.</p>
+</section>
+
+<section class="lp-section lp-faq" id="faq">
+    <h2>Pertanyaan yang paling sering masuk</h2>
+    <p class="sub">Dijawab langsung — kalau pertanyaan Anda belum ada di sini, email lebih cepat.</p>
+    <details>
+        <summary>Boleh dipakai untuk proyek klien berbayar?</summary>
+        <p>Boleh, di kedua lisensi. MIT membolehkan penggunaan komersial apa pun. Yang tidak boleh: menjual ulang kit ini sendiri sebagai produk UI kit pesaing.</p>
+    </details>
+    <details>
+        <summary>Harus pakai framework tertentu?</summary>
+        <p>Tidak. Ini CSS + vanilla JS murni. Sudah dipakai di Laravel (Blade layout tersedia), PHP native, dan bisa dirender dari backend apa pun yang menghasilkan HTML. Untuk React/Vue, pakai sebagai stylesheet global dan panggil inisialisasi di onMount/useEffect.</p>
+    </details>
+    <details>
+        <summary>Kenapa tanpa CDN? Kalau internet ada, bukan lebih gampang?</summary>
+        <p>Dashboard ISP sering diakses dari ruang server atau jaringan internal tanpa akses internet penuh. Semua aset — font Inter, Leaflet, ikon — self-hosted, jadi halaman tetap utuh di lingkungan terisolasi. Bonus: tanpa request pihak ketiga, tidak ada kejutan GDPR atau telemetry.</p>
+    </details>
+    <details>
+        <summary>Seberapa berat halaman dashboard-nya?</summary>
+        <p>Seluruh bundle CSS + JS hasil build sekitar 38 KB gzip — lebih kecil dari satu screenshot thumbnail. Chart dirender SVG murni tanpa canvas library.</p>
+    </details>
+    <details>
+        <summary>Bagaimana dengan aksesibilitas?</summary>
+        <p>Fokus keyboard ditangani di modal, drawer, dan wizard. Kontras mengikuti WCAG AA di kedua tema. Skip link dan label ARIA ada di komponen interaktif. Kendali kanban bisa dioperasikan keyboard penuh.</p>
+    </details>
+    <details>
+        <summary>Kalau saya menemukan bug atau celah keamanan?</summary>
+        <p>Lewat GitHub Security Advisory (privat) untuk isu keamanan, atau issue biasa untuk bug. Kebijakan lengkap ada di SECURITY.md — konfirmasi dalam 3×24 jam.</p>
+    </details>
+</section>
+
+<footer class="lp-foot">
+    AWG-UIKIT-RACING v1.4.0 · Author: <b>AWGNET-RACING &amp; AGENT AI TEAM</b><br>
+    CSS &amp; vanilla JS · MIT + lisensi tim opsional · Dibuat di Yogyakarta, dipakai dari NOC sampai kasir.
+</footer>
+
+<script src="js/awg-core.js"></script>
+</body>
+</html>

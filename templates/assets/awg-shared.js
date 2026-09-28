@@ -50,6 +50,11 @@ A.initShared = function(){
     document.querySelectorAll('[data-awg-print]').forEach(btn=>{
         btn.addEventListener('click', ()=>window.print());
     });
+
+    // density toggle (cozy/compact)
+    document.querySelectorAll('[data-awg-density-toggle]').forEach(btn=>{
+        btn.addEventListener('click', ()=>A.density.toggle());
+    });
 };
 
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', A.initShared);

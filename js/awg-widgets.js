@@ -717,9 +717,76 @@
     else
         setTimeout(() => mount(), 0);
 
+    /* ============ 10. GAUGE / METER (SVG arc, ISP-grade) ============ */
+    /* Usage: new AwgGauge(el, {value: -67, min:-90, max:-40, unit:'dBm', label:'RSSI', zones:[[bad,ok,warn]]}) */
+    class AwgGauge {
+        constructor(root, opts) {
+            this.el = typeof root === 'string' ? d.querySelector(root) : root;
+            if (!this.el) return null;
+            this.o = Object.assign({
+                value: 0, min: 0, max: 100, unit: '', label: '',
+                size: 132, stroke: 11, decimals: 0,
+                good: [60, 100], warn: [30, 60],   // rentang relatif (0-100 persen nilai)
+                format: null
+            }, opts);
+            try { Object.assign(this.o, JSON.parse(this.el.dataset.awgGauge || '{}')); } catch (e) {}
+            this.el.classList.add('awg-gauge');
+            this._draw();
+            this.el._awgGauge = this;
+        }
+        _pct() {
+            const { value, min, max } = this.o;
+            return Math.max(0, Math.min(1, (Number(value) - min) / (max - min || 1)));
+        }
+        _color() {
+            const p = this._pct() * 100;
+            const { good, warn } = this.o;
+            if (p >= warn[0] && p < good[0]) return cssVar2('--awg-warn');
+            return p >= good[0] ? cssVar2('--awg-ok') : cssVar2('--awg-bad');
+        }
+        _draw() {
+            const o = this.o, S = o.size, cx = S / 2, cy = S / 2 + 6, r = S / 2 - o.stroke;
+            const a0 = Math.PI * 0.75, a1 = Math.PI * 2.25;           // arc 270°
+            const pol = (a, rr) => [cx + rr * Math.cos(a), cy + rr * Math.sin(a)];
+            const arc = (a0_, a1_, rr) => {
+                const [x1, y1] = pol(a0_, rr), [x2, y2] = pol(a1_, rr);
+                const large = a1_ - a0_ > Math.PI ? 1 : 0;
+                return `M${x1.toFixed(2)},${y1.toFixed(2)} A${rr},${rr} 0 ${large} 1 ${x2.toFixed(2)},${y2.toFixed(2)}`;
+            };
+            const pct = this._pct();
+            const col = this._color();
+            const val = o.format ? o.format(o.value) : Number(o.value).toFixed(o.decimals);
+            this.el.innerHTML = '';
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', S); svg.setAttribute('height', S - 10);
+            svg.setAttribute('viewBox', `0 0 ${S} ${S}`);
+            svg.innerHTML =
+                `<path d="${arc(a0, a1, r)}" fill="none" stroke="var(--awg-line)" stroke-width="${o.stroke}" stroke-linecap="round"/>` +
+                (pct > 0.005 ? `<path d="${arc(a0, a0 + (a1 - a0) * pct, r)}" fill="none" stroke="${col}" stroke-width="${o.stroke}" stroke-linecap="round"/>` : '') +
+                `<text x="${cx}" y="${cy + 2}" text-anchor="middle" font-size="${S * 0.21}" font-weight="700" fill="var(--awg-ink)" font-family="var(--awg-font)">${val}</text>` +
+                `<text x="${cx}" y="${cy + S * 0.2}" text-anchor="middle" font-size="${S * 0.095}" font-weight="600" fill="var(--awg-ink-2)" font-family="var(--awg-font)">${o.unit}</text>`;
+            this.el.appendChild(svg);
+            if (o.label) {
+                const lb = d.createElement('span');
+                lb.className = 'unit'; lb.textContent = o.label;
+                this.el.appendChild(lb);
+            }
+        }
+        set(value) { this.o.value = value; this._draw(); }
+    }
+    function cssVar2(name) {
+        return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#888';
+    }
+    function mountGauges(root) {
+        (root || d).querySelectorAll('[data-awg-gauge]').forEach(el => {
+            if (!el._awgGauge) new AwgGauge(el);
+        });
+    }
+
     window.AwgWizard = AwgWizard; window.AwgTree = AwgTree;
     window.AwgPalette = Palette;   window.AwgKanban = AwgKanban; window.AwgLightbox = Lightbox;
     window.AwgSkeleton = Skeleton; window.AwgTimeline = AwgTimeline; window.AwgTour = AwgTour;
     window.AwgUpload = AwgUpload;  window.AwgEditable = AwgEditable;
-    window.AwgWidgets = { mount };
+    window.AwgGauge = AwgGauge;    window.AwgWidgets = { mount, mountGauges };
+    document.addEventListener('DOMContentLoaded', () => mountGauges());
 })();

@@ -23,22 +23,39 @@
     Awg.$ = (sel, root) => (root || document).querySelector(sel);
     Awg.$$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
 
-    /* ---------- theme ---------- */
+    /* ---------- theme (3 mode: light / dark / system) ---------- */
     Awg.theme = {
-        get() { return document.documentElement.dataset.theme || 'light'; },
-        set(t) {
+        get() { return localStorage.getItem('awg-theme') || 'system'; },
+        _apply() {
+            let t = this.get();
+            if (t === 'system') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             document.documentElement.dataset.theme = t;
-            try { localStorage.setItem('awg-theme', t); } catch (e) {}
-            document.dispatchEvent(new CustomEvent('awg:theme', { detail: { theme: t } }));
+            document.dispatchEvent(new CustomEvent('awg:theme', { detail: { theme: t, mode: this.get() } }));
         },
-        toggle() { this.set(this.get() === 'dark' ? 'light' : 'dark'); },
+        set(mode) {
+            try { localStorage.setItem('awg-theme', mode); } catch (e) {}
+            this._apply();
+        },
+        cycle() { this.set(this.get() === 'light' ? 'dark' : this.get() === 'dark' ? 'system' : 'light'); },
         init() {
-            let saved = null;
-            try { saved = localStorage.getItem('awg-theme'); } catch (e) {}
-            if (saved) this.set(saved);
+            this._apply();
+            matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (this.get() === 'system') this._apply(); });
             Awg.$$('[data-awg-theme-toggle]').forEach(b =>
-                b.addEventListener('click', () => Awg.theme.toggle()));
+                b.addEventListener('click', () => Awg.theme.cycle()));
         }
+    };
+
+    /* ---------- density (cozy / compact) ---------- */
+    Awg.density = {
+        get() { try { return localStorage.getItem('awg-density') || 'cozy'; } catch (e) { return 'cozy'; } },
+        set(d) {
+            document.documentElement.dataset.density = d === 'compact' ? 'compact' : '';
+            if (d === 'compact') document.documentElement.dataset.density = 'compact';
+            try { localStorage.setItem('awg-density', d); } catch (e) {}
+            document.dispatchEvent(new CustomEvent('awg:density', { detail: { density: d } }));
+        },
+        toggle() { this.set(this.get() === 'compact' ? 'cozy' : 'compact'); },
+        init() { this.set(this.get()); }
     };
 
     /* ---------- sidebar drawer ---------- */
@@ -476,6 +493,7 @@
 
     /* ---------- init otomatis ---------- */
     function init() {
+        Awg.density.init();
         Awg.theme.init();
         Awg.sidebar.init();
         Awg.modal.init();

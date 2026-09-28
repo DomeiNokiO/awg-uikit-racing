@@ -1234,3 +1234,147 @@ body.awg-lock { overflow: hidden; }
     .awg-tour-card { left: 1rem !important; right: 1rem !important; width: auto !important; bottom: 1rem !important; top: auto !important; }
     .awg-tour-spotlight { display: none; }
 }
+
+
+/* ================= 26. NOTIFICATION CENTER ================= */
+.awg-notif-wrap { position: relative; }
+.awg-notif-panel {
+    position: absolute; right: 0; top: calc(100% + 8px); width: min(380px, calc(100vw - 2rem));
+    max-height: 480px; display: flex; flex-direction: column;
+    background: var(--awg-surface); border: 1px solid var(--awg-line);
+    border-radius: 14px; box-shadow: var(--awg-shadow-lg); z-index: 1200;
+    opacity: 0; transform: translateY(-4px); pointer-events: none; transition: opacity .16s ease, transform .16s ease;
+}
+.awg-notif-panel.open { opacity: 1; transform: none; pointer-events: auto; }
+.awg-notif-head { display: flex; align-items: center; justify-content: space-between; padding: .8rem 1rem; border-bottom: 1px solid var(--awg-line); }
+.awg-notif-head h4 { margin: 0; font-size: .92rem; }
+.awg-notif-head .awg-btn { min-height: 30px; padding: .25rem .6rem; font-size: .74rem; }
+.awg-notif-tabs { display: flex; gap: .25rem; padding: .5rem 1rem 0; }
+.awg-notif-tabs button {
+    border: 0; background: none; cursor: pointer; font: 600 .76rem/1 var(--awg-font);
+    color: var(--awg-ink-2); padding: .45rem .7rem; border-radius: 8px;
+}
+.awg-notif-tabs button.active { background: var(--awg-brand-soft); color: var(--awg-brand); }
+.awg-notif-list { overflow-y: auto; padding: .4rem .5rem .6rem; }
+.awg-notif-item {
+    display: flex; gap: .7rem; width: 100%; text-align: left; border: 0; background: none;
+    padding: .65rem .6rem; border-radius: 10px; cursor: pointer; font: inherit; color: inherit;
+    align-items: flex-start;
+}
+.awg-notif-item:hover { background: var(--awg-surface-2); }
+.awg-notif-item.unread { background: var(--awg-brand-soft); }
+.awg-notif-item.unread:hover { background: color-mix(in srgb, var(--awg-brand-soft) 80%, var(--awg-surface-2)); }
+.awg-notif-item .ic {
+    width: 34px; height: 34px; border-radius: 10px; flex: none;
+    display: grid; place-items: center; font-size: 1rem;
+}
+.awg-notif-item .ic.billing { background: var(--awg-warn-soft); color: var(--awg-warn); }
+.awg-notif-item .ic.ticket  { background: var(--awg-info-soft); color: var(--awg-info); }
+.awg-notif-item .ic.system  { background: var(--awg-ok-soft);  color: var(--awg-ok); }
+.awg-notif-item .body { min-width: 0; flex: 1; }
+.awg-notif-item .body b { display: block; font-size: .82rem; line-height: 1.35; }
+.awg-notif-item .body small { color: var(--awg-ink-2); font-size: .76rem; line-height: 1.4; display: block; margin-top: .1rem; }
+.awg-notif-item .body time { color: var(--awg-ink-3); font-size: .68rem; }
+.awg-notif-item .dot-unread { width: 8px; height: 8px; border-radius: 50%; background: var(--awg-brand); flex: none; margin-top: .4rem; }
+.awg-notif-foot { border-top: 1px solid var(--awg-line); padding: .55rem 1rem; text-align: center; }
+.awg-notif-foot a { font-size: .78rem; font-weight: 600; }
+.awg-bell-btn { position: relative; }
+.awg-bell-btn .cnt {
+    position: absolute; top: -4px; right: -4px; min-width: 17px; height: 17px;
+    background: var(--awg-bad); color: #fff; border-radius: 999px;
+    font: 700 .6rem/17px var(--awg-font); text-align: center; padding: 0 4px;
+    border: 2px solid var(--awg-surface);
+}
+.awg-notif-empty { padding: 2rem 1rem; text-align: center; color: var(--awg-ink-2); }
+.awg-notif-empty .awg-ic { width: 2rem; height: 2rem; opacity: .4; }
+
+/* ================= 27. CHAT / MESSENGER ================= */
+.awg-chat { display: grid; grid-template-columns: 300px 1fr; gap: 0; border: 1px solid var(--awg-line); border-radius: var(--awg-radius); overflow: hidden; background: var(--awg-surface); min-height: 560px; }
+.awg-chat-list { border-right: 1px solid var(--awg-line); display: flex; flex-direction: column; min-width: 0; }
+.awg-chat-list .search { padding: .8rem; border-bottom: 1px solid var(--awg-line); }
+.awg-chat-threads { overflow-y: auto; flex: 1; }
+.awg-chat-thread {
+    display: flex; gap: .7rem; align-items: center; width: 100%; text-align: left;
+    padding: .7rem .8rem; border: 0; border-bottom: 1px solid var(--awg-line);
+    background: none; cursor: pointer; font: inherit; color: inherit;
+}
+.awg-chat-thread:hover { background: var(--awg-surface-2); }
+.awg-chat-thread.active { background: var(--awg-brand-soft); }
+.awg-chat-thread .meta { min-width: 0; flex: 1; }
+.awg-chat-thread .meta b { display: block; font-size: .84rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.awg-chat-thread .meta small { display: block; color: var(--awg-ink-2); font-size: .76rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.awg-chat-thread .side { text-align: right; flex: none; }
+.awg-chat-thread .side time { font-size: .66rem; color: var(--awg-ink-3); display: block; }
+.awg-chat-thread .side .n {
+    display: inline-grid; place-items: center; min-width: 17px; height: 17px; padding: 0 4px;
+    background: var(--awg-brand); color: #fff; border-radius: 999px; font: 700 .6rem/1 var(--awg-font); margin-top: .2rem;
+}
+.awg-chat-main { display: flex; flex-direction: column; min-width: 0; }
+.awg-chat-head { display: flex; align-items: center; gap: .7rem; padding: .8rem 1rem; border-bottom: 1px solid var(--awg-line); }
+.awg-chat-head b { font-size: .9rem; }
+.awg-chat-head small { display: block; color: var(--awg-ok); font-size: .72rem; }
+.awg-chat-msgs { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: .55rem; background: var(--awg-surface-2); }
+.awg-msg { max-width: min(72%, 440px); padding: .55rem .8rem; border-radius: 14px; font-size: .84rem; line-height: 1.45; }
+.awg-msg time { display: block; font-size: .64rem; opacity: .65; margin-top: .15rem; }
+.awg-msg.them { align-self: flex-start; background: var(--awg-surface); border: 1px solid var(--awg-line); border-bottom-left-radius: 4px; }
+.awg-msg.me   { align-self: flex-end; background: var(--awg-brand); color: #fff; border-bottom-right-radius: 4px; }
+.awg-msg.me time { color: rgba(255,255,255,.75); }
+.awg-chat-day { align-self: center; font-size: .68rem; font-weight: 600; color: var(--awg-ink-3); background: var(--awg-surface); border: 1px solid var(--awg-line); border-radius: 999px; padding: .2rem .8rem; }
+.awg-chat-input { display: flex; gap: .5rem; padding: .75rem 1rem; border-top: 1px solid var(--awg-line); }
+.awg-chat-input input { flex: 1; }
+@media (max-width: 767.98px) {
+    .awg-chat { grid-template-columns: 1fr; }
+    .awg-chat.list-only .awg-chat-main { display: none; }
+    .awg-chat.thread-only .awg-chat-list { display: none; }
+    .awg-chat-back { display: inline-flex !important; }
+}
+.awg-chat-back { display: none; border: 0; background: none; color: var(--awg-brand); cursor: pointer; padding: .3rem; }
+
+/* ================= 28. WORK ORDER DETAIL ================= */
+.awg-wo-grid { display: grid; grid-template-columns: 1fr 340px; gap: 1rem; align-items: start; }
+@media (max-width: 991.98px) { .awg-wo-grid { grid-template-columns: 1fr; } }
+.awg-wo-meta { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: .8rem; }
+.awg-wo-meta .cell { background: var(--awg-surface-2); border: 1px solid var(--awg-line); border-radius: 10px; padding: .65rem .8rem; }
+.awg-wo-meta .cell small { display: block; color: var(--awg-ink-2); font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+.awg-wo-meta .cell b { font-size: .86rem; }
+
+/* ================= 29. INVOICE (print-ready) ================= */
+.awg-invoice { background: var(--awg-surface); border: 1px solid var(--awg-line); border-radius: var(--awg-radius); padding: 2rem; max-width: 820px; margin: 0 auto; }
+.awg-invoice .inv-head { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.awg-invoice .inv-head .co b { font-size: 1.05rem; display: block; }
+.awg-invoice .inv-head .co small { color: var(--awg-ink-2); line-height: 1.5; display: block; max-width: 300px; }
+.awg-invoice .inv-no { text-align: right; }
+.awg-invoice .inv-no b { font-size: 1.1rem; }
+.awg-invoice .inv-no small { display: block; color: var(--awg-ink-2); }
+.awg-invoice .inv-to { margin-bottom: 1.25rem; font-size: .86rem; line-height: 1.5; }
+.awg-invoice .inv-to small { color: var(--awg-ink-2); display: block; }
+.awg-invoice .inv-total { display: flex; justify-content: flex-end; margin-top: 1rem; }
+.awg-invoice .inv-total .box { background: var(--awg-brand-soft); border-radius: 10px; padding: .7rem 1.2rem; text-align: right; min-width: 220px; }
+.awg-invoice .inv-total .box small { display: block; color: var(--awg-ink-2); font-size: .7rem; }
+.awg-invoice .inv-total .box b { font-size: 1.25rem; }
+.awg-invoice .inv-foot { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px dashed var(--awg-line); color: var(--awg-ink-2); font-size: .74rem; line-height: 1.6; }
+.awg-invoice-print { position: sticky; top: 84px; z-index: 5; display: flex; justify-content: flex-end; margin-bottom: .75rem; }
+@media print {
+    .awg-sidebar, .awg-topbar, .awg-overlay, .awg-invoice-print, .awg-page-head .awg-badge, .awg-side-foot { display: none !important; }
+    .awg-main { margin-left: 0 !important; }
+    .awg-content { padding: 0 !important; max-width: none !important; }
+    .awg-invoice { border: 0; border-radius: 0; padding: 0; max-width: none; box-shadow: none !important; }
+    body { background: #fff !important; }
+    .awg-table th { background: #f1f5f9 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ================= 30. GAUGE / METER (SVG) ================= */
+.awg-gauge { display: inline-flex; flex-direction: column; align-items: center; gap: .3rem; }
+.awg-gauge svg { display: block; }
+.awg-gauge .val { font: 700 1.15rem/1 var(--awg-font); color: var(--awg-ink); }
+.awg-gauge .unit { font: 500 .68rem/1 var(--awg-font); color: var(--awg-ink-2); text-transform: uppercase; letter-spacing: .06em; }
+.awg-gauge-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1rem; }
+
+/* ================= 31. DENSITY (compact / cozy) ================= */
+[data-density="compact"] { --awg-fs-base: .865rem; --awg-sidebar-w: 232px; }
+[data-density="compact"] .awg-nav-link { padding: .45rem .7rem; }
+[data-density="compact"] .awg-card-body { padding: .75rem .9rem; }
+[data-density="compact"] .awg-table td, [data-density="compact"] .awg-table th { padding: .42rem .6rem; }
+[data-density="compact"] .awg-btn:not(.awg-btn-sm):not(.awg-btn-lg) { min-height: 34px; padding: .34rem .8rem; font-size: .82rem; }
+[data-density="compact"] .awg-content { padding: 1rem; }
+[data-density="compact"] .awg-topbar { min-height: 56px; }

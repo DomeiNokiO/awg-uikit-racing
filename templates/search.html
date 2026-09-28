@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hasil Pencarian · AWG-UIKIT-RACING</title>
+<link rel="stylesheet" href="../css/awg-uikit.css">
+<link rel="icon" href="../assets/icons.svg#ic-flag">
+<script>try{const t=localStorage.getItem('awg-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="awg-app">
+<aside class="awg-sidebar">
+    <div class="awg-brand-box"><div class="logo"><svg class="awg-ic"><use href="../assets/icons.svg#ic-flag"></use></svg></div><div><b>AWG-APP</b><small>Pencarian</small></div></div>
+    <nav>
+        <div class="awg-nav-label">Halaman</div>
+        <a class="awg-nav-link" href="nms-dashboard.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-gauge"></use></svg> Dashboard NOC</a>
+        <a class="awg-nav-link" href="admin-dashboard.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-users"></use></svg> Admin</a>
+        <a class="awg-nav-link" href="work-order.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-zap"></use></svg> Work Order</a>
+        <a class="awg-nav-link" href="billing.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-receipt"></use></svg> Tagihan</a>
+        <a class="awg-nav-link active" href="search.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-search"></use></svg> Pencarian</a>
+    </nav>
+    <div class="awg-side-foot">
+        <div class="awg-flex-1"><b>AWGNET-RACING</b><small>& AGENT AI TEAM</small></div>
+        <button class="awg-nav-link" style="width:auto" data-awg-theme-toggle title="Tema"><svg class="awg-ic"><use href="../assets/icons.svg#ic-moon"></use></svg></button>
+    </div>
+</aside>
+<div class="awg-overlay"></div>
+
+<div class="awg-main">
+<header class="awg-topbar">
+    <button class="awg-menu-btn" data-awg-menu><svg class="awg-ic lg"><use href="../assets/icons.svg#ic-menu"></use></svg></button>
+    <div class="awg-crumbs"><a href="#">Aplikasi</a><span class="sep">/</span><b>Pencarian</b></div>
+</header>
+
+<div class="awg-content" style="max-width:820px">
+<div class="awg-page-head"><div><h1>Hasil pencarian</h1><p>Indeks statis dari halaman-halaman aplikasi demo · data contoh</p></div></div>
+
+<form class="awg-flex" style="gap:.5rem;margin-bottom:1.25rem" id="searchForm">
+    <input class="awg-input" id="q" type="search" placeholder="Cari node, pelanggan, invoice, WO…" aria-label="Kata kunci" autofocus>
+    <button class="awg-btn awg-btn-primary" type="submit"><svg class="awg-ic"><use href="../assets/icons.svg#ic-search"></use></svg> Cari</button>
+</form>
+
+<div id="results" aria-live="polite"></div>
+
+<div class="awg-divider">AWG-UIKIT-RACING · © AWGNET-RACING &amp; AGENT AI TEAM · MIT · 100% lokal tanpa CDN</div>
+</div>
+</div>
+<script src="../js/awg-core.js"></script>
+<script src="assets/awg-shared.js"></script>
+<script>
+// Indeks statis: dalam aplikasi nyata ini diganti endpoint /api/search
+const INDEX = [
+  {t:'WO-104 · Gangguan pelanggan Budi Santoso', d:'RSSI -82 dBm di ODP-SPG-12, eskalasi Tim Grafika, SLA 6 jam', u:'work-order.html', k:'work order gangguan tiket rssi odp budi'},
+  {t:'INV-2026-0928 · Invoice September', d:'Rp 450.000 · jatuh tempo 2 Okt 2026 · belum dibayar', u:'invoice.html', k:'invoice tagihan bayar september budi'},
+  {t:'INV-2026-0930 terbit (notifikasi)', d:'347 pelanggan · total Rp 52.048.000', u:'billing.html', k:'invoice tagihan notifikasi'},
+  {t:'Budi Santoso — Pelanggan #PLG-0082', d:'Play 10 Mbps · Sendari, Sleman · status aktif', u:'admin-dashboard.html', k:'pelanggan user budi santoso'},
+  {t:'ODP-SPG-12', d:'12 port · 9 terpakai · redaman 26.4 dB · warna hijau', u:'nms-dashboard.html', k:'odp odp node peta redaman'},
+  {t:'p2p-09 · Link tower P2P', d:'Status down sejak 09.41 · ICMP & SNMP unreachable', u:'nms-dashboard.html', k:'node down p2p tower link alert'},
+  {t:'OLT-Solo-01 · ZTE C320', d:'CPU 87% · 2.412 ONT · firmware 3.30 tersedia', u:'nms-dashboard.html', k:'olt zte c320 cpu firmware'},
+  {t:'Tim Grafika — teknisi', d:'Andi Prasetyo + Ridwan Hakim · on site Jl. Kaliurang', u:'work-order.html', k:'teknisi tim grafika andi ridwan'},
+  {t:'Percakapan CS — Budi Santoso', d:'"internet lemot sejak tadi malam" · 07.16', u:'chat.html', k:'chat pesan cs budi lemot'},
+  {t:'Pengaturan keamanan', d:'Password, 2FA, sesi aktif', u:'security.html', k:'keamanan password 2fa sesi'},
+  {t:'Kartika Sari — Pelanggan Pending', d:'Pendaftaran 23 Sep · menunggu verifikasi berkas', u:'admin-dashboard.html', k:'pelanggan user kartika pending verifikasi'},
+];
+function search(q){
+    q = q.trim().toLowerCase();
+    const box = document.getElementById('results');
+    if (!q) { box.innerHTML = '<div class="awg-empty"><span class="ico"><svg class="awg-ic"><use href="../assets/icons.svg#ic-search"></use></svg></span><b>Mulai dengan kata kunci</b><span class="awg-tiny awg-muted">Coba: ODP, invoice, Budi, WO, OLT</span></div>'; return; }
+    const hits = INDEX.filter(x => (x.t+' '+x.d+' '+x.k).toLowerCase().includes(q));
+    box.innerHTML = hits.length
+        ? '<p class="awg-small awg-muted">'+hits.length+' hasil untuk "'+q+'"</p>' + hits.map(h =>
+            '<a class="awg-list-item" href="'+h.u+'" style="display:flex;text-decoration:none;color:inherit">'+
+            '<svg class="awg-ic"><use href="../assets/icons.svg#ic-file"></use></svg>'+
+            '<div class="li-main"><div class="li-title">'+h.t+'</div><div class="li-sub">'+h.d+'</div></div>'+
+            '<svg class="awg-ic"><use href="../assets/icons.svg#ic-chevron-right"></use></svg></a>').join('')
+        : '<div class="awg-empty"><span class="ico"><svg class="awg-ic"><use href="../assets/icons.svg#ic-search"></use></svg></span><b>Tidak ada hasil untuk "'+q+'"</b><span class="awg-tiny awg-muted">Kata kunci mencakup judul, deskripsi, dan alias. Coba istilah lain.</span></div>';
+}
+document.getElementById('searchForm').addEventListener('submit', e => { e.preventDefault(); search(document.getElementById('q').value); });
+document.getElementById('q').addEventListener('input', e => search(e.target.value));
+const initial = new URLSearchParams(location.search).get('q');
+if (initial) { document.getElementById('q').value = initial; search(initial); }
+else search('');
+</script>
+</body>
+</html>
