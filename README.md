@@ -34,9 +34,9 @@ Node.js, Python, Go, Ruby, React/Vue/Svelte, atau bahasa apa pun yang menghasilk
 |---|---|---|
 | ![Wizard](docs/screenshots/shot17-wizard-desktop.png) | ![Treeview](docs/screenshots/shot18-treeview-desktop.png) | ![Kanban](docs/screenshots/shot19-kanban-desktop.png) |
 
-|| **Lightbox** | **Maps — Leaflet lokal** | **Mobile 320px — Datepicker** |
-|---|---|---|
-| ![Lightbox](docs/screenshots/shot20-lightbox-desktop.png) | ![Maps desktop](docs/screenshots/shot31-maps-desktop.png) | ![DP mobile](docs/screenshots/shot24-dp-mobile.png) |
+||| **Lightbox** | **Maps — Leaflet lokal** | **Mobile 320px — Datepicker** |
+|---|---|---|---|
+| ![Lightbox](docs/screenshots/shot20-lightbox-desktop.png) | ![Maps desktop](docs/screenshots/shot31-maps-desktop.svg) | ![DP mobile](docs/screenshots/shot24-dp-mobile.png) |
 
 || **Maps di HP 320px** | Charts di HP 320px |
 |---|---|
