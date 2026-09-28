@@ -1,6 +1,6 @@
 {
   "name": "awg-uikit-racing",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Design system + komponen CSS/JS standalone (Frences dashboard). Author: AWGNET-RACING & AGENT AI TEAM. Framework-agnostic: PHP, Node, Python, Go, Rails, React/Vue.",
   "main": "js/awg-core.js",
   "style": "css/awg-uikit.css",

@@ -1,21 +1,37 @@
-# Screenshot Bukti Responsif & Komponen
+# 📸 Screenshot AWG-UIKIT-RACING
 
-Diambil dengan Chrome headless (CDP) — viewport asli, bukan resize manual.
+Semua gambar diambil dengan Chrome headless CDP pada viewport asli.
 
-| File | Viewport | Bukti |
-|---|---|---|
-| shot01-desktop.png | 1360×900 | Showcase penuh (sidebar, cards, forms) |
-| shot02-select2-open.png | 1360×900 | Select2 single: panel terbuka, cari "solo", highlight <mark> |
-| shot03-select2-multi.png | 1360×900 | Select2 multiple: 2 chip + panel opsi terbuka |
-| shot04-dropdown-submenu.png | 1360×900 | Dropdown + submenu 2-level (hover, Excel/PDF) |
-| shot05-modal-select.png | 1360×900 | Modal form + select2 tag di dalamnya |
-| shot06-dark.png | 1360×900 | Dark mode penuh |
-| shot07-mobile320.png | 320×700 (iPhone SE) | 0 scroll horizontal, grid 1 kolom, sidebar drawer tertutup |
-| shot08-mobile-drawer.png | 320×700 | Sidebar drawer terbuka + overlay |
-| shot09-charts-desktop.png | 1360×900 | Dashboard NMS: line live 2 seri, bar utilisasi, gauge CPU/RAM zona, donut ONT, sparkline |
-| shot09-charts-mobile.png | 320×700 | Chart di HP: SVG menyusut, viewBox adaptif, 0 overflow |
-| shot10-charts-dark.png | 1360×900 | Chart ikut dark mode (grid/teks/warna tema) |
-| shot11-chart-tooltip.png | 1360×900 | Crosshair + tooltip hover pada chart trafik (nilai In/Out per titik) |
+## v1.1 (core + charts/NMS)
+- `shot01-desktop.png` — showcase desktop light
+- `shot02-select2-open.png` — select2 single with highlight
+- `shot03-select2-multi.png` — multi chip picker
+- `shot04-dropdown-submenu.png` — dropdown + submenu 2-level
+- `shot05-modal-select.png` — modal + select2 inside
+- `shot06-dark.png` — dark mode
+- `shot07-mobile320.png` — iPhone SE (320px), 0 scroll horizontal
+- `shot08-mobile-drawer.png` — sidenav drawer open
+- `shot09-charts-desktop.png` — NMS charts desktop
+- `shot10-charts-dark.png` — NMS charts dark
+- `shot11-chart-tooltip.png` — tooltip crosshair
+- `shot09-charts-mobile.png` — charts on 320px
 
-Terverifikasi numerik (JS di halaman): `scrollWidth == clientWidth` di 320px,
-sidebar `translateX(-264px)`, `.awg-menu-btn` tampil, grid-cols-4 → 1 kolom.
+## v1.2 (widget lengkap)
+- `shot13-palette-desktop.png` — command palette Ctrl+K
+- `shot14-dt-desktop.png` — DataTable with pagination
+- `shot15-dt-search-desktop.png` — DataTable filtered
+- `shot16-dp-desktop.png` — Datepicker open
+- `shot17-wizard-desktop.png` — Wizard stepper
+- `shot18-treeview-desktop.png` — Treeview permissions
+- `shot19-kanban-desktop.png` — Kanban drag-drop
+- `shot20-lightbox-desktop.png` — Lightbox image group
+- `shot21-palette-mobile.png` — palette on 320px
+- `shot22-dt-mobile.png` — DataTable on 320px
+- `shot23-dt-search-mobile.png` — DataTable search on 320px
+- `shot24-dp-mobile.png` — Datepicker on 320px
+- `shot25-wizard-mobile.png` — Wizard on 320px
+- `shot26-kanban-mobile.png` — Kanban on 320px
+- `shot27-mobile-top.png` — top of page mobile
+- `shot28-mobile-charts.png` — charts section mobile
+- `shot29-mobile-forms.png` — forms section mobile
+- `shot30-mobile-dt.png` — DataTable section mobile

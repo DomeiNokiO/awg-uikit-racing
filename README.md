@@ -22,11 +22,23 @@ Node.js, Python, Go, Ruby, React/Vue/Svelte, atau bahasa apa pun yang menghasilk
 |---|---|
 | ![Mobile 320](docs/screenshots/shot07-mobile320.png) | ![Drawer](docs/screenshots/shot08-mobile-drawer.png) |
 
-| Charts NMS — desktop | Charts NMS — dark mode | Charts — tooltip crosshair |
+|| Charts NMS — desktop | Charts NMS — dark mode | Charts — tooltip crosshair |
 |---|---|---|
 | ![Charts](docs/screenshots/shot09-charts-desktop.png) | ![Charts dark](docs/screenshots/shot10-charts-dark.png) | ![Tooltip](docs/screenshots/shot11-chart-tooltip.png) |
 
-| Charts di HP 320px |
+|| **DataTable + bulk** | **Datepicker** | **Command palette ⌘K** |
+|---|---|---|
+| ![DataTable](docs/screenshots/shot14-dt-desktop.png) | ![Datepicker](docs/screenshots/shot16-dp-desktop.png) | ![Palette](docs/screenshots/shot13-palette-desktop.png) |
+
+|| **Wizard stepper** | **Treeview permission** | **Kanban drag-drop** |
+|---|---|---|
+| ![Wizard](docs/screenshots/shot17-wizard-desktop.png) | ![Treeview](docs/screenshots/shot18-treeview-desktop.png) | ![Kanban](docs/screenshots/shot19-kanban-desktop.png) |
+
+|| **Lightbox** | **Mobile 320px — DataTable** | **Mobile 320px — Datepicker** |
+|---|---|---|
+| ![Lightbox](docs/screenshots/shot20-lightbox-desktop.png) | ![DT mobile](docs/screenshots/shot30-mobile-dt.png) | ![DP mobile](docs/screenshots/shot24-dp-mobile.png) |
+
+|| Charts di HP 320px |
 |---|
 | ![Charts mobile](docs/screenshots/shot09-charts-mobile.png) |
 
@@ -35,10 +47,19 @@ Node.js, Python, Go, Ruby, React/Vue/Svelte, atau bahasa apa pun yang menghasilk
 | | |
 |---|---|
 | **Author** | **AWGNET-RACING & AGENT AI TEAM** |
-| **Versi** | 1.0.0 |
+| **Versi** | 1.2.0 |
 | **Lisensi** | MIT |
-| **Ukuran** | CSS ±8 KB + core ±3 KB + select2 ±3.6 KB + charts ±3.7 KB (gzip) |
+| **Ukuran** | CSS ±9 KB + core ±3 KB + select2 ±3.6 KB + charts ±3.7 KB + datatable ±4 KB + datepicker ±3 KB + widgets ±5 KB (gzip) |
 | **Dependensi** | 0 — font Inter + ikon SVG self-hosted, tanpa CDN |
+
+## Fitur utama v1.2
+- 🗂️ **DataTable** (`awg-datatable.js`): pencarian, sort kolom, pagination, checkbox massal, format status/chip/lokasi, rows-per-page, event `awg:bulk`
+- 📅 **Datepicker** (`awg-datepicker.js`): single & range, format Indonesia, batas min/max, navigasi keyboard (arrow / PgUp / PgDn / Enter / Esc), tombol *Hari ini* / *Bersihkan*
+- 🧙 **Wizard** (`awg-widgets.js`): stepper bertahap dengan validasi per panel (bisa dimatikan), callback maju/mundur
+- 🌳 **Treeview checkbox** untuk permission/hierarki: centang anak-ibu otomatis, collapse/expand, event `awg:tree`
+- ⌨️ **Command palette** `Ctrl/Cmd+K`: cari perintah, filter realtime, keyboard ↑↓ Enter Esc
+- 🏗️ **Kanban** drag-drop native HTML5: pindah kartu antar kolom, keyboard kiri/kanan, event `awg:kanban`
+- 🖼️ **Lightbox** gambar: group swipe, navigasi panah, Escape tutup
 
 ## Fitur utama
 - 🎨 **Design tokens** (Inter + slate + biru; `--awg-*`) — light & **dark mode** persist
@@ -57,6 +78,7 @@ Node.js, Python, Go, Ruby, React/Vue/Svelte, atau bahasa apa pun yang menghasilk
   **validasi deklaratif** (`data-awg-validate` + aturan `data-awg-email/number/min/max/pass`)
 - 💬 **Overlays**: modal (sm/lg/fullscreen-HP), drawer panel, confirm dialog (API callback)
 - 🖨️ Print stylesheet · 📱 Responsif teruji 320px+ · ♿ target sentuh 44px, aria pada combobox
+- 🧩 **Komponen baru v1.2**: DataTable, Datepicker, Wizard, Treeview, Command Palette, Kanban, Lightbox
 
 ## Mulai cepat
 ```bash
@@ -68,7 +90,10 @@ python3 -m http.server 8877        # buka http://localhost:8877/index.html  (sho
 <link rel="stylesheet" href="/assets/awg-uikit.min.css">
 <script src="/assets/awg-core.min.js"></script>
 <script src="/assets/awg-select2.min.js"></script>   <!-- opsional -->
-<script src="/assets/awg-charts.min.js"></script>    <!-- opsional -->
+<script src="/assets/awg-charts.min.js"></script>
+<script src="/assets/awg-datatable.min.js"></script>
+<script src="/assets/awg-datepicker.min.js"></script>
+<script src="/assets/awg-widgets.min.js"></script>
 <!-- deploy: salin folder dist/ (sudah berisi fonts/ + assets/icons.svg) ke public/assets/ -->
 ```
 
@@ -88,7 +113,7 @@ python3 -m http.server 8877        # buka http://localhost:8877/index.html  (sho
 ```
 awg-uikit-racing/
 ├── css/    awg-uikit.css · tokens.json
-├── js/     awg-core.js · awg-select2.js · awg-charts.js
+├── js/     awg-core.js · awg-select2.js · awg-charts.js · awg-datatable.js · awg-datepicker.js · awg-widgets.js
 ├── fonts/  inter-{400..800}.woff2   (self-hosted)
 ├── assets/ icons.svg                 (sprite ±60 ikon)
 ├── dist/   hasil build (min + sumber + fonts/ + assets/)
@@ -104,7 +129,7 @@ awg-uikit-racing/
 - Komponen deklaratif memakai **event delegation** → aman untuk konten yang dirender via AJAX (hanya `AwgSelect.mount()` yang perlu dipanggil ulang)
 
 ## Roadmap (v2)
-- Paket npm + CDN publik · chart components (sparkline/bar CSS) · virtual scroll pada select2 remote besar · RTL support · date-range picker · komponen DataTable adapter
+- Paket npm + CDN publik · virtual scroll pada select2/DataTable remote besar · RTL support · adapter Laravel Livewire
 
 ---
 © **AWGNET-RACING & AGENT AI TEAM** — MIT License. Dipakai di Franchise Management & proyek ISP/FTTH tooling.

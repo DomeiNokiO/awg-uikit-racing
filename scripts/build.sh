@@ -19,11 +19,17 @@ minify_css css/awg-uikit.css | sed "s|\.\./fonts/|fonts/|g" > dist/awg-uikit.min
 minify_js js/awg-core.js > dist/awg-core.min.js
 minify_js js/awg-select2.js > dist/awg-select2.min.js
 minify_js js/awg-charts.js > dist/awg-charts.min.js
+minify_js js/awg-datatable.js > dist/awg-datatable.min.js
+minify_js js/awg-datepicker.js > dist/awg-datepicker.min.js
+minify_js js/awg-widgets.js > dist/awg-widgets.min.js
 cp css/tokens.json dist/awg-tokens.json
 cp css/awg-uikit.css dist/awg-uikit.css
 cp js/awg-core.js dist/awg-core.js
 cp js/awg-select2.js dist/awg-select2.js
 cp js/awg-charts.js dist/awg-charts.js
+cp js/awg-datatable.js dist/awg-datatable.js
+cp js/awg-datepicker.js dist/awg-datepicker.js
+cp js/awg-widgets.js dist/awg-widgets.js
 mkdir -p dist/fonts dist/assets
 cp fonts/*.woff2 dist/fonts/
 cp assets/icons.svg dist/assets/
