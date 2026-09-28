@@ -59,54 +59,51 @@ Node.js, Python, Go, Ruby, React/Vue/Svelte, atau bahasa apa pun yang menghasilk
 
 ## Fitur & Changelog Rilis
 
-### 🚀 v1.4.0 — Premium Upgrade (Wave 1–3) & Production Infrastructure
-- 🔔 **Notification Center** (`templates/assets/awg-notif-chat.js`): Dropdown notifikasi dari ikon bell, filter tab (Semua/Tagihan/Tiket/Sistem), tandai sudah dibaca, navigasi entitas.
-- 💬 **Halaman Chat/Pesan** (`templates/chat.html`): Komunikasi operasional ISP (CS ↔ Pelanggan, Teknisi), thread status, template pesan instan, layout responsif.
-- ⚡ **Detail Work Order** (`templates/work-order.html`): Manajemen alur tiket gangguan lapangan, timer SLA, riwayat timeline, penugasan teknisi, modal eskalasi & penyelesaian.
-- 🧾 **Detail Invoice Cetak** (`templates/invoice.html`): Desain cetak A4-ready (`@media print`), rincian biaya langganan, mockup QRIS, integrasi tombol cetak dari billing.
-- ⏱️ **Gauge/Meter SVG** (`js/awg-widgets.js`): Komponen jarum/arc meter untuk SNR (dB), RSSI (dBm), dan Bandwidth (%), tema-aware tanpa library chart eksternal.
-- 📧 **Template Email Transaksional** (`templates/email/`): 4 template HTML ramah email client (reset password, invoice terbit, selamat datang, penugasan teknisi).
-- 🌐 **Landing Page Produk** (`landing.html`): Halaman etalase produk siap jual dengan hero, live stats, pricing tier (Single/Agency/Extended), dan FAQ lisensi.
-- 📚 **Dokumentasi Terintegrasi** (`docs.html`): Viewer dokumentasi responsif membaca dokumen markdown lokal (`docs/*.md`) dengan live search.
-- 🌓 **Tri-Mode Theme & Density Toggle**: Mode terang / gelap / ikuti sistem (OS `prefers-color-scheme`), serta toggle densitas data (`cozy` vs `compact`).
-- 🔍 **Pencarian Global** (`templates/search.html`): Halaman hasil pencarian instan untuk pelanggan, ODP, tiket, dan tagihan.
-- 🛡️ **Security & Production Guard**: Mitigasi DOM XSS, sanitasi CSV formula RFC 4180, safe popup maps, test suite 20 assertion (`npm test`), dan CI workflow GitHub Actions hijau.
+### v1.4.0 — Premium Upgrade (Wave 1–3) & Production Infrastructure
 
-### 📦 v1.3.0 — Halaman Template Lengkap & Offline Maps Fallback
-- 📊 **3 Dashboard Siap Pakai**: NMS/ISP Dashboard (`nms-dashboard.html`), Franchise/Kasir POS (`franchise-dashboard.html`), Admin CRUD (`admin-dashboard.html`).
-- 🔐 **Suite Autentikasi**: Login, Register, Lupa Password, dan Verifikasi 2FA (`templates/auth/`).
-- ⚙️ **Halaman Pengguna & Akun**: Profil, Pengaturan Akun, Tagihan/Billing, dan Keamanan/Sesi (`templates/`).
-- 🚫 **Halaman Error**: 404 Not Found, 500 Server Error, dan 503 Maintenance (`templates/errors/`).
-- 🗺️ **Peta Offline Mandiri** (`js/awg-maps.js`): Fallback SVG vektor instan untuk topologi jaringan & ODP saat koneksi tile internet offline.
+- **Notification Center** (`templates/assets/awg-notif-chat.js`): dropdown notifikasi dari ikon bell, badge unread, filter tab (`Semua` / `Tagihan` / `Tiket` / `Sistem`), tandai sudah dibaca, dan navigasi ke entitas asal.
+- **Halaman Chat/Pesan** (`templates/chat.html`): percakapan antara customer service, pelanggan, dan teknisi ISP. Ada list thread status, template balas cepat, dan layout responsif.
+- **Detail Work Order** (`templates/work-order.html`): detail tiket gangguan lapangan, hitung mundur SLA, timeline status, penugasan teknisi, serta modal eskalasi dan penyelesaian.
+- **Detail Invoice Cetak** (`templates/invoice.html`): invoice A4-ready dengan `@media print`, rincian tagihan layanan internet, mockup QRIS, dan tombol cetak langsung dari halaman billing.
+- **Gauge/Meter SVG** (`js/awg-widgets.js`): komponen meter jarum/arc khusus ISP untuk SNR (dB), RSSI (dBm), dan utilisasi bandwidth (%). Tema-aware dan tanpa library eksternal.
+- **Template Email Transaksional** (`templates/email/`): empat template HTML ramah email client — reset password, invoice terbit, selamat datang pelanggan, dan penugasan teknisi.
+- **Landing Page Produk** (`landing.html`): halaman showcase siap jual: hero, live stats, tier harga (`Single` / `Agency` / `Extended`), dan FAQ lisensi.
+- **Dokumentasi Terintegrasi** (`docs.html`): reader dokumen markdown lokal (`docs/*.md`) dengan live search, tanpa CDN.
+- **Tri-Mode Theme & Density Toggle**: tema terang, gelap, atau ikuti sistem lewat `prefers-color-scheme`, plus toggle densitas tabel (`cozy` vs `compact`).
+- **Pencarian Global** (`templates/search.html`): halaman hasil pencarian instan untuk pelanggan, ODP, tiket, dan tagihan.
+- **Security & Production Guard**: mitigasi DOM XSS, sanitasi formula CSV RFC 4180, safe popup maps, test suite 20 assertion (`npm test`), dan CI GitHub Actions hijau.
 
-### 🧩 v1.2.x — Widget Lengkap & Aksesibilitas
-- 🗂️ **DataTable** (`awg-datatable.js`): pencarian, sort kolom, pagination, checkbox massal, format status/chip/lokasi, rows-per-page, event `awg:bulk`
-- 📅 **Datepicker** (`awg-datepicker.js`): single & range, format Indonesia, batas min/max, navigasi keyboard (arrow / PgUp / PgDn / Enter / Esc), tombol *Hari ini* / *Bersihkan*
-- 🧙 **Wizard** (`awg-widgets.js`): stepper bertahap dengan validasi per panel (bisa dimatikan), callback maju/mundur
-- 🌳 **Treeview checkbox** untuk permission/hierarki: centang anak-ibu otomatis, collapse/expand, event `awg:tree`
-- ⌨️ **Command palette** `Ctrl/Cmd+K`: cari perintah, filter realtime, keyboard ↑↓ Enter Esc
-- 🏗️ **Kanban** drag-drop native HTML5: pindah kartu antar kolom, keyboard kiri/kanan, event `awg:kanban`
-- 🖼️ **Lightbox** gambar: group swipe, navigasi panah, Escape tutup
-- 🗺️ **Maps** (`awg-maps.js`): integrasi Leaflet mandiri + adapter Google Maps & MapLibre. Focus trap accessibility (A11y) pada modal dan drawer.
+### v1.3.0 — Halaman Template Lengkap & Offline Maps Fallback
+
+- **3 Dashboard Siap Pakai**: NMS/ISP Dashboard (`templates/nms-dashboard.html`), Franchise/Kasir POS (`templates/franchise-dashboard.html`), dan Admin CRUD (`templates/admin-dashboard.html`).
+- **Suite Autentikasi**: login, register, lupa password, dan verifikasi 2FA di `templates/auth/`.
+- **Halaman Pengguna & Akun**: profil, pengaturan akun, tagihan/billing, dan keamanan/sesi aktif di `templates/`.
+- **Halaman Error Standar**: 404 Not Found, 500 Server Error, dan 503 Maintenance di `templates/errors/`.
+- **Peta Offline Mandiri** (`js/awg-maps.js`): fallback SVG vektor untuk topologi jaringan dan ODP saat koneksi internet tile tidak tersedia.
+
+### v1.2.x — Widget Lengkap & Aksesibilitas
+
+- **DataTable** (`awg-datatable.js`): pencarian, sort kolom, pagination, checkbox massal, format status/chip/lokasi, rows-per-page, event `awg:bulk`.
+- **Datepicker** (`awg-datepicker.js`): single & range, format Indonesia, batas min/max, navigasi keyboard (arrow / PgUp / PgDn / Enter / Esc), tombol `Hari ini` / `Bersihkan`.
+- **Wizard** (`awg-widgets.js`): stepper bertahap dengan validasi per panel (bisa dimatikan), callback maju/mundur.
+- **Treeview checkbox** untuk permission/hierarki: centang anak-ibu otomatis, collapse/expand, event `awg:tree`.
+- **Command palette** `Ctrl/Cmd+K`: cari perintah, filter realtime, keyboard ↑ / ↓ / Enter / Esc.
+- **Kanban** drag-drop native HTML5: pindah kartu antar kolom, keyboard kiri/kanan, event `awg:kanban`.
+- **Lightbox** gambar: group swipe, navigasi panah, Escape tutup.
+- **Maps** (`awg-maps.js`): integrasi Leaflet mandiri + adapter Google Maps & MapLibre. Focus trap accessibility pada modal dan drawer.
 
 ## Fitur utama
-- 🎨 **Design tokens** (Inter + slate + biru; `--awg-*`) — light & **dark mode** persist
-- 🔤 **Font & ikon 100% lokal** — Inter woff2 (5 bobot) + sprite SVG ±60 ikon (`assets/icons.svg`), nol request keluar
-- 📊 **Charts/NMS** (`awg-charts.js`): line/area multi-seri + crosshair tooltip, bar, donut, gauge zona ambang — SVG murni, tema-aware, live-update 2 dtk, responsif
-- 📐 **App shell**: sidebar gelap + drawer mobile + topbar blur + grid + utilitas
-- 🧩 **40+ komponen**: buttons, badges, chips, avatars, cards, stats, lists, tables
-  (striped/compact/sticky/tfoot), alerts, toasts, empty-state, spinner, progress,
-  skeleton, tooltip, popover, timeline, accordion, steps wizard, divider, tile kasir
-- 📂 **Dropdown** menu + submenu 2 level + posisi (.left/.up) + integrasi baris tabel
-- 🔍 **Select2-style** (`awg-select2.js`): searchable single/multi, option groups,
-  **remote/async** dengan debounce, **tagging**, clearable, max-pick, keyboard penuh,
-  **sinkron ke `<select>` asli** (form submit tetap standard)
-- 🧾 **Forms**: input/select/textarea, input-group, floating label, switch, checkbox/radio,
-  stepper, tags input, file dropzone (drag & drop), OTP auto-advance, range,
-  **validasi deklaratif** (`data-awg-validate` + aturan `data-awg-email/number/min/max/pass`)
-- 💬 **Overlays**: modal (sm/lg/fullscreen-HP), drawer panel, confirm dialog (API callback)
-- 🖨️ Print stylesheet · 📱 Responsif teruji 320px+ · ♿ target sentuh 44px, aria pada combobox
-- 🧩 **Komponen baru v1.2**: DataTable, Datepicker, Wizard, Treeview, Command Palette, Kanban, Lightbox
+
+- **Design tokens** (Inter + slate + biru; `--awg-*`) — light & dark mode persist.
+- **Font & ikon 100% lokal** — Inter woff2 (5 bobot) + sprite SVG ±60 ikon (`assets/icons.svg`), nol request keluar.
+- **Charts/NMS** (`awg-charts.js`): line/area multi-seri + crosshair tooltip, bar, donut, gauge zona ambang — SVG murni, tema-aware, live-update 2 dtk, responsif.
+- **App shell**: sidebar gelap + drawer mobile + topbar blur + grid + utilitas.
+- **40+ komponen**: buttons, badges, chips, avatars, cards, stats, lists, tables (striped/compact/sticky/tfoot), alerts, toasts, empty-state, spinner, progress, skeleton, tooltip, popover, timeline, accordion, steps wizard, divider, tile kasir.
+- **Dropdown** menu + submenu 2 level + posisi `.left` / `.up` + integrasi baris tabel.
+- **Select2-style** (`awg-select2.js`): searchable single/multi, option groups, remote/async dengan debounce, tagging, clearable, max-pick, keyboard penuh, sinkron ke `<select>` asli (form submit tetap standard).
+- **Forms**: input/select/textarea, input-group, floating label, switch, checkbox/radio, stepper, tags input, file dropzone (drag & drop), OTP auto-advance, range, validasi deklaratif (`data-awg-validate` + aturan `data-awg-email/number/min/max/pass`).
+- **Overlays**: modal (sm/lg/fullscreen-HP), drawer panel, confirm dialog (API callback).
+- **Print stylesheet**. Responsif teruji 320px+. Target sentuh 44px, ARIA pada combobox.
 
 ## Mulai cepat
 ```bash
