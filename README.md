@@ -52,12 +52,34 @@ Node.js, Python, Go, Ruby, React/Vue/Svelte, atau bahasa apa pun yang menghasilk
 | | |
 |---|---|
 | **Author** | **AWGNET-RACING & AGENT AI TEAM** |
-| **Versi** | 1.3.0 |
+| **Versi** | 1.4.0 |
 | **Lisensi** | MIT |
 | **Ukuran** | CSS ±10 KB + core ±3.5 KB + select2 ±3.6 KB + charts ±3.8 KB + datatable ±2.7 KB + datepicker ±2.5 KB + widgets ±3.7 KB + maps ±1.5 KB (gzip) |
 | **Dependensi** | 0 — font Inter + ikon SVG self-hosted, tanpa CDN |
 
-## Fitur utama v1.2
+## Fitur & Changelog Rilis
+
+### 🚀 v1.4.0 — Premium Upgrade (Wave 1–3) & Production Infrastructure
+- 🔔 **Notification Center** (`templates/assets/awg-notif-chat.js`): Dropdown notifikasi dari ikon bell, filter tab (Semua/Tagihan/Tiket/Sistem), tandai sudah dibaca, navigasi entitas.
+- 💬 **Halaman Chat/Pesan** (`templates/chat.html`): Komunikasi operasional ISP (CS ↔ Pelanggan, Teknisi), thread status, template pesan instan, layout responsif.
+- ⚡ **Detail Work Order** (`templates/work-order.html`): Manajemen alur tiket gangguan lapangan, timer SLA, riwayat timeline, penugasan teknisi, modal eskalasi & penyelesaian.
+- 🧾 **Detail Invoice Cetak** (`templates/invoice.html`): Desain cetak A4-ready (`@media print`), rincian biaya langganan, mockup QRIS, integrasi tombol cetak dari billing.
+- ⏱️ **Gauge/Meter SVG** (`js/awg-widgets.js`): Komponen jarum/arc meter untuk SNR (dB), RSSI (dBm), dan Bandwidth (%), tema-aware tanpa library chart eksternal.
+- 📧 **Template Email Transaksional** (`templates/email/`): 4 template HTML ramah email client (reset password, invoice terbit, selamat datang, penugasan teknisi).
+- 🌐 **Landing Page Produk** (`landing.html`): Halaman etalase produk siap jual dengan hero, live stats, pricing tier (Single/Agency/Extended), dan FAQ lisensi.
+- 📚 **Dokumentasi Terintegrasi** (`docs.html`): Viewer dokumentasi responsif membaca dokumen markdown lokal (`docs/*.md`) dengan live search.
+- 🌓 **Tri-Mode Theme & Density Toggle**: Mode terang / gelap / ikuti sistem (OS `prefers-color-scheme`), serta toggle densitas data (`cozy` vs `compact`).
+- 🔍 **Pencarian Global** (`templates/search.html`): Halaman hasil pencarian instan untuk pelanggan, ODP, tiket, dan tagihan.
+- 🛡️ **Security & Production Guard**: Mitigasi DOM XSS, sanitasi CSV formula RFC 4180, safe popup maps, test suite 20 assertion (`npm test`), dan CI workflow GitHub Actions hijau.
+
+### 📦 v1.3.0 — Halaman Template Lengkap & Offline Maps Fallback
+- 📊 **3 Dashboard Siap Pakai**: NMS/ISP Dashboard (`nms-dashboard.html`), Franchise/Kasir POS (`franchise-dashboard.html`), Admin CRUD (`admin-dashboard.html`).
+- 🔐 **Suite Autentikasi**: Login, Register, Lupa Password, dan Verifikasi 2FA (`templates/auth/`).
+- ⚙️ **Halaman Pengguna & Akun**: Profil, Pengaturan Akun, Tagihan/Billing, dan Keamanan/Sesi (`templates/`).
+- 🚫 **Halaman Error**: 404 Not Found, 500 Server Error, dan 503 Maintenance (`templates/errors/`).
+- 🗺️ **Peta Offline Mandiri** (`js/awg-maps.js`): Fallback SVG vektor instan untuk topologi jaringan & ODP saat koneksi tile internet offline.
+
+### 🧩 v1.2.x — Widget Lengkap & Aksesibilitas
 - 🗂️ **DataTable** (`awg-datatable.js`): pencarian, sort kolom, pagination, checkbox massal, format status/chip/lokasi, rows-per-page, event `awg:bulk`
 - 📅 **Datepicker** (`awg-datepicker.js`): single & range, format Indonesia, batas min/max, navigasi keyboard (arrow / PgUp / PgDn / Enter / Esc), tombol *Hari ini* / *Bersihkan*
 - 🧙 **Wizard** (`awg-widgets.js`): stepper bertahap dengan validasi per panel (bisa dimatikan), callback maju/mundur
@@ -65,6 +87,7 @@ Node.js, Python, Go, Ruby, React/Vue/Svelte, atau bahasa apa pun yang menghasilk
 - ⌨️ **Command palette** `Ctrl/Cmd+K`: cari perintah, filter realtime, keyboard ↑↓ Enter Esc
 - 🏗️ **Kanban** drag-drop native HTML5: pindah kartu antar kolom, keyboard kiri/kanan, event `awg:kanban`
 - 🖼️ **Lightbox** gambar: group swipe, navigasi panah, Escape tutup
+- 🗺️ **Maps** (`awg-maps.js`): integrasi Leaflet mandiri + adapter Google Maps & MapLibre. Focus trap accessibility (A11y) pada modal dan drawer.
 
 ## Fitur utama
 - 🎨 **Design tokens** (Inter + slate + biru; `--awg-*`) — light & **dark mode** persist
