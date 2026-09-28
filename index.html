@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AWG-UIKIT-RACING — Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/awg-uikit.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css">
+<script>try{const t=localStorage.getItem('awg-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<style>
+    .demo-row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-bottom:.8rem}
+    .demo-sec{margin-bottom:2.5rem}
+    .demo-sec>h2{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--awg-ink-3);margin:0 0 1rem;border-bottom:1px solid var(--awg-line);padding-bottom:.5rem}
+    .demo-sec>h3{font-size:.85rem;margin:1.4rem 0 .7rem;color:var(--awg-ink-2)}
+    .swatch{height:54px;border-radius:12px;border:1px solid var(--awg-line);display:grid;align-items:end;padding:.4rem .6rem;font-size:.64rem;font-weight:700;color:var(--awg-ink-2);background:var(--c)}
+    .swatch span{background:#fff;padding:.1em .4em;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="awg-app">
+
+<aside class="awg-sidebar">
+    <div class="awg-brand-box">
+        <div class="logo"><i class="fa-solid fa-flag-checkered"></i></div>
+        <div><b>AWG-UIKIT-RACING</b><small>Design System v1.0</small></div>
+    </div>
+    <nav>
+        <div class="awg-nav-label">Foundasi</div>
+        <a class="awg-nav-link active" href="#tokens"><i class="fa-solid fa-palette"></i> Tokens</a>
+        <a class="awg-nav-link" href="#typo"><i class="fa-solid fa-font"></i> Tipografi</a>
+        <div class="awg-nav-label">Komponen</div>
+        <a class="awg-nav-link" href="#btn"><i class="fa-solid fa-hand-pointer"></i> Buttons & Badges</a>
+        <a class="awg-nav-link" href="#form"><i class="fa-regular fa-square-check"></i> Forms</a>
+        <a class="awg-nav-link" href="#drop"><i class="fa-solid fa-caret-down"></i> Dropdown</a>
+        <a class="awg-nav-link" href="#sel2"><i class="fa-solid fa-magnifying-glass"></i> Select2</a>
+        <a class="awg-nav-link" href="#card"><i class="fa-regular fa-clone"></i> Cards & Tables</a>
+        <a class="awg-nav-link" href="#feed"><i class="fa-regular fa-bell"></i> Feedback</a>
+        <a class="awg-nav-link" href="#nav"><i class="fa-solid fa-compass"></i> Navigation</a>
+        <a class="awg-nav-link" href="#over"><i class="fa-solid fa-window-maximize"></i> Overlays</a>
+    </nav>
+    <div class="awg-side-foot">
+        <div class="awg-avatar">AW<i class="status"></i></div>
+        <div class="awg-flex-1"><b>AWGNET-RACING</b><small>& AGENT AI TEAM</small></div>
+        <button class="awg-nav-link" style="width:auto" data-awg-theme-toggle title="Tema"><i class="fa-solid fa-moon"></i></button>
+    </div>
+</aside>
+<div class="awg-overlay"></div>
+
+<div class="awg-main">
+<header class="awg-topbar">
+    <button class="awg-menu-btn" data-awg-menu><i class="fa-solid fa-bars"></i></button>
+    <div class="awg-crumbs" style="min-width:0;overflow:hidden"><a href="#">Dok</a><span class="sep">/</span><b>Showcase</b></div>
+    <div class="awg-flex" style="margin-left:auto">
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-theme-toggle><i class="fa-solid fa-circle-half-stroke"></i> <span class="awg-hide-xs">Tema</span></button>
+        <button class="awg-btn awg-btn-primary awg-btn-sm" onclick="Awg.toast('Halo dari toast! 🏁','ok')"><i class="fa-regular fa-comment-dots"></i> <span class="awg-hide-xs">Toast</span></button>
+    </div>
+</header>
+
+<div class="awg-content">
+
+<div class="awg-page-head">
+    <div><h1>AWG-UIKIT-RACING</h1><p>Design system standalone — CSS murni + vanilla JS. Author: <b>AWGNET-RACING & AGENT AI TEAM</b></p></div>
+    <div class="awg-flex"><span class="awg-badge ok"><span class="dot"></span>Stabil</span><span class="awg-badge">v1.0.0</span><span class="awg-badge gray">MIT</span></div>
+</div>
+
+<!-- TOKENS -->
+<div class="demo-sec" id="tokens"><h2>01 · Design Tokens</h2>
+<div class="awg-grid cols-4">
+    <div class="swatch" style="--c:var(--awg-brand)"><span>#2563eb</span></div>
+    <div class="swatch" style="--c:var(--awg-ink)"><span>#0f172a</span></div>
+    <div class="swatch" style="--c:var(--awg-ok)"><span>#16a34a</span></div>
+    <div class="swatch" style="--c:var(--awg-warn)"><span>#d97706</span></div>
+    <div class="swatch" style="--c:var(--awg-bad)"><span>#dc2626</span></div>
+    <div class="swatch" style="--c:var(--awg-info)"><span>#0891b2</span></div>
+    <div class="swatch" style="--c:var(--awg-line)"><span>line</span></div>
+    <div class="swatch" style="--c:var(--awg-bg)"><span>bg</span></div>
+</div></div>
+
+<!-- TIPOGRAFI -->
+<div class="demo-sec" id="typo"><h2>02 · Tipografi</h2>
+<div class="awg-card"><div class="awg-card-body">
+    <h1 class="awg-h1">Heading 1 — laporan bulan ini naik 18%</h1>
+    <h2 class="awg-h2">Heading 2 — cabang Yogya terbaik</h2>
+    <h3 class="awg-h3">Heading 3 — penjualan</h3>
+    <h4 class="awg-h4">Heading 4 — purchase order</h4>
+    <p>Body: bahan baku <b>gandum 50kg</b> akan <i>habis</i> dalam 3 hari. <a href="#">Buat PO →</a></p>
+    <p class="awg-num" style="font-size:1.8rem">Rp 1.245.000</p>
+    <p><span class="awg-kbd">Ctrl</span> + <span class="awg-kbd">K</span> · <span class="awg-mono awg-small">sku: AWG-2024-001</span> · <span class="awg-ellipsis awg-muted" style="max-width:180px;display:inline-block;vertical-align:middle">teks sangat panjang yang akan terpotong dengan elipsis…</span></p>
+</div></div></div>
+
+<!-- BUTTONS -->
+<div class="demo-sec" id="btn"><h2>03 · Buttons, Badges, Chips, Avatars</h2>
+<div class="awg-card"><div class="awg-card-body">
+<h3 style="margin-top:0">Varian</h3>
+<div class="demo-row">
+    <button class="awg-btn awg-btn-primary"><i class="fa-solid fa-plus"></i> Primary</button>
+    <button class="awg-btn awg-btn-ghost"><i class="fa-regular fa-pen_to_square"></i> Ghost</button>
+    <button class="awg-btn awg-btn-soft">Soft</button>
+    <button class="awg-btn awg-btn-success">Success</button>
+    <button class="awg-btn awg-btn-danger">Danger</button>
+    <button class="awg-btn awg-btn-dark">Dark</button>
+    <button class="awg-btn awg-btn-primary" disabled>Disabled</button>
+</div>
+<h3>Ukuran &amp; state</h3>
+<div class="demo-row">
+    <button class="awg-btn awg-btn-primary awg-btn-sm">Small</button>
+    <button class="awg-btn awg-btn-primary">Default</button>
+    <button class="awg-btn awg-btn-primary awg-btn-lg">Large</button>
+    <button class="awg-btn awg-btn-ghost awg-btn-icon"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+    <button class="awg-btn awg-btn-primary" onclick="Awg.btnLoading(this,true);setTimeout(()=>Awg.btnLoading(this,false),1800)"><i class="fa-solid fa-download"></i> Klik = loading</button>
+</div>
+<div class="demo-row">
+    <div class="awg-btn-group">
+        <button class="awg-btn awg-btn-ghost"><i class="fa-solid fa-bold"></i></button>
+        <button class="awg-btn awg-btn-ghost"><i class="fa-solid fa-italic"></i></button>
+        <button class="awg-btn awg-btn-ghost"><i class="fa-solid fa-underline"></i></button>
+    </div>
+    <button class="awg-btn awg-btn-primary awg-btn-block" style="max-width:220px">Block</button>
+</div>
+<h3>Badges &amp; status</h3>
+<div class="demo-row">
+    <span class="awg-badge">Info</span>
+    <span class="awg-badge ok"><span class="dot"></span>Aktif</span>
+    <span class="awg-badge warn">Pending</span>
+    <span class="awg-badge bad">Ditolak</span>
+    <span class="awg-badge gray">Draft</span>
+    <span class="awg-badge solid">99+</span>
+</div>
+<h3>Chips &amp; avatars</h3>
+<div class="demo-row">
+    <span class="awg-chip">Filter: Manual <span class="x">✕</span></span>
+    <span class="awg-chip active"><i class="fa-solid fa-check"></i> Aktif saja</span>
+    <div class="awg-avatar-group">
+        <span class="awg-avatar sm">WG</span>
+        <span class="awg-avatar sm" style="background:#8b5cf6">AS</span>
+        <span class="awg-avatar sm" style="background:#0ea5e9">BN</span>
+        <span class="awg-avatar sm more">+5</span>
+    </div>
+    <span class="awg-avatar lg square">AW<i class="status"></i></span>
+</div>
+</div></div></div>
+
+<!-- FORMS -->
+<div class="demo-sec" id="form"><h2>04 · Forms</h2>
+<div class="awg-card"><div class="awg-card-head">Form Pendaftaran Lengkap<span class="h-sub">— deklaratif: data-awg-validate + novalidate</span></div>
+<div class="awg-card-body">
+<form data-awg-validate novalidate onsubmit="event.preventDefault(); Awg.toast('Tersimpan (demo) 🎉','ok')">
+    <div class="awg-grid cols-2">
+        <div class="awg-field"><label class="awg-label">Nama <span class="req">*</span></label><input class="awg-input" name="nama" placeholder="Nama lengkap" required data-msg-required="Nama wajib diisi"><div class="awg-error"></div></div>
+        <div class="awg-field"><label class="awg-label">Email <span class="req">*</span></label><input class="awg-input" type="email" name="email" placeholder="nama@email.com" required data-awg-email><div class="awg-error"></div></div>
+        <div class="awg-field"><label class="awg-label">Password <span class="req">*</span></label><input class="awg-input" type="password" name="password" placeholder="min. 8 karakter" required data-awg-pass><div class="awg-error"></div></div>
+        <div class="awg-field"><label class="awg-label">Ulangi Password <span class="req">*</span></label><input class="awg-input" type="password" name="retype" required data-awg-pass-confirm><div class="awg-error"></div></div>
+        <div class="awg-field"><label class="awg-label">Kategori</label><select class="awg-select"><option>Minuman</option><option>Makanan</option><option>Paket</option></select></div>
+        <div class="awg-field"><label class="awg-label">Harga <span class="req">*</span></label>
+            <div class="awg-input-group"><span class="awg-addon">Rp</span><input class="awg-input" data-awg-number data-awg-min="100" placeholder="15000" required><span class="awg-addon">/pcs</span></div><div class="awg-error"></div></div>
+        <div class="awg-field"><label class="awg-label">Jumlah</label>
+            <div class="awg-stepper"><button type="button" data-awg-step="down">−</button><input type="text" value="1" min="0" max="99" readonly><button type="button" data-awg-step="up">+</button></div></div>
+        <div class="awg-field"><label class="awg-label">OTP</label>
+            <div class="awg-otp" data-awg-otp="6"></div></div>
+    </div>
+    <div class="awg-field"><label class="awg-label">Floating label demo</label>
+        <div class="awg-float"><input class="awg-input" placeholder=" "><label>Alamat gudang</label></div></div>
+    <div class="awg-field"><label class="awg-label">Tag produk</label>
+        <div class="awg-tags" data-awg-tags data-awg-max-tags="4"><input placeholder="ketik + Enter…"></div>
+        <div class="awg-help">Enter/koma menambah, Backspace menghapus, max 4.</div></div>
+    <div class="awg-field"><label class="awg-label">Upload</label>
+        <label class="awg-file" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="event.preventDefault();this.classList.remove('dragover');this.nextElementSibling.files=event.dataTransfer.files;this.querySelector('span').textContent=event.dataTransfer.files[0].name">
+            <i class="fa-solid fa-cloud-arrow-up"></i><span>Seret file atau klik — max 2MB</span>
+            <input type="file" accept="image/*">
+        </label>
+        <div class="awg-file-list">
+            <div class="awg-file-item"><i class="fa-regular fa-file-image"></i> foto-lama.jpg <span class="awg-tiny awg-muted">214 KB</span><button type="button" class="x">✕</button></div>
+        </div></div>
+    <div class="awg-field"><label class="awg-label">Prioritas: <span id="rangeVal">3</span></label>
+        <input type="range" class="awg-range" min="1" max="5" value="3" oninput="document.getElementById('rangeVal').textContent=this.value"></div>
+    <div class="demo-row">
+        <label class="awg-switch"><input type="checkbox" checked><span class="track"></span></label><span class="awg-small">Aktif dijual</span>
+        <label class="awg-check"><input type="checkbox"> Barang promo</label>
+        <label class="awg-radio"><input type="radio" name="sx" checked> Biasa</label>
+        <label class="awg-radio"><input type="radio" name="sx"> Spesial</label>
+    </div>
+    <div class="demo-row">
+        <button class="awg-btn awg-btn-primary"><i class="fa-solid fa-check"></i> Simpan</button>
+        <button type="reset" class="awg-btn awg-btn-ghost">Reset</button>
+    </div>
+</form>
+</div></div></div>
+
+<!-- DROPDOWN -->
+<div class="demo-sec" id="drop"><h2>05 · Dropdown Menu</h2>
+<div class="awg-card"><div class="awg-card-body">
+<div class="demo-row" style="gap:1rem">
+    <div class="awg-dropdown">
+        <button class="awg-btn awg-btn-ghost" data-awg-drop="dd1"><i class="fa-solid fa-sliders"></i> Menu biasa <i class="fa-solid fa-caret-down"></i></button>
+        <div class="awg-dropdown-menu" id="dd1">
+            <div class="awg-dropdown-title">Cabang</div>
+            <button class="awg-dropdown-item"><i class="fa-regular fa-eye"></i> Lihat detail</button>
+            <button class="awg-dropdown-item active"><i class="fa-solid fa-check"></i> Edit <span class="right">Ctrl+E</span></button>
+            <button class="awg-dropdown-item" disabled><i class="fa-solid fa-lock"></i> Hapus (belum izin)</button>
+            <div class="awg-dropdown-sep"></div>
+            <div class="awg-dropdown-sub">
+                <button class="awg-dropdown-item"><i class="fa-solid fa-share"></i> Ekspor</button>
+                <div class="awg-dropdown-menu">
+                    <button class="awg-dropdown-item"><i class="fa-regular fa-file-excel"></i> Excel</button>
+                    <button class="awg-dropdown-item"><i class="fa-regular fa-file-pdf"></i> PDF</button>
+                </div>
+            </div>
+            <div class="awg-dropdown-sep"></div>
+            <button class="awg-dropdown-item danger" onclick="Awg.confirm('Hapus item?','Aksi ini contoh dari dropdown.',()=>Awg.toast('Terhapus (demo)','ok'))"><i class="fa-regular fa-trash-can"></i> Hapus</button>
+        </div>
+    </div>
+    <div class="awg-dropdown">
+        <button class="awg-btn awg-btn-primary awg-btn-icon" data-awg-drop="dd2"><i class="fa-solid fa-plus"></i></button>
+        <div class="awg-dropdown-menu left" id="dd2">
+            <button class="awg-dropdown-item"><i class="fa-solid fa-store"></i> Tambah cabang</button>
+            <button class="awg-dropdown-item"><i class="fa-solid fa-user-plus"></i> Tambah akun</button>
+            <button class="awg-dropdown-item"><i class="fa-solid fa-mug-hot"></i> Tambah produk</button>
+        </div>
+    </div>
+    <button class="awg-btn awg-btn-ghost" data-awg-pop="pop1"><i class="fa-regular fa-comment"></i> Popover</button>
+    <div class="awg-pop" id="pop1"><h4>Bantuan ringkas</h4><p>Popover mengambang untuk konteks cepat — klik di luar untuk menutup.</p></div>
+</div>
+</div></div></div>
+
+<!-- SELECT2 -->
+<div class="demo-sec" id="sel2"><h2>06 · Select2 (searchable dropdown)</h2>
+<div class="awg-grid cols-2">
+<div class="awg-card"><div class="awg-card-body">
+<h3 style="margin-top:0">Single + search + clear</h3>
+<div class="awg-field"><label class="awg-label">Pilih Cabang</label>
+    <select data-awg-select='{"placeholder":"Cari cabang…"}'>
+        <option></option>
+        <option value="1">PUSAT Jakarta</option>
+        <option value="2">Cabang Yogyakarta</option>
+        <option value="3">Cabang Solo</option>
+        <option value="4">Cabang Semarang</option>
+        <option value="5">Cabang Magelang</option>
+    </select></div>
+<h3>Dengan option groups + keterangan</h3>
+<div class="awg-field"><label class="awg-label">Bahan Baku</label>
+    <select data-awg-select='{"placeholder":"Cari bahan…"}'>
+        <option></option>
+        <optgroup label="Kering">
+            <option value="gandum" data-awg-note="stok 2">Gandum Cakra 1kg</option>
+            <option value="gula" data-awg-note="stok 40">Gula Pasir 1kg</option>
+        </optgroup>
+        <optgroup label="Basah">
+            <option value="susu" data-awg-note="dingin">Susu UHT 1L</option>
+            <option value="telur" disabled>Telur (kosong)</option>
+        </optgroup>
+    </select></div>
+<h3>Required + invalid state</h3>
+<div class="awg-field"><label class="awg-label">Role <span class="req">*</span></label>
+    <select required data-awg-select='{"placeholder":"Pilih role…","allowClear":false}'>
+        <option></option><option>karyawan-mitra</option><option>owner-mitra</option><option>full-owner</option>
+    </select><div class="awg-error"></div></div>
+</div></div>
+<div class="awg-card"><div class="awg-card-body">
+<h3 style="margin-top:0">Multiple + chips + max</h3>
+<div class="awg-field"><label class="awg-label">Cabang yang diakses (maks 3)</label>
+    <select multiple data-awg-select='{"placeholder":"Pilih…","max":3}'>
+        <option value="1">PUSAT</option><option value="2">Yogya</option><option value="3">Solo</option>
+        <option value="4" selected>Semarang</option><option value="5">Magelang</option>
+    </select>
+    <div class="awg-help">Klik chip ✕ hapus · Backspace hapus terakhir · pilih >3 akan ditolak (shake)</div></div>
+<h3>Tagging (buat nilai baru)</h3>
+<div class="awg-field"><label class="awg-label">Label bebas</label>
+    <select multiple data-awg-select='{"tags":true,"placeholder":"Ketik lalu Enter…"}'>
+        <option value="bestseller">bestseller</option><option value="musiman">musiman</option>
+    </select></div>
+<h3>Remote / async (mock API)</h3>
+<div class="awg-field"><label class="awg-label">Cari user (min 2 huruf)</label>
+    <select id="remoteSel" data-awg-select='{"placeholder":"ketik nama…"}'></select>
+    <div class="awg-help">source() dipanggil dengan debounce 220ms — ganti dengan fetch() ke API-mu.</div></div>
+</div></div>
+</div></div>
+
+<!-- CARDS -->
+<div class="demo-sec" id="card"><h2>07 · Cards, Stats, Tables</h2>
+<div class="awg-grid cols-4" style="margin-bottom:1rem">
+    <div class="awg-card"><div class="awg-stat"><div class="ico"><i class="fa-solid fa-sack-dollar"></i></div><div><div class="num">Rp 4,2jt</div><div class="lbl">Omzet 7 hari</div><div class="trend up">▲ 12%</div></div></div></div>
+    <div class="awg-card"><div class="awg-stat"><div class="ico ok"><i class="fa-solid fa-receipt"></i></div><div><div class="num">312</div><div class="lbl">Transaksi</div><div class="trend up">▲ 8%</div></div></div></div>
+    <div class="awg-card"><div class="awg-stat"><div class="ico warn"><i class="fa-solid fa-triangle-exclamation"></i></div><div><div class="num">8</div><div class="lbl">Stok kritis</div><div class="trend down">▼ butuh PO</div></div></div></div>
+    <div class="awg-card"><div class="awg-stat"><div class="ico bad"><i class="fa-solid fa-people-group"></i></div><div><div class="num">2</div><div class="lbl">Shift belum tutup</div></div></div></div>
+</div>
+<div class="awg-card"><div class="awg-card-head">Transaksi Terbaru<span class="h-sub">— striped, compact, sticky</span>
+    <div class="h-actions"><button class="awg-btn awg-btn-ghost awg-btn-sm"><i class="fa-solid fa-filter"></i> Filter</button><button class="awg-btn awg-btn-soft awg-btn-sm"><i class="fa-solid fa-file-export"></i> Export</button></div></div>
+<div class="awg-table-wrap"><table class="awg-table striped">
+    <thead><tr><th>Cabang</th><th>Kasir</th><th class="t-num">Total</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+        <tr><td><div class="awg-flex"><span class="awg-avatar sm">Y</span><b>Yogya</b></div></td><td>Ani</td><td class="t-num">45.000</td><td><span class="awg-badge ok">Lunas</span></td>
+            <td class="t-end"><div class="awg-dropdown"><button class="awg-btn awg-btn-ghost awg-btn-sm awg-btn-icon" data-awg-drop="ddr1">⋮</button><div class="awg-dropdown-menu left" id="ddr1"><button class="awg-dropdown-item"><i class="fa-regular fa-eye"></i> Detail</button></div></div></td></tr>
+        <tr><td><div class="awg-flex"><span class="awg-avatar sm" style="background:#8b5cf6">S</span><b>Solo</b></div></td><td>Bagas</td><td class="t-num">128.000</td><td><span class="awg-badge ok">Lunas</span></td><td></td></tr>
+        <tr><td><div class="awg-flex"><span class="awg-avatar sm" style="background:#0ea5e9">K</span><b>Klaten</b></div></td><td>Sari</td><td class="t-num">67.000</td><td><span class="awg-badge warn">Refund</span></td><td></td></tr>
+    </tbody>
+    <tfoot><tr><td colspan="2">Total</td><td class="t-num">240.000</td><td colspan="2"></td></tr></tfoot>
+</table></div></div>
+<div class="demo-row" style="margin-top:1rem">
+<div class="awg-card" style="flex:1;min-width:280px"><div class="awg-list">
+    <div class="awg-list-item"><span class="awg-avatar sm">G</span><div class="li-main"><div class="li-title">Gandum 50kg</div><div class="li-sub">stok: 2 · reorder: 10</div></div><span class="awg-badge bad">Kritis</span></div>
+    <div class="awg-list-item"><span class="awg-avatar sm" style="background:#8b5cf6">K</span><div class="li-main"><div class="li-title">Kopi Robusta</div><div class="li-sub">stok: 34 · reorder: 15</div></div><span class="awg-badge ok">Aman</span></div>
+    <div class="awg-list-item"><span class="awg-avatar sm" style="background:#0ea5e9">S</span><div class="li-main"><div class="li-title">Sachet &amp; cup</div><div class="li-sub">stok: 8 · reorder: 5</div></div><span class="awg-badge warn">Cek</span></div>
+</div></div>
+<div class="awg-card" style="flex:1;min-width:280px"><div class="awg-card-head">FAQ</div><div class="awg-card-body" style="padding:.75rem">
+    <div class="awg-acc-item open"><button class="awg-acc-head">Bagaimana cara reset kasir? <i class="fa-solid fa-chevron-right chev"></i></button><div class="awg-acc-body">Tutup shift dengan selisih → isi alasan → owner approve.</div></div>
+    <div class="awg-acc-item"><button class="awg-acc-head">Kapan stok otomatis berkurang? <i class="fa-solid fa-chevron-right chev"></i></button><div class="awg-acc-body">Saat transaksi tersimpan, dikurangi sesuai resep produk.</div></div>
+    <div class="awg-acc-item"><button class="awg-acc-head">Apakah harga bisa beda per cabang? <i class="fa-solid fa-chevron-right chev"></i></button><div class="awg-acc-body">Belum (roadmap v2).</div></div>
+</div></div></div></div>
+
+<!-- FEEDBACK -->
+<div class="demo-sec" id="feed"><h2>08 · Feedback</h2>
+<div class="awg-card"><div class="awg-card-body">
+    <div class="awg-alert"><i class="fa-solid fa-circle-info"></i> Info: perubahan tarif berlaku besok. <button class="x" onclick="this.closest('.awg-alert').remove()">✕</button></div>
+    <div class="awg-alert ok"><i class="fa-solid fa-circle-check"></i> Transaksi berhasil disimpan.</div>
+    <div class="awg-alert warn"><i class="fa-solid fa-triangle-exclamation"></i> Stok gandum tinggal 2 — segera buat PO.</div>
+    <div class="awg-alert bad"><i class="fa-solid fa-circle-xmark"></i> Gagal: koneksi billing server terputus.</div>
+    <h3>Progress + skeleton + tooltip</h3>
+    <div class="awg-progress" style="margin-bottom:.7rem"><span style="width:60%"></span></div>
+    <div class="awg-progress ok striped" style="margin-bottom:1.2rem"><span style="width:100%"></span></div>
+    <div class="awg-skel text" style="width:70%"></div><div class="awg-skel text" style="width:45%"></div>
+    <div class="awg-flex" style="margin-top:1rem;gap:1.5rem">
+        <span class="awg-kbd" data-awg-tip="Tooltip dari atribut data-awg-tip">hover saya</span>
+        <span class="awg-spinner"></span> <span class="awg-spinner lg"></span>
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" onclick="['info','ok','warn','bad'].forEach((t,i)=>setTimeout(()=>Awg.toast('Toast tipe '+t,t),i*300))">Toast beruntun</button>
+    </div>
+</div></div></div>
+
+<!-- NAVIGATION -->
+<div class="demo-sec" id="nav"><h2>09 · Navigation</h2>
+<div class="awg-grid cols-2">
+<div class="awg-card"><div class="awg-card-body awg-tabscope">
+<div class="awg-tabs" data-awg-tabs>
+    <button class="awg-tab active" data-awg-tab="a">Penjualan</button>
+    <button class="awg-tab" data-awg-tab="b">Pembelian</button>
+    <button class="awg-tab" data-awg-tab="c">Laporan</button>
+</div>
+<div data-awg-panel="a" class="awg-tabpane" style="padding:1rem 0">Tab 1 — ringkasan penjualan harian.</div>
+<div data-awg-panel="b" class="awg-tabpane awg-hide" style="padding:1rem 0">Tab 2 — PO &amp; penerimaan barang.</div>
+<div data-awg-panel="c" class="awg-tabpane awg-hide" style="padding:1rem 0">Tab 3 — laba rugi per cabang.</div>
+<div class="awg-pills" style="margin-top:1rem" data-awg-tabs>
+    <button class="awg-pill active" data-awg-tab="h">Harian</button><button class="awg-pill" data-awg-tab="m">Mingguan</button><button class="awg-pill" data-awg-tab="b">Bulanan</button>
+</div>
+<div class="awg-seg" style="margin-top:1rem" data-awg-tabs>
+    <button class="active" data-awg-tab="x">List</button><button data-awg-tab="y">Grid</button>
+</div>
+</div></div>
+<div class="awg-card"><div class="awg-card-body">
+<h3 style="margin-top:0">Steps wizard</h3>
+<div class="awg-steps" style="margin-bottom:1.4rem">
+    <div class="awg-step done"><div class="s-label">Produk</div></div>
+    <div class="awg-step active"><div class="s-label">Resep</div></div>
+    <div class="awg-step"><div class="s-label">Harga</div></div>
+    <div class="awg-step"><div class="s-label">Selesai</div></div>
+</div>
+<h3>Pagination + crumbs</h3>
+<div class="awg-pager" style="margin-bottom:1rem"><button disabled>«</button><button>1</button><button class="active">2</button><button>3</button><span class="gap">…</span><button>14</button><button>»</button></div>
+<div class="awg-crumbs"><a href="#">Beranda</a><span class="sep">/</span><a href="#">Penjualan</a><span class="sep">/</span><b>Detail #128</b></div>
+</div></div>
+</div></div>
+
+<!-- OVERLAYS -->
+<div class="demo-sec" id="over"><h2>10 · Modal, Drawer, Confirm</h2>
+<div class="demo-row">
+    <button class="awg-btn awg-btn-primary" data-awg-modal-open="demoModal"><i class="fa-regular fa-square-plus"></i> Modal form</button>
+    <button class="awg-btn awg-btn-ghost" data-awg-drawer-open="demoDrawer"><i class="fa-solid fa-panels"></i> Buka Drawer</button>
+    <button class="awg-btn awg-btn-danger" onclick="Awg.confirm('Tutup paksa shift?','Selisih kas akan tercatat sebagai kerugian cabang.',()=>Awg.toast('Shift ditutup','ok'))"><i class="fa-solid fa-lock"></i> Confirm</button>
+    <button class="awg-btn awg-btn-success" onclick="Awg.confirm('Setujui PO?','Nilai Rp 1.240.000 ke supplier.',()=>Awg.toast('PO disetujui','ok'),{yes:'Ya, setujui',danger:false})">Confirm aman</button>
+</div></div>
+
+<div class="awg-backdrop" id="demoModal"><div class="awg-modal" role="dialog">
+    <div class="awg-modal-head"><h3>Tambah Cabang</h3><button class="x" data-awg-modal-close="demoModal">✕</button></div>
+    <div class="awg-modal-body">
+        <div class="awg-field"><label class="awg-label">Nama Cabang *</label><input class="awg-input" placeholder="Cabang Magelang"></div>
+        <div class="awg-field"><label class="awg-label">Akun penanggung jawab</label>
+            <select data-awg-select='{"tags":true,"placeholder":"Cari nama…"}'><option></option><option value="ani">Ani</option><option value="sari">Sari</option></select></div>
+        <div class="awg-field"><label class="awg-label">Alamat</label><textarea class="awg-textarea" placeholder="Jl. …"></textarea></div>
+    </div>
+    <div class="awg-modal-foot">
+        <button class="awg-btn awg-btn-ghost" data-awg-modal-close="demoModal">Batal</button>
+        <button class="awg-btn awg-btn-primary" data-awg-modal-close="demoModal" onclick="Awg.toast('Cabang tersimpan 🏁','ok')">Simpan</button>
+    </div>
+</div></div>
+
+<div class="awg-drawer" id="demoDrawer">
+    <div class="awg-drawer-head"><h3 style="margin:0;font-size:.95rem">Detail Transaksi #128</h3><button class="x" data-awg-drawer-close="demoDrawer" style="border:0;background:none;cursor:pointer;font-size:1.1rem">✕</button></div>
+    <div class="awg-drawer-body">
+        <div class="awg-flex between awg-mb-2"><span class="awg-muted">Total</span><span class="awg-num" style="font-size:1.2rem">Rp 128.000</span></div>
+        <div class="awg-divider">ITEM</div>
+        <div class="awg-list">
+            <div class="awg-list-item"><div class="li-main"><div class="li-title">Es Kopi Susu ×2</div><div class="li-sub">45.000</div></div></div>
+            <div class="awg-list-item"><div class="li-main"><div class="li-title">Roti Bakar ×1</div><div class="li-sub">83.000</div></div></div>
+        </div>
+        <div class="awg-divider">RIWAYAT</div>
+        <div class="awg-timeline">
+            <div class="awg-tl-item done"><b class="awg-small">Dibayar</b><div class="awg-tiny awg-muted">10.02 · Ani</div></div>
+            <div class="awg-tl-item done"><b class="awg-small">Resep dipotong ke stok</b><div class="awg-tiny awg-muted">10.02</div></div>
+        </div>
+    </div>
+    <div class="awg-drawer-foot"><button class="awg-btn awg-btn-ghost" data-awg-drawer-close="demoDrawer">Tutup</button><button class="awg-btn awg-btn-primary">Cetak struk</button></div>
+</div>
+<div class="awg-overlay" style="z-index:2065" onclick="document.getElementById('demoDrawer').classList.remove('open');this.classList.remove('show')"></div>
+
+<div class="awg-divider">AWG-UIKIT-RACING · © AWGNET-RACING & AGENT AI TEAM · MIT</div>
+</div></div></div>
+
+<script src="js/awg-core.js"></script>
+<script src="js/awg-select2.js"></script>
+<script>
+// OTP input auto-advance
+document.querySelectorAll('[data-awg-otp]').forEach(box => {
+    const n = +box.dataset.awgOtp;
+    for (let i = 0; i < n; i++) box.insertAdjacentHTML('beforeend', '<input inputmode="numeric" maxlength="1">');
+    box.addEventListener('input', e => {
+        const ins = [...box.querySelectorAll('input')], idx = ins.indexOf(e.target);
+        if (e.target.value && idx < ins.length - 1) ins[idx + 1].focus();
+    });
+    box.addEventListener('keydown', e => {
+        if (e.key === 'Backspace' && !e.target.value) {
+            const ins = [...box.querySelectorAll('input')], idx = ins.indexOf(e.target);
+            if (idx > 0) ins[idx - 1].focus();
+        }
+    });
+});
+// drawer sync overlay
+const dBtn = document.querySelector('[data-awg-drawer-open]');
+dBtn && dBtn.addEventListener('click', () => document.querySelector('#demoDrawer + .awg-overlay').classList.add('show'));
+document.querySelector('[data-awg-drawer-close]') && document.querySelectorAll('.awg-drawer .x, .awg-drawer-foot .awg-btn-ghost').forEach(b =>
+    b.addEventListener('click', () => document.querySelector('#demoDrawer + .awg-overlay').classList.remove('show')));
+// remote select mock
+new AwgSelect(document.getElementById('remoteSel'), {
+    placeholder: 'ketik nama…', minChars: 2,
+    source: (q, cb) => setTimeout(() => {
+        const users = ['Andi Wijaya','Budi Santoso','Citra Dewi','Damar Prakoso','Eka Putri','Fajar Ramadhan','Gita Nourma','Hendra Gus'];
+        cb(users.filter(u => u.toLowerCase().includes(q.toLowerCase())).map(u => ({ value: u, text: u, extra: '@' + u.split(' ')[0].toLowerCase() })));
+    }, 400)
+});
+// contoh nilai select2 saat submit
+document.querySelector('form[data-awg-validate]').addEventListener('submit', () => console.log('form values:', Awg.form.values(document.querySelector('form[data-awg-validate]'))));
+</script>
+</body>
+</html>
