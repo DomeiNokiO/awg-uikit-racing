@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NMS / ISP Dashboard · AWG-UIKIT-RACING</title>
+<link rel="stylesheet" href="../libs/leaflet/leaflet.css">
+<script src="../libs/leaflet/leaflet.js"></script>
+<link rel="stylesheet" href="../css/awg-uikit.css">
+<link rel="icon" href="../assets/icons.svg#ic-flag">
+<script>try{const t=localStorage.getItem('awg-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="awg-app">
+<aside class="awg-sidebar">
+    <div class="awg-brand-box">
+        <div class="logo"><svg class="awg-ic"><use href="../assets/icons.svg#ic-flag"></use></svg></div>
+        <div><b>AWG-NOC</b><small>ISP Monitoring</small></div>
+    </div>
+    <nav>
+        <div class="awg-nav-label">NMS</div>
+        <a class="awg-nav-link active" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-gauge"></use></svg> Dashboard</a>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-network"></use></svg> Topologi <span class="count">live</span></a>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-server"></use></svg> Node &amp; Device</a>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-wifi"></use></svg> OLT / ONT</a>
+        <div class="awg-nav-label">Operasi</div>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-alert-triangle"></use></svg> Alert <span class="count">3</span></a>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-zap"></use></svg> Work Order</a>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-map"></use></svg> Peta Node</a>
+    </nav>
+    <div class="awg-side-foot">
+        <div class="awg-avatar">AK<i class="status"></i></div>
+        <div class="awg-flex-1"><b>AWGNET-RACING</b><small>& AGENT AI TEAM</small></div>
+        <button class="awg-nav-link" style="width:auto" data-awg-theme-toggle title="Tema"><svg class="awg-ic"><use href="../assets/icons.svg#ic-moon"></use></svg></button>
+    </div>
+</aside>
+<div class="awg-overlay"></div>
+
+<div class="awg-main">
+<header class="awg-topbar">
+    <button class="awg-menu-btn" data-awg-menu><svg class="awg-ic lg"><use href="../assets/icons.svg#ic-menu"></use></svg></button>
+    <div class="awg-crumbs"><a href="#">NMS</a><span class="sep">/</span><b>Dashboard</b></div>
+    <div class="awg-flex" style="margin-left:auto;gap:.5rem">
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-palette><svg class="awg-ic"><use href="../assets/icons.svg#ic-search"></use></svg> <span class="awg-hide-xs">Cari…</span></button>
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-theme-toggle><svg class="awg-ic"><use href="../assets/icons.svg#ic-contrast"></use></svg> <span class="awg-hide-xs">Tema</span></button>
+        <button class="awg-btn awg-btn-primary awg-btn-sm" onclick="Awg.toast('Polling SNMP berjalan','ok')"><svg class="awg-ic"><use href="../assets/icons.svg#ic-refresh"></use></svg> <span class="awg-hide-xs">Refresh</span></button>
+    </div>
+</header>
+
+<div class="awg-content">
+<div class="awg-page-head">
+    <div><h1>NMS / ISP Dashboard</h1><p>Monitoring jaringan real-time · Author: <b>AWGNET-RACING &amp; AGENT AI TEAM</b></p></div>
+    <div class="awg-flex" style="gap:.4rem">
+        <span class="awg-badge ok"><span class="dot"></span>Online 99.94%</span>
+        <span class="awg-badge">v1.2.0</span>
+        <span class="awg-badge gray">20 node</span>
+    </div>
+</div>
+
+<div class="awg-grid cols-4" style="margin-bottom:1rem">
+    <div class="awg-card"><div class="awg-stat"><div class="ico"><svg class="awg-ic"><use href="../assets/icons.svg#ic-activity"></use></svg></div><div><div class="num">1.24<span class="awg-small"> Gbps</span></div><div class="lbl">Trafik agregat</div><div class="trend up">▲ 8%</div></div></div></div>
+    <div class="awg-card"><div class="awg-stat"><div class="ico ok"><svg class="awg-ic"><use href="../assets/icons.svg#ic-wifi"></use></svg></div><div><div class="num">1.482</div><div class="lbl">ONT online</div><div class="trend up">▲ 12</div></div></div></div>
+    <div class="awg-card"><div class="awg-stat"><div class="ico warn"><svg class="awg-ic"><use href="../assets/icons.svg#ic-alert-triangle"></use></svg></div><div><div class="num">3</div><div class="lbl">Alert aktif</div><div class="trend down">▼ 1 sejak 1h</div></div></div></div>
+    <div class="awg-card"><div class="awg-stat"><div class="ico bad"><svg class="awg-ic"><use href="../assets/icons.svg#ic-power"></use></svg></div><div><div class="num">2</div><div class="lbl">Node down</div><div class="trend down">p2p-09 · brg-05</div></div></div></div>
+</div>
+
+<div class="awg-grid cols-3" style="margin-bottom:1rem">
+    <div class="awg-card cols-2"><div class="awg-card-head"><svg class="awg-ic"><use href="../assets/icons.svg#ic-activity"></use></svg> Trafik Uplink 24 jam</div>
+        <div class="awg-card-body"><div id="traffic24" data-awg-chart="line" data-awg-height="240"
+            data-labels='["00","02","04","06","08","10","12","14","16","18","20","22"]'
+            data-series='[[620,580,540,610,780,950,1100,1180,1240,1190,1080,980],[210,195,180,240,340,410,480,510,520,490,430,390]]'
+            data-names='["Rx (Mbps)","Tx (Mbps)"]'
+            data-colors='["#2563eb","#06b6d4"]'></div></div></div>
+    <div class="awg-card"><div class="awg-card-head"><svg class="awg-ic"><use href="../assets/icons.svg#ic-wifi"></use></svg> Status ONT</div>
+        <div class="awg-card-body"><div data-awg-chart="donut" data-awg-height="200"
+            data-series='[[1482,38,24]]' data-names='["Online","Degraded","Offline"]'
+            data-colors='["var(--awg-ok)","var(--awg-warn)","var(--awg-bad)"]'
+            data-awg-total="1544" data-awg-unit="total ONT"></div></div></div>
+</div>
+
+<div class="awg-grid cols-4" style="margin-bottom:1rem">
+    <div class="awg-card"><div class="awg-card-body"><div class="awg-flex between awg-mb-1"><span class="awg-small awg-strong">Latency NOC</span><span class="awg-badge ok">16 ms</span></div><div data-awg-chart="line" data-awg-height="60" data-awg-area="false" data-names='["ms"]' data-series='[[18,19,17,18,20,16,16,17,19,16,15,16]]'></div></div></div>
+    <div class="awg-card"><div class="awg-card-body"><div class="awg-flex between awg-mb-1"><span class="awg-small awg-strong">Packet Loss</span><span class="awg-badge ok">0.12%</span></div><div data-awg-chart="line" data-awg-height="60" data-awg-area="false" data-names='["%"]' data-series='[[0.1,0.2,0.15,0.3,0.12,0.08,0.2,0.1,0.15,0.1,0.12,0.12]]'></div></div></div>
+    <div class="awg-card"><div class="awg-card-body"><div class="awg-flex between awg-mb-1"><span class="awg-small awg-strong">Sesi PPPoE</span><span class="awg-badge">1.247</span></div><div data-awg-chart="line" data-awg-height="60" data-awg-area="false" data-names='["sesi"]' data-series='[[1180,1200,1195,1220,1240,1230,1245,1243,1248,1247,1247,1247]]'></div></div></div>
+    <div class="awg-card"><div class="awg-card-body"><div class="awg-flex between awg-mb-1"><span class="awg-small awg-strong">CPU Core Router</span><span class="awg-badge warn">71%</span></div><div data-awg-chart="line" data-awg-height="60" data-awg-area="false" data-names='["%"]' data-series='[[42,45,51,58,64,69,73,71,74,70,68,71]]'></div></div></div>
+</div>
+
+<div class="awg-grid cols-2-1" style="margin-bottom:1rem">
+    <div class="awg-card"><div class="awg-card-head">Alert Aktif<span class="h-sub">— klik baris untuk detail</span>
+        <div class="h-actions"><button class="awg-btn awg-btn-ghost awg-btn-sm"><svg class="awg-ic sm"><use href="../assets/icons.svg#ic-filter"></use></svg> Filter</button></div></div>
+        <div class="awg-table-wrap"><table class="awg-table striped">
+            <thead><tr><th>Waktu</th><th>Node</th><th>Interface</th><th>Metric</th><th>Status</th></tr></thead>
+            <tbody>
+                <tr><td class="awg-tiny">09:14</td><td class="awg-mono awg-tiny">core-rtr-01</td><td>ether1</td><td>Util 76% &gt; 75</td><td><span class="awg-badge warn">High</span></td></tr>
+                <tr><td class="awg-tiny">09:08</td><td class="awg-mono awg-tiny">p2p-tower-09</td><td>wlan1</td><td>Unreachable</td><td><span class="awg-badge bad">Down</span></td></tr>
+                <tr><td class="awg-tiny">08:42</td><td class="awg-mono awg-tiny">brg-solo-05</td><td>ether3</td><td>Packet loss 4%</td><td><span class="awg-badge warn">Degraded</span></td></tr>
+                <tr><td class="awg-tiny">08:11</td><td class="awg-mono awg-tiny">olt-c320-02</td><td>pon 0/1:3</td><td>RSSI -28 dBm</td><td><span class="awg-badge warn">Weak</span></td></tr>
+            </tbody>
+        </table></div></div>
+    <div class="awg-card"><div class="awg-card-head"><svg class="awg-ic"><use href="../assets/icons.svg#ic-map"></use></svg> Peta Node</div>
+        <div class="awg-card-body"><div id="nodeMap" data-awg-map='{"lat":-7.5655,"lng":110.8317,"zoom":13,"markers":[{"lat":-7.5655,"lng":110.8317,"title":"NOC Surakarta","popup":"NOC Surakarta CCR core + OLT C320"},{"lat":-7.5500,"lng":110.8200,"title":"ODC-SLG-01","popup":"ODC-SLG-01 OLT port 4 aktif · 48 ONT"},{"lat":-7.5800,"lng":110.8600,"title":"Tower P2P-09","popup":"Tower P2P-09 Ubiquiti Rocket · DOWN"},{"lat":-7.5400,"lng":110.8000,"title":"ODC-SLG-05","popup":"ODC-SLG-05 38 ONT online"}]}' style="height:280px"></div></div></div>
+</div>
+
+<div class="awg-card"><div class="awg-card-head">Daftar Node NMS<span class="h-sub">— 5/halaman · search · sort</span>
+    <div class="h-actions"><button class="awg-btn awg-btn-soft awg-btn-sm"><svg class="awg-ic sm"><use href="../assets/icons.svg#ic-download"></use></svg> Export CSV</button></div></div>
+    <div class="awg-card-body">
+        <div class="awg-table-wrap"><table class="awg-table" id="nodesTable" data-awg-table='{"page":5,"select":true,"per":[5,10,25]}'>
+            <thead><tr><th>Node</th><th>Tipe</th><th>Lokasi</th><th class="t-num">Util</th><th>Status</th></tr></thead>
+            <tbody>
+                <tr data-awg-id="n1"><td><b>core-rtr-01</b></td><td>Mikrotik CCR1036</td><td>NOC Pusat</td><td class="t-num">76%</td><td><span class="awg-badge warn">High</span></td></tr>
+                <tr data-awg-id="n2"><td><b>bras-pppoe-01</b></td><td>Mikrotik CCR1072</td><td>NOC Pusat</td><td class="t-num">58%</td><td><span class="awg-badge ok">OK</span></td></tr>
+                <tr data-awg-id="n3"><td><b>olt-c320-01</b></td><td>ZTE C320</td><td>Solo</td><td class="t-num">62%</td><td><span class="awg-badge ok">OK</span></td></tr>
+                <tr data-awg-id="n4"><td><b>olt-c300-02</b></td><td>ZTE C300</td><td>Yogya</td><td class="t-num">44%</td><td><span class="awg-badge ok">OK</span></td></tr>
+                <tr data-awg-id="n5"><td><b>p2p-tower-09</b></td><td>Ubiquiti Rocket AC</td><td>Boyolali</td><td class="t-num">0%</td><td><span class="awg-badge bad">Down</span></td></tr>
+                <tr data-awg-id="n6"><td><b>p2p-tower-11</b></td><td>Mikrotik RB912</td><td>Klaten</td><td class="t-num">31%</td><td><span class="awg-badge ok">OK</span></td></tr>
+                <tr data-awg-id="n7"><td><b>sw-agg-yogya</b></td><td>Cisco 2960-X</td><td>Yogya</td><td class="t-num">22%</td><td><span class="awg-badge ok">OK</span></td></tr>
+                <tr data-awg-id="n8"><td><b>brg-solo-05</b></td><td>Mikrotik hEX</td><td>Solo</td><td class="t-num">18%</td><td><span class="awg-badge warn">Pkt loss</span></td></tr>
+                <tr data-awg-id="n9"><td><b>radius-01</b></td><td>Ubuntu / FreeRADIUS</td><td>NOC Pusat</td><td class="t-num">48%</td><td><span class="awg-badge ok">OK</span></td></tr>
+                <tr data-awg-id="n10"><td><b>mon-zbx-01</b></td><td>Zabbix VM</td><td>NOC Pusat</td><td class="t-num">81%</td><td><span class="awg-badge warn">High</span></td></tr>
+            </tbody>
+        </table></div>
+    </div></div>
+
+<div class="awg-divider">AWG-UIKIT-RACING · © AWGNET-RACING &amp; AGENT AI TEAM · MIT · 100% lokal tanpa CDN</div>
+</div></div></div>
+
+<script src="../js/awg-core.js"></script>
+<script src="../js/awg-select2.js"></script>
+<script src="../js/awg-charts.js"></script>
+<script src="../js/awg-datatable.js"></script>
+<script src="../js/awg-datepicker.js"></script>
+<script src="../js/awg-widgets.js"></script>
+<script src="../js/awg-maps.js"></script>
+<script src="assets/awg-shared.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+    const traffic=document.getElementById('traffic24')._awgChart;
+    let rx=[620,580,540,610,780,950,1100,1180,1240,1190,1080,980],
+        tx=[210,195,180,240,340,410,480,510,520,490,430,390];
+    const rw=(v,step,min,max)=>Math.max(min,Math.min(max,v+(Math.random()-.5)*step));
+    setInterval(()=>{
+        rx=[...rx.slice(1),Math.round(rw(rx[rx.length-1],90,500,1400))];
+        tx=[...tx.slice(1),Math.round(rw(tx[tx.length-1],50,150,650))];
+        traffic.update([rx,tx]);
+    },3000);
+    const dt=document.getElementById('nodesTable')._awgTable;
+    document.getElementById('nodesTable').addEventListener('awg:bulk',e=>{
+        Awg.confirm('Aksi massal',`${e.detail.ids.length} node dipilih`,()=>{e.detail.table.reload('');Awg.toast('Perintah massal terkirim (demo)','ok');},{danger:false,yes:'Kirim'});
+    });
+});
+</script>
+</body>
+</html>

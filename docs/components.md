@@ -130,3 +130,68 @@ Buka/tutup otomatis (delegated di core JS).
 <button class="no-print">Tidak ikut tercetak</button>
 ```
 `@media print` menyembunyikan shell, melepas shadow/padding — tinggal `window.print()`.
+
+## Breadcrumb
+```html
+<nav aria-label="Breadcrumb"><ol class="awg-breadcrumb">
+  <li><a href="#">NMS</a><span class="sep">/</span></li>
+  <li><a href="#dashboard">Dashboard</a><span class="sep">/</span></li>
+  <li class="active" aria-current="page">core-rtr-01</li>
+</ol></nav>
+```
+
+## Pagination
+```html
+<div class="awg-pagination" id="pager"></div>
+<script>new AwgPagination('#pager', { total: 142, per: 10, current: 1, onChange: p => console.log(p) });</script>
+```
+Menghasilkan tombol prev/next, ellipsis, active page, dan info hasil.
+
+## Tabs variants
+```html
+<!-- default underline -->
+<div class="awg-tabs" data-awg-tabs>
+  <button class="awg-tab active" data-awg-tab="a">Trafik</button>
+  <button class="awg-tab" data-awg-tab="b">Alert</button>
+</div>
+<div data-awg-panel="a">A</div>
+<div data-awg-panel="b" class="awg-hide">B</div>
+
+<!-- pill -->
+<div class="awg-tabs pill" data-awg-tabs>...</div>
+
+<!-- vertical underline -->
+<div class="awg-tabscope vertical">
+  <div class="awg-tabs vertical" data-awg-tabs>...</div>
+  <div class="awg-tabpanels">...</div>
+</div>
+```
+
+## Upload grid
+```html
+<div class="awg-upload-grid" data-awg-upload='{"accept":"image/*,.pdf","maxFiles":8}'></div>
+```
+Atribut `data-awg-upload` menerima JSON: `multiple`, `maxSize`, `maxFiles`, `accept`, `url`, `autoUpload`.
+API: `new AwgUpload(el, { onAdd, onProgress, onDone, onRemove })`.
+
+## Copy to clipboard
+```html
+<div class="awg-code"><code id="cmd">ssh ...</code>
+  <button class="awg-copy" data-awg-copy="#cmd">Salin</button>
+</div>
+<!-- atau -->
+<button class="awg-copy" data-value="OTO-C320-01-SN" data-awg-copy="">Salin</button>
+```
+Global fallback: `Awg.copy('teks').then(() => ...)`.
+
+## Inline-edit table cells
+```html
+<table class="awg-table" data-awg-editable>
+  <tr>
+    <td><span class="awg-editable" data-awg-name="cust" data-awg-editable="text">Budi</span></td>
+    <td><span class="awg-editable" data-awg-name="status" data-awg-editable="select" data-awg-options="Aktif,Suspended,Nonaktif">Aktif</span></td>
+  </tr>
+</table>
+```
+Event: `awg:edit` dengan `{ el, name, oldValue, newValue }`. `preventDefault()` akan membatalkan perubahan teks.
+

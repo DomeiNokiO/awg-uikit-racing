@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verifikasi 2FA · AWG-UIKIT-RACING</title>
+<link rel="stylesheet" href="../../css/awg-uikit.css">
+<link rel="icon" href="../../assets/icons.svg#ic-flag">
+<script>try{const t=localStorage.getItem('awg-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<style>
+.awg-auth-wall{min-height:100vh;display:grid;place-items:center;padding:1rem;background:linear-gradient(135deg,var(--awg-brand-grad),var(--awg-ink));}
+.awg-auth-card{width:100%;max-width:420px;background:var(--awg-surface);border:1px solid var(--awg-line);border-radius:var(--awg-radius-lg);box-shadow:var(--awg-shadow-lg);overflow:hidden;}
+.awg-auth-head{padding:1.75rem 1.5rem .5rem;text-align:center;}
+.awg-auth-head .logo{width:56px;height:56px;border-radius:14px;background:var(--awg-brand-grad);display:grid;place-items:center;color:#fff;margin:0 auto .75rem;}
+.awg-auth-head h1{font-size:1.2rem;margin:0;}
+.awg-auth-head p{font-size:.82rem;color:var(--awg-ink-3);margin:.25rem 0 0;}
+.awg-auth-body{padding:1.25rem 1.5rem 1.5rem;}
+.awg-auth-foot{padding:1rem 1.5rem 1.25rem;border-top:1px solid var(--awg-line);text-align:center;background:var(--awg-surface-2);}
+.awg-countdown{font-variant-numeric:tabular-nums;color:var(--awg-ink-3);}
+</style>
+</head>
+<body>
+<div class="awg-auth-wall">
+<div class="awg-auth-card">
+<div class="awg-auth-head">
+    <div class="logo"><svg class="awg-ic" style="width:1.6rem;height:1.6rem"><use href="../../assets/icons.svg#ic-flag"></use></svg></div>
+    <h1>Verifikasi 2FA</h1>
+    <p>Masukkan 6 digit kode dari aplikasi autentikator Anda.</p>
+</div>
+<div class="awg-auth-body">
+    <form data-awg-validate novalidate onsubmit="event.preventDefault();Awg.toast('2FA terverifikasi (demo)','ok');setTimeout(()=>location.href='../nms-dashboard.html',700)">
+        <div class="awg-field">
+            <label class="awg-label">Kode OTP <span class="req">*</span></label>
+            <div class="awg-otp" data-awg-otp="6"></div>
+            <input type="hidden" name="otp" id="otpVal" required>
+            <div class="awg-error"></div>
+        </div>
+        <div class="awg-flex between awg-mb-2" style="flex-wrap:wrap;gap:.5rem">
+            <span class="awg-small awg-muted">Tidak menerima? <button type="button" class="awg-btn awg-btn-ghost awg-btn-sm" id="resendBtn" onclick="startResend()">Kirim ulang</button></span>
+            <span class="awg-small awg-countdown" id="countdown">59s</span>
+        </div>
+        <button class="awg-btn awg-btn-primary awg-btn-lg awg-btn-block" type="submit"><svg class="awg-ic"><use href="../../assets/icons.svg#ic-check-circle"></use></svg> Verifikasi</button>
+    </form>
+</div>
+<div class="awg-auth-foot">
+    Bukan Anda? <a href="login.html">Gunakan akun lain</a>
+</div>
+</div>
+</div>
+<script src="../../js/awg-core.js"></script>
+<script>
+const box=document.querySelector('[data-awg-otp]'), hidden=document.getElementById('otpVal');
+const inputs=[...box.querySelectorAll('input')];
+inputs.forEach((inp,i)=>{
+    inp.addEventListener('input',e=>{
+        inp.value=inp.value.replace(/\D/g,'').slice(0,1);
+        hidden.value=inputs.map(x=>x.value).join('');
+        if(inp.value&&i<inputs.length-1)inputs[i+1].focus();
+    });
+    inp.addEventListener('keydown',e=>{ if(e.key==='Backspace'&&!inp.value&&i>0)inputs[i-1].focus(); });
+    inp.addEventListener('paste',e=>{
+        e.preventDefault();
+        const code=(e.clipboardData.getData('text')||'').replace(/\D/g,'').slice(0,6);
+        code.split('').forEach((c,j)=>{ if(inputs[j]){ inputs[j].value=c; } });
+        hidden.value=inputs.map(x=>x.value).join('');
+        const next=inputs[Math.min(code.length,inputs.length-1)]; if(next)next.focus();
+    });
+});
+function startResend(){
+    const btn=document.getElementById('resendBtn'), cd=document.getElementById('countdown');
+    btn.disabled=true; Awg.toast('Kode baru dikirim (demo)','info');
+    let s=59; cd.textContent=s+'s';
+    const t=setInterval(()=>{s--; if(s<=0){clearInterval(t);cd.textContent='';btn.disabled=false;}else cd.textContent=s+'s';},1000);
+}
+</script>
+</body>
+</html>

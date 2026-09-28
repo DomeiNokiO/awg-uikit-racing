@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keamanan · AWG-UIKIT-RACING</title>
+<link rel="stylesheet" href="../css/awg-uikit.css">
+<link rel="icon" href="../assets/icons.svg#ic-flag">
+<script>try{const t=localStorage.getItem('awg-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="awg-app">
+<aside class="awg-sidebar">
+    <div class="awg-brand-box"><div class="logo"><svg class="awg-ic"><use href="../assets/icons.svg#ic-flag"></use></svg></div><div><b>AWG-APP</b><small>Security</small></div></div>
+    <nav>
+        <a class="awg-nav-link" href="profile.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-user"></use></svg> Profil</a>
+        <a class="awg-nav-link" href="settings.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-sliders"></use></svg> Pengaturan</a>
+        <a class="awg-nav-link" href="billing.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-receipt"></use></svg> Tagihan</a>
+        <a class="awg-nav-link active" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-shield"></use></svg> Keamanan</a>
+    </nav>
+    <div class="awg-side-foot"><div class="awg-avatar">RA<i class="status"></i></div><div class="awg-flex-1"><b>AWGNET-RACING</b><small>& AGENT AI TEAM</small></div><button class="awg-nav-link" style="width:auto" data-awg-theme-toggle><svg class="awg-ic"><use href="../assets/icons.svg#ic-moon"></use></svg></button></div>
+</aside>
+<div class="awg-overlay"></div>
+
+<div class="awg-main">
+<header class="awg-topbar">
+    <button class="awg-menu-btn" data-awg-menu><svg class="awg-ic lg"><use href="../assets/icons.svg#ic-menu"></use></svg></button>
+    <div class="awg-crumbs"><a href="#">Akun</a><span class="sep">/</span><b>Keamanan</b></div>
+    <div class="awg-flex" style="margin-left:auto"><button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-theme-toggle><svg class="awg-ic"><use href="../assets/icons.svg#ic-contrast"></use></svg> <span class="awg-hide-xs">Tema</span></button></div>
+</header>
+
+<div class="awg-content">
+<div class="awg-page-head"><div><h1>Keamanan</h1><p>Password, sesi &amp; autentikasi dua faktor · Author: <b>AWGNET-RACING &amp; AGENT AI TEAM</b></p></div></div>
+
+<div class="awg-card awg-mb-2"><div class="awg-card-head">Ubah Password</div>
+<div class="awg-card-body">
+    <form data-awg-validate novalidate onsubmit="event.preventDefault();Awg.toast('Password diubah','ok')">
+        <div class="awg-grid cols-2">
+            <div class="awg-field"><label class="awg-label">Password lama</label><input class="awg-input" type="password" required></div>
+            <div class="awg-field"><label class="awg-label">Password baru</label><input class="awg-input" type="password" required data-awg-pass></div>
+        </div>
+        <div class="awg-flex end"><button type="submit" class="awg-btn awg-btn-primary">Ubah Password</button></div>
+    </form>
+</div></div>
+
+<div class="awg-card awg-mb-2"><div class="awg-card-head">Autentikasi Dua Faktor</div>
+<div class="awg-card-body">
+    <div class="awg-flex between" style="margin-bottom:.75rem">
+        <div><b class="awg-small">2FA via TOTP</b><div class="awg-tiny awg-muted">Aplikasi autentikator seperti Google Authenticator</div></div>
+        <label class="awg-switch"><input type="checkbox" checked><span class="track"></span></label>
+    </div>
+    <button class="awg-btn awg-btn-ghost awg-btn-sm"><svg class="awg-ic sm"><use href="../assets/icons.svg#ic-refresh"></use></svg> Regenerasi secret</button>
+</div></div>
+
+<div class="awg-card"><div class="awg-card-head">Sesi Aktif</div>
+<div class="awg-list">
+    <div class="awg-list-item"><svg class="awg-ic"><use href="../assets/icons.svg#ic-monitor"></use></svg><div class="li-main"><div class="li-title">Chrome di Linux · 192.168.1.10</div><div class="li-sub">Aktif sekarang</div></div><span class="awg-badge ok">Ini</span></div>
+    <div class="awg-list-item"><svg class="awg-ic"><use href="../assets/icons.svg#ic-smartphone"></use></svg><div class="li-main"><div class="li-title">Safari di iOS · 114.124.22.11</div><div class="li-sub">2 hari lalu · Jakarta</div></div><button class="awg-btn awg-btn-danger awg-btn-sm" onclick="this.closest('.awg-list-item').remove();Awg.toast('Sesi dihentikan','ok')">Cabut</button></div>
+</div></div>
+
+<div class="awg-divider">AWG-UIKIT-RACING · © AWGNET-RACING &amp; AGENT AI TEAM · MIT · 100% lokal tanpa CDN</div>
+</div></div></div>
+<script src="../js/awg-core.js"></script><script src="../js/awg-widgets.js"></script><script src="assets/awg-shared.js"></script>
+</body>
+</html>

@@ -45,7 +45,11 @@
         <a class="awg-nav-link" href="#lb"><svg class="awg-ic"><use href="assets/icons.svg#ic-image"></use></svg> Lightbox <span class="count">new</span></a>
         <a class="awg-nav-link" href="#maps"><svg class="awg-ic"><use href="assets/icons.svg#ic-map"></use></svg> Maps <span class="count">new</span></a>
         <a class="awg-nav-link" href="#feed"><svg class="awg-ic"><use href="assets/icons.svg#ic-bell"></use></svg> Feedback</a>
+        <a class="awg-nav-link" href="#timeline"><svg class="awg-ic"><use href="assets/icons.svg#ic-clock"></use></svg> Timeline</a>
+        <a class="awg-nav-link" href="#tour"><svg class="awg-ic"><use href="assets/icons.svg#ic-footprints"></use></svg> Tour</a>
         <a class="awg-nav-link" href="#nav"><svg class="awg-ic"><use href="assets/icons.svg#ic-compass"></use></svg> Navigation</a>
+        <a class="awg-nav-link" href="#copy"><svg class="awg-ic"><use href="assets/icons.svg#ic-copy"></use></svg> Copy & Upload</a>
+        <a class="awg-nav-link" href="#edit"><svg class="awg-ic"><use href="assets/icons.svg#ic-pen"></use></svg> Inline Edit</a>
         <a class="awg-nav-link" href="#over"><svg class="awg-ic"><use href="assets/icons.svg#ic-square"></use></svg> Overlays</a>
     </nav>
     <div class="awg-side-foot">
@@ -544,25 +548,83 @@
 </div>
 
 <!-- FEEDBACK -->
-<div class="demo-sec" id="feed"><h2>09 · Feedback</h2>
+<div class="demo-sec" id="feed"><h2>09 · Feedback — Toast Stack, Skeleton &amp; Progress</h2>
 <div class="awg-card"><div class="awg-card-body">
     <div class="awg-alert"><svg class="awg-ic"><use href="assets/icons.svg#ic-info"></use></svg> Pemeliharaan GRE tunnel besok 02.00. <button class="x" onclick="this.closest('.awg-alert').remove()">✕</button></div>
     <div class="awg-alert ok"><svg class="awg-ic"><use href="assets/icons.svg#ic-check-circle"></use></svg> Config tersimpan &amp; di-apply.</div>
     <div class="awg-alert warn"><svg class="awg-ic"><use href="assets/icons.svg#ic-alert-triangle"></use></svg> Utilisasi ether1 76% — mendekati threshold.</div>
     <div class="awg-alert bad"><svg class="awg-ic"><use href="assets/icons.svg#ic-x-circle"></use></svg> Timeout SNMP ke p2p-tower-09.</div>
-    <h3>Progress + skeleton + tooltip</h3>
+    <h3>Progress</h3>
     <div class="awg-progress" style="margin-bottom:.7rem"><span style="width:60%"></span></div>
     <div class="awg-progress ok striped" style="margin-bottom:1.2rem"><span style="width:100%"></span></div>
-    <div class="awg-skel text" style="width:70%"></div><div class="awg-skel text" style="width:45%"></div>
+    <h3>Skeleton loader</h3>
+    <div class="awg-grid cols-3" style="margin-bottom:1rem">
+        <div class="awg-card" id="skelCard">
+            <div class="awg-stat"><div class="ico"><svg class="awg-ic"><use href="assets/icons.svg#ic-activity"></use></svg></div><div><div class="num">812<span class="awg-small"> Mbps</span></div><div class="lbl">Trafik agregat</div></div></div>
+        </div>
+        <div class="awg-card" id="skelList">
+            <div class="awg-list-item"><svg class="awg-ic"><use href="assets/icons.svg#ic-link"></use></svg><div class="li-main"><div class="li-title">ether1 ↔ IIX</div><div class="li-sub">76% util</div></div><span class="awg-badge ok">Up</span></div>
+        </div>
+        <div class="awg-card" id="skelText" style="padding:1rem">
+            <h4 class="awg-h4">Ringkasan node</h4><p class="awg-small awg-muted">Data aktual ini akan diganti skeleton saat loading.</p>
+        </div>
+    </div>
+    <div class="demo-row">
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" onclick="AwgSkeleton.show('#skelCard','card')">Skeleton card</button>
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" onclick="AwgSkeleton.show('#skelList','text')">Skeleton list</button>
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" onclick="AwgSkeleton.show('#skelText','text')">Skeleton text</button>
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" onclick="AwgSkeleton.hide('#skelCard');AwgSkeleton.hide('#skelList');AwgSkeleton.hide('#skelText')">Restore</button>
+    </div>
+    <h3 style="margin-top:1.4rem">Toast stack — progress bar, hover pause, swipe dismiss</h3>
+    <div class="demo-row">
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" onclick="Awg.toast('Info biasa dengan progress','info')">Info</button>
+        <button class="awg-btn awg-btn-success awg-btn-sm" onclick="Awg.toast('Berhasil disimpan','ok')">Success</button>
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" onclick="Awg.toast('Peringatan utilisasi','warn',{ms:6000})">Warning</button>
+        <button class="awg-btn awg-btn-danger awg-btn-sm" onclick="Awg.toast('Gagal terhubung','bad',{ms:8000})">Error</button>
+        <button class="awg-btn awg-btn-soft awg-btn-sm" onclick="['info','ok','warn','bad'].forEach((t,i)=>setTimeout(()=>Awg.toast('Toast stack tipe '+t,t),i*400))">Stack demo</button>
+    </div>
     <div class="awg-flex" style="margin-top:1rem;gap:1.5rem">
         <span class="awg-kbd" data-awg-tip="Tooltip dari atribut data-awg-tip">hover saya</span>
         <span class="awg-spinner"></span> <span class="awg-spinner lg"></span>
-        <button class="awg-btn awg-btn-ghost awg-btn-sm" onclick="['info','ok','warn','bad'].forEach((t,i)=>setTimeout(()=>Awg.toast('Toast tipe '+t,t),i*300))">Toast beruntun</button>
+    </div>
+</div></div></div>
+
+<!-- TIMELINE -->
+<div class="demo-sec" id="timeline"><h2>19 · Timeline — Vertical &amp; Horizontal</h2>
+<div class="awg-grid cols-2">
+<div class="awg-card"><div class="awg-card-head">Provisioning progres</div><div class="awg-card-body">
+    <div class="awg-timeline" data-awg-timeline>
+        <div class="awg-tl-item done"><span class="awg-tl-title">Survei lokasi</span><span class="awg-tl-sub">25 Sep 08.30 · Tim lapangan</span></div>
+        <div class="awg-tl-item done"><span class="awg-tl-title">Instalasi fiber</span><span class="awg-tl-sub">26 Sep 13.15 · 120m dropcore</span></div>
+        <div class="awg-tl-item"><span class="awg-tl-title">Aktivasi ONT</span><span class="awg-tl-sub">Menunggu NOC</span></div>
+        <div class="awg-tl-item pending" onclick="this.closest('[data-awg-timeline]')._awgTimeline.mark(3,'done')"><span class="awg-tl-title">Berlangganan aktif</span><span class="awg-tl-sub">klik item terakhir → selesai</span></div>
+    </div>
+</div></div>
+<div class="awg-card"><div class="awg-card-head">Status tiket work order</div><div class="awg-card-body">
+    <div class="awg-timeline horizontal" data-awg-timeline="horizontal">
+        <div class="awg-tl-item done"><span class="awg-tl-title">Dibuat</span><span class="awg-tl-sub">10.00</span></div>
+        <div class="awg-tl-item done"><span class="awg-tl-title">Diterima</span><span class="awg-tl-sub">10.12</span></div>
+        <div class="awg-tl-item"><span class="awg-tl-title">Dikerjakan</span><span class="awg-tl-sub">Onsite</span></div>
+        <div class="awg-tl-item pending"><span class="awg-tl-title">Selesai</span><span class="awg-tl-sub">—</span></div>
+    </div>
+    <div class="awg-tiny awg-muted" style="margin-top:1rem">Horizontal cocok untuk wizard ringkas / status tracker di mobile.</div>
+</div></div>
+</div></div>
+
+<!-- TOUR -->
+<div class="demo-sec" id="tour"><h2>20 · Tour / Onboarding Overlay</h2>
+<div class="awg-card"><div class="awg-card-body">
+    <p class="awg-small awg-muted">Spotlight dengan highlight elemen + card penjelasan. Keyboard navigasi, fokus trap, dan mobile responsive.</p>
+    <div class="demo-row">
+        <button class="awg-btn awg-btn-primary" onclick="startDemoTour()"><svg class="awg-ic"><use href="assets/icons.svg#ic-footprints"></use></svg> Mulai tour demo</button>
+        <button class="awg-btn awg-btn-ghost" id="tourTarget1">Target 1</button>
+        <button class="awg-btn awg-btn-soft" id="tourTarget2">Target 2</button>
+        <button class="awg-btn awg-btn-success" id="tourTarget3">Target 3</button>
     </div>
 </div></div></div>
 
 <!-- NAVIGATION -->
-<div class="demo-sec" id="nav"><h2>10 · Navigation</h2>
+<div class="demo-sec" id="nav"><h2>10 · Navigation — Breadcrumb, Pagination, Tabs variants</h2>
 <div class="awg-grid cols-2">
 <div class="awg-card"><div class="awg-card-body awg-tabscope">
 <div class="awg-tabs" data-awg-tabs>
@@ -577,19 +639,86 @@
     <button class="awg-pill active" data-awg-tab="h">1 jam</button><button class="awg-pill" data-awg-tab="m">24 jam</button><button class="awg-pill" data-awg-tab="b">7 hari</button>
 </div>
 </div></div>
-<div class="awg-card"><div class="awg-card-body">
-<h3 style="margin-top:0">Steps provisioning</h3>
-<div class="awg-steps" style="margin-bottom:1.4rem">
-    <div class="awg-step done"><div class="s-label">Survey</div></div>
-    <div class="awg-step active"><div class="s-label">Instalasi</div></div>
-    <div class="awg-step"><div class="s-label">Provision ONT</div></div>
-    <div class="awg-step"><div class="s-label">Aktif</div></div>
+<div class="awg-card"><div class="awg-card-body awg-tabscope vertical">
+<div class="awg-tabs vertical" data-awg-tabs>
+    <button class="awg-tab active" data-awg-tab="v1">Overview</button>
+    <button class="awg-tab" data-awg-tab="v2">Interface</button>
+    <button class="awg-tab" data-awg-tab="v3">Log</button>
 </div>
-<h3>Pagination + crumbs</h3>
-<div class="awg-pager" style="margin-bottom:1rem"><button disabled>«</button><button>1</button><button class="active">2</button><button>3</button><span class="gap">…</span><button>14</button><button>»</button></div>
-<div class="awg-crumbs"><a href="#">NMS</a><span class="sep">/</span><a href="#">Node</a><span class="sep">/</span><b>core-rtr-01</b></div>
+<div class="awg-tabpanels">
+    <div data-awg-panel="v1" class="awg-tabpane" style="padding:.25rem 0">Panel overview — ringkasan status node.</div>
+    <div data-awg-panel="v2" class="awg-tabpane awg-hide" style="padding:.25rem 0">Panel interface — daftar ether/wlan/pon.</div>
+    <div data-awg-panel="v3" class="awg-tabpane awg-hide" style="padding:.25rem 0">Panel log — event terakhir 24 jam.</div>
+</div>
+</div></div>
+<div class="awg-card" style="grid-column:1/-1"><div class="awg-card-body">
+<h3 style="margin-top:0">Pill tabs</h3>
+<div class="awg-tabs pill" data-awg-tabs>
+    <button class="awg-tab active" data-awg-tab="p1">Semua</button>
+    <button class="awg-tab" data-awg-tab="p2">Up</button>
+    <button class="awg-tab" data-awg-tab="p3">Down</button>
+    <button class="awg-tab" data-awg-tab="p4">Warning</button>
+</div>
+<div style="padding:.8rem 0">
+    <div data-awg-panel="p1" class="awg-tabpane">Semua node (4).</div>
+    <div data-awg-panel="p2" class="awg-tabpane awg-hide">Node status Up (2).</div>
+    <div data-awg-panel="p3" class="awg-tabpane awg-hide">Node status Down (1).</div>
+    <div data-awg-panel="p4" class="awg-tabpane awg-hide">Node status Warning (1).</div>
+</div>
+<h3>Breadcrumb &amp; Pagination (JS)</h3>
+<nav aria-label="Breadcrumb"><ol class="awg-breadcrumb">
+    <li><a href="#">NMS</a><span class="sep">/</span></li>
+    <li><a href="#dashboard">Dashboard</a><span class="sep">/</span></li>
+    <li><a href="#node">Node</a><span class="sep">/</span></li>
+    <li class="active" aria-current="page">core-rtr-01</li>
+</ol></nav>
+<div class="awg-pagination" id="demoPager"></div>
+<div class="awg-tiny awg-muted" style="margin-top:.5rem">Pagination dibuat otomatis oleh <span class="awg-mono">AwgPagination</span> — coba klik nomor halaman.</div>
 </div></div>
 </div></div>
+
+<!-- COPY & UPLOAD -->
+<div class="demo-sec" id="copy"><h2>21 · Copy to Clipboard &amp; Upload Grid</h2>
+<div class="awg-grid cols-2">
+<div class="awg-card"><div class="awg-card-body">
+    <h3 style="margin-top:0">Copy button</h3>
+    <div class="awg-code"><code id="sshKey">ssh admin@10.219.0.1 -i ~/.ssh/noc_rsa</code>
+        <button class="awg-copy" data-awg-copy="#sshKey"><svg class="awg-ic sm"><use href="assets/icons.svg#ic-copy"></use></svg> Salin</button>
+    </div>
+    <h3>Copy dari data-value</h3>
+    <button class="awg-copy" data-value="OLT-C320-01-SN-8742" data-awg-copy="">Salin SN OLT</button>
+    <div class="awg-tiny awg-muted" style="margin-top:.6rem">Dukungan HTTPS (navigator.clipboard) dan fallback textarea untuk HTTP lokal. Toast muncul saat berhasil/gagal.</div>
+</div></div>
+<div class="awg-card"><div class="awg-card-body">
+    <h3 style="margin-top:0">Upload grid — drag-drop + preview + progress</h3>
+    <div class="awg-upload-grid" data-awg-upload='{"accept":"image/*,.pdf,.rsc,.cfg","maxFiles":8}'></div>
+    <div class="awg-tiny awg-muted" style="margin-top:.5rem">Seret file gambar/PDF/config ke area. Preview otomatis untuk gambar, progress simulasi upload. API: <span class="awg-mono">new AwgUpload(el,{url:'/upload'})</span></div>
+</div></div>
+</div></div>
+
+<!-- INLINE EDIT -->
+<div class="demo-sec" id="edit"><h2>22 · Inline-edit Table Cells</h2>
+<div class="awg-card"><div class="awg-card-head">Daftar IP static — klik sel untuk edit</div>
+<div class="awg-card-body">
+<div class="awg-table-wrap"><table class="awg-table" data-awg-editable>
+    <thead><tr><th>Pelanggan</th><th>IP Address</th><th>Status</th><th>Keterangan</th></tr></thead>
+    <tbody>
+        <tr>
+            <td><span class="awg-editable" data-awg-editable="text" data-awg-name="cust1">Budi Santoso</span></td>
+            <td><span class="awg-editable" data-awg-editable="text" data-awg-name="ip1">192.168.10.12</span></td>
+            <td><span class="awg-editable" data-awg-editable="select" data-awg-name="st1" data-awg-options="Aktif,Suspended,Nonaktif">Aktif</span></td>
+            <td><span class="awg-editable" data-awg-editable="text" data-awg-name="note1">ODP-12</span></td>
+        </tr>
+        <tr>
+            <td><span class="awg-editable" data-awg-editable="text" data-awg-name="cust2">Citra Lestari</span></td>
+            <td><span class="awg-editable" data-awg-editable="text" data-awg-name="ip2">192.168.10.24</span></td>
+            <td><span class="awg-editable" data-awg-editable="select" data-awg-name="st2" data-awg-options="Aktif,Suspended,Nonaktif">Suspended</span></td>
+            <td><span class="awg-editable" data-awg-editable="text" data-awg-name="note2">Menunggu pembayaran</span></td>
+        </tr>
+    </tbody>
+</table></div>
+<pre id="editOut" class="awg-mono awg-tiny" style="background:var(--awg-bg);padding:.6rem;border-radius:8px;margin-top:.75rem">Klik sel di tabel untuk lihat event awg:edit…</pre>
+</div></div></div>
 
 <!-- OVERLAYS -->
 <div class="demo-sec" id="over"><h2>11 · Modal, Drawer, Confirm</h2>
@@ -640,9 +769,9 @@
 <script src="js/awg-core.js"></script>
 <script src="js/awg-select2.js"></script>
 <script src="js/awg-charts.js"></script>
-<script src="js/awg-datatable.js?v=27"></script>
-<script src="js/awg-datepicker.js?v=27"></script>
-<script src="js/awg-widgets.js?v=27"></script>
+<script src="js/awg-datatable.js?v=28"></script>
+<script src="js/awg-datepicker.js?v=28"></script>
+<script src="js/awg-widgets.js?v=28"></script>
 <script src="js/awg-maps.js"></script>
 <script>
 // OTP input auto-advance
@@ -705,6 +834,10 @@ kbCount();
 
 /* ===== Command palette ===== */
 AwgPalette.init([
+    { label: 'Buka Pagination demo', hint: '§10', icon: 'ic-compass', action: () => document.getElementById('nav').scrollIntoView({behavior:'smooth'}) },
+    { label: 'Salin SSH command ke clipboard', hint: '§21', icon: 'ic-copy', action: () => { document.getElementById('copy').scrollIntoView({behavior:'smooth'}); setTimeout(()=>document.querySelector('[data-awg-copy="#sshKey"]')?.click(),300); } },
+    { label: 'Buka Upload Grid demo', hint: '§21', icon: 'ic-cloud-upload', action: () => document.getElementById('copy').scrollIntoView({behavior:'smooth'}) },
+    { label: 'Buka Inline Edit tabel', hint: '§22', icon: 'ic-pen', action: () => document.getElementById('edit').scrollIntoView({behavior:'smooth'}) },
     { label: 'Buka Charts / NMS',        hint: '§08', icon: 'ic-chart',   action: () => document.getElementById('charts').scrollIntoView({behavior:'smooth'}) },
     { label: 'Buka DataTable Node',      hint: '§12', icon: 'ic-table',   action: () => document.getElementById('dt').scrollIntoView({behavior:'smooth'}) },
     { label: 'Buka Wizard Provisioning', hint: '§14', icon: 'ic-route',   action: () => document.getElementById('wiz').scrollIntoView({behavior:'smooth'}) },
@@ -732,6 +865,59 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2000);
 });
 document.querySelector('form[data-awg-validate]').addEventListener('submit', () => console.log('form values:', Awg.form.values(document.querySelector('form[data-awg-validate]'))));
+
+/* ===== Inline edit events ===== */
+document.querySelector('[data-awg-editable]').addEventListener('awg:edit', e => {
+    document.getElementById('editOut').textContent = JSON.stringify({ name: e.detail.name, oldValue: e.detail.oldValue, newValue: e.detail.newValue }, null, 1);
+});
+
+/* ===== Pagination demo ===== */
+class AwgPagination {
+    constructor(el, opts = {}) {
+        this.el = typeof el === 'string' ? document.querySelector(el) : el;
+        this.o = Object.assign({ total: 142, per: 10, current: 1, delta: 2, onChange: null }, opts);
+        this._render();
+    }
+    _pages() {
+        const { total, per, current, delta } = this.o, last = Math.max(1, Math.ceil(total / per));
+        const pages = [];
+        pages.push({ t: 'prev', n: current - 1, dis: current <= 1 });
+        pages.push({ t: 'page', n: 1, active: current === 1 });
+        const left = Math.max(2, current - delta), right = Math.min(last - 1, current + delta);
+        if (left > 2) pages.push({ t: 'ellipsis' });
+        for (let i = left; i <= right; i++) pages.push({ t: 'page', n: i, active: i === current });
+        if (right < last - 1) pages.push({ t: 'ellipsis' });
+        if (last > 1) pages.push({ t: 'page', n: last, active: current === last });
+        pages.push({ t: 'next', n: current + 1, dis: current >= last });
+        return pages;
+    }
+    _render() {
+        if (!this.el) return;
+        const info = `<span class="info">${this.o.total} hasil · halaman ${this.o.current} / ${Math.ceil(this.o.total / this.o.per)}</span>`;
+        const buttons = this._pages().map(p => {
+            if (p.t === 'ellipsis') return '<span class="ellipsis">…</span>';
+            const cls = p.active ? 'page active' : (p.t === 'prev' || p.t === 'next' ? p.t : 'page');
+            const label = p.t === 'prev' ? '«' : p.t === 'next' ? '»' : p.n;
+            return `<button class="${cls}" data-n="${p.n}" ${p.dis ? 'disabled' : ''}>${label}</button>`;
+        }).join('');
+        this.el.innerHTML = buttons + info;
+        this.el.querySelectorAll('button[data-n]').forEach(b => b.addEventListener('click', e => this.go(+e.target.closest('button').dataset.n)));
+    }
+    go(n) { const last = Math.ceil(this.o.total/this.o.per); n = Math.max(1, Math.min(last, n)); if (n === this.o.current) return; this.o.current=n; this._render(); if (this.o.onChange) this.o.onChange(n,this); this.el.dispatchEvent(new CustomEvent('awg:page',{detail:{page:n,total:this.o.total}})); }
+}
+window.AwgPagination = AwgPagination;
+const demoPager = new AwgPagination('#demoPager', { total: 142, current: 5 });
+document.getElementById('demoPager').addEventListener('awg:page', e => Awg.toast(`Pindah ke halaman ${e.detail.page}`, 'info'));
+
+/* ===== Tour / Onboarding demo ===== */
+function startDemoTour() {
+    window._demoTour = new AwgTour([
+        { target: '#tourTarget1', title: 'Tombol aksi utama', text: 'Ini adalah target pertama. Spotlight menyesuaikan posisi elemen dan menggelapkan sisanya.' },
+        { target: '#tourTarget2', title: 'Tombol sekunder', text: 'Navigasi dengan tombol Lanjut/Kembali atau klik backdrop untuk menutup.' },
+        { target: '#tourTarget3', title: 'Selesai', text: 'Tour berakhir di sini. Fokus dikembalikan setelah end().' }
+    ], { labels: { next: 'Lanjut', prev: 'Kembali', finish: 'Selesai', skip: 'Lewati' }, onEnd: () => Awg.toast('Tour selesai 🎉','ok') });
+    window._demoTour.start();
+}
 </script>
 </body>
 </html>

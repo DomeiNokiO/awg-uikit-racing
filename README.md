@@ -34,20 +34,20 @@ Node.js, Python, Go, Ruby, React/Vue/Svelte, atau bahasa apa pun yang menghasilk
 |---|---|---|
 | ![Wizard](docs/screenshots/shot17-wizard-desktop.png) | ![Treeview](docs/screenshots/shot18-treeview-desktop.png) | ![Kanban](docs/screenshots/shot19-kanban-desktop.png) |
 
-|| **Lightbox** | **Mobile 320px — DataTable** | **Mobile 320px — Datepicker** |
+|| **Lightbox** | **Maps — Leaflet lokal** | **Mobile 320px — Datepicker** |
 |---|---|---|
-| ![Lightbox](docs/screenshots/shot20-lightbox-desktop.png) | ![DT mobile](docs/screenshots/shot30-mobile-dt.png) | ![DP mobile](docs/screenshots/shot24-dp-mobile.png) |
+| ![Lightbox](docs/screenshots/shot20-lightbox-desktop.png) | ![Maps desktop](docs/screenshots/shot31-maps-desktop.png) | ![DP mobile](docs/screenshots/shot24-dp-mobile.png) |
 
-|| Charts di HP 320px |
-|---|
-| ![Charts mobile](docs/screenshots/shot09-charts-mobile.png) |
+|| **Maps di HP 320px** | Charts di HP 320px |
+|---|---|
+| ![Maps mobile](docs/screenshots/shot32-maps-mobile.png) | ![Charts mobile](docs/screenshots/shot09-charts-mobile.png) |
 
 *Screenshot diambil dengan Chrome headless (viewport asli) — lihat `docs/screenshots/README.md`.*
 
 | | |
 |---|---|
 | **Author** | **AWGNET-RACING & AGENT AI TEAM** |
-| **Versi** | 1.2.0 |
+| **Versi** | 1.3.0 |
 | **Lisensi** | MIT |
 | **Ukuran** | CSS ±10 KB + core ±3.5 KB + select2 ±3.6 KB + charts ±3.8 KB + datatable ±2.7 KB + datepicker ±2.5 KB + widgets ±3.7 KB + maps ±1.5 KB (gzip) |
 | **Dependensi** | 0 — font Inter + ikon SVG self-hosted, tanpa CDN |

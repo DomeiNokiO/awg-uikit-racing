@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Franchise / Kasir Dashboard · AWG-UIKIT-RACING</title>
+<link rel="stylesheet" href="../css/awg-uikit.css">
+<link rel="icon" href="../assets/icons.svg#ic-flag">
+<script>try{const t=localStorage.getItem('awg-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<style>.awg-pos{display:grid;grid-template-columns:1.35fr 1fr;gap:1rem;align-items:start;}.awg-cart{position:sticky;top:80px;}</style>
+</head>
+<body>
+<div class="awg-app">
+<aside class="awg-sidebar">
+    <div class="awg-brand-box">
+        <div class="logo"><svg class="awg-ic"><use href="../assets/icons.svg#ic-flag"></use></svg></div>
+        <div><b>AWG-KASIR</b><small>Franchise POS</small></div>
+    </div>
+    <nav>
+        <div class="awg-nav-label">Kasir</div>
+        <a class="awg-nav-link active" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-gauge"></use></svg> Dashboard</a>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-receipt"></use></svg> Transaksi Baru</a>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-money"></use></svg> Pembayaran</a>
+        <div class="awg-nav-label">Data</div>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-users"></use></svg> Pelanggan</a>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-box"></use></svg> Produk / Paket</a>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-printer"></use></svg> Laporan</a>
+    </nav>
+    <div class="awg-side-foot">
+        <div class="awg-avatar">RA<i class="status"></i></div>
+        <div class="awg-flex-1"><b>AWGNET-RACING</b><small>& AGENT AI TEAM</small></div>
+        <button class="awg-nav-link" style="width:auto" data-awg-theme-toggle title="Tema"><svg class="awg-ic"><use href="../assets/icons.svg#ic-moon"></use></svg></button>
+    </div>
+</aside>
+<div class="awg-overlay"></div>
+
+<div class="awg-main">
+<header class="awg-topbar">
+    <button class="awg-menu-btn" data-awg-menu><svg class="awg-ic lg"><use href="../assets/icons.svg#ic-menu"></use></svg></button>
+    <div class="awg-crumbs"><a href="#">Kasir</a><span class="sep">/</span><b>Dashboard</b></div>
+    <div class="awg-flex" style="margin-left:auto;gap:.5rem">
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-palette><svg class="awg-ic"><use href="../assets/icons.svg#ic-search"></use></svg> <span class="awg-hide-xs">Cari…</span></button>
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-theme-toggle><svg class="awg-ic"><use href="../assets/icons.svg#ic-contrast"></use></svg> <span class="awg-hide-xs">Tema</span></button>
+        <button class="awg-btn awg-btn-primary awg-btn-sm" onclick="Awg.toast('Shift aktif: Kasir A','ok')"><svg class="awg-ic"><use href="../assets/icons.svg#ic-user"></use></svg> <span class="awg-hide-xs">Kasir A</span></button>
+    </div>
+</header>
+
+<div class="awg-content">
+<div class="awg-page-head">
+    <div><h1>Franchise / Kasir Dashboard</h1><p>POS real-time · Author: <b>AWGNET-RACING &amp; AGENT AI TEAM</b></p></div>
+    <div class="awg-flex" style="gap:.4rem"><span class="awg-badge ok"><span class="dot"></span>Shift aktif</span><span class="awg-badge">Kasir A</span></div>
+</div>
+
+<div class="awg-grid cols-4" style="margin-bottom:1rem">
+    <div class="awg-card"><div class="awg-stat"><div class="ico"><svg class="awg-ic"><use href="../assets/icons.svg#ic-money"></use></svg></div><div><div class="num">Rp 8.420K</div><div class="lbl">Penjualan hari ini</div><div class="trend up">▲ 18%</div></div></div></div>
+    <div class="awg-card"><div class="awg-stat"><div class="ico ok"><svg class="awg-ic"><use href="../assets/icons.svg#ic-receipt"></use></svg></div><div><div class="num">142</div><div class="lbl">Transaksi</div><div class="trend up">▲ 12</div></div></div></div>
+    <div class="awg-card"><div class="awg-stat"><div class="ico info"><svg class="awg-ic"><use href="../assets/icons.svg#ic-users"></use></svg></div><div><div class="num">38</div><div class="lbl">Pelanggan baru</div></div></div></div>
+    <div class="awg-card"><div class="awg-stat"><div class="ico warn"><svg class="awg-ic"><use href="../assets/icons.svg#ic-box"></use></svg></div><div><div class="num">7</div><div class="lbl">Stok rendah</div><div class="trend down">perlu restock</div></div></div></div>
+</div>
+
+<div class="awg-grid cols-3" style="margin-bottom:1rem">
+    <div class="awg-card cols-2"><div class="awg-card-head"><svg class="awg-ic"><use href="../assets/icons.svg#ic-chart"></use></svg> Penjualan Mingguan</div>
+        <div class="awg-card-body"><div data-awg-chart="bar" data-awg-height="220" data-awg-unit="Rp juta"
+            data-labels='["Sen","Sel","Rab","Kam","Jum","Sab","Min"]'
+            data-series='[[6.2,7.1,5.8,8.4,9.2,10.5,8.42]]' data-names='["Penjualan"]'
+            data-colors='["#2563eb"]'></div></div></div>
+    <div class="awg-card"><div class="awg-card-head"><svg class="awg-ic"><use href="../assets/icons.svg#ic-pie-chart"></use></svg> Metode Bayar</div>
+        <div class="awg-card-body"><div data-awg-chart="donut" data-awg-height="200"
+            data-series='[[92,31,19]]' data-names='["Tunai","QRIS","Transfer"]'
+            data-colors='["#16a34a","#2563eb","#0891b2"]'
+            data-awg-total="142" data-awg-unit="trx"></div></div></div>
+</div>
+
+<div class="awg-pos">
+<div>
+    <div class="awg-card awg-mb-2"><div class="awg-card-head">Kategori</div>
+        <div class="awg-card-body">
+            <div class="awg-pills" data-awg-tabs>
+                <button class="awg-pill active" data-awg-tab="all">Semua</button>
+                <button class="awg-pill" data-awg-tab="paket">Paket Internet</button>
+                <button class="awg-pill" data-awg-tab="addons">Add-ons</button>
+                <button class="awg-pill" data-awg-tab="retail">Retail</button>
+            </div>
+        </div></div>
+
+    <div class="awg-card"><div class="awg-card-head"><svg class="awg-ic"><use href="../assets/icons.svg#ic-box"></use></svg> Produk / Paket</div>
+        <div class="awg-card-body">
+            <div class="awg-grid cols-3" style="gap:.75rem">
+                <button class="awg-tile" onclick="addToCart('Paket Play 10Mbps',185000)"><b>Paket Play 10Mbps</b><span class="price">Rp 185.000</span></button>
+                <button class="awg-tile" onclick="addToCart('Paket Game 20Mbps',285000)"><b>Paket Game 20Mbps</b><span class="price">Rp 285.000</span></button>
+                <button class="awg-tile" onclick="addToCart('Paket Pro 50Mbps',450000)"><b>Paket Pro 50Mbps</b><span class="price">Rp 450.000</span></button>
+                <button class="awg-tile" onclick="addToCart('Paket Biz 100Mbps',850000)"><b>Paket Biz 100Mbps</b><span class="price">Rp 850.000</span></button>
+                <button class="awg-tile" onclick="addToCart('Add-on IP Static',75000)"><b>Add-on IP Static</b><span class="price">Rp 75.000</span></button>
+                <button class="awg-tile" onclick="addToCart('Router Rental',35000)"><b>Router Rental / bln</b><span class="price">Rp 35.000</span></button>
+                <button class="awg-tile" onclick="addToCart('Kabel LAN 10m',45000)"><b>Kabel LAN 10m</b><span class="price">Rp 45.000</span></button>
+                <button class="awg-tile" onclick="addToCart('SFP Module',120000)"><b>SFP Module</b><span class="price">Rp 120.000</span></button>
+                <button class="awg-tile" onclick="addToCart('Kopi AWGnet',18000)"><b>Kopi AWGnet</b><span class="price">Rp 18.000</span></button>
+            </div>
+        </div></div>
+</div>
+
+<div class="awg-cart">
+<div class="awg-card"><div class="awg-card-head"><svg class="awg-ic"><use href="../assets/icons.svg#ic-receipt"></use></svg> Keranjang</div>
+<div class="awg-card-body">
+    <div id="cartItems" class="awg-mb-2"></div>
+    <div class="awg-field awg-mb-1">
+        <label class="awg-label">Pelanggan</label>
+        <select class="awg-select"><option>Walk-in</option><option>Andi Wijaya · 0812-3456-7890</option><option>Budi Santoso · 0821-8765-4321</option></select>
+    </div>
+    <div class="awg-field awg-mb-1">
+        <label class="awg-label">Catatan</label>
+        <input class="awg-input" placeholder="Contoh: registrasi ONT baru…">
+    </div>
+    <div class="awg-flex between awg-mb-1" style="font-weight:700"><span>Total</span><span class="awg-num" id="cartTotal">Rp 0</span></div>
+    <div class="awg-flex" style="gap:.5rem">
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" onclick="clearCart()">Kosongkan</button>
+        <button class="awg-btn awg-btn-primary awg-btn-block" onclick="Awg.toast('Transaksi berhasil dibayar (demo)','ok');clearCart()">Bayar</button>
+    </div>
+</div></div>
+
+<div class="awg-card awg-mt-2"><div class="awg-card-head">Transaksi Terakhir</div>
+<div class="awg-list">
+    <div class="awg-list-item"><svg class="awg-ic"><use href="../assets/icons.svg#ic-receipt"></use></svg><div class="li-main"><div class="li-title">#TRX-09284</div><div class="li-sub">Paket Game 20Mbps · Andi W.</div></div><span class="awg-badge ok">Rp 285K</span></div>
+    <div class="awg-list-item"><svg class="awg-ic"><use href="../assets/icons.svg#ic-receipt"></use></svg><div class="li-main"><div class="li-title">#TRX-09283</div><div class="li-sub">Kopi AWGnet x3 · Walk-in</div></div><span class="awg-badge ok">Rp 54K</span></div>
+    <div class="awg-list-item"><svg class="awg-ic"><use href="../assets/icons.svg#ic-receipt"></use></svg><div class="li-main"><div class="li-title">#TRX-09282</div><div class="li-sub">Paket Pro 50Mbps · Citra D.</div></div><span class="awg-badge ok">Rp 450K</span></div>
+</div></div>
+</div>
+</div>
+
+<div class="awg-divider">AWG-UIKIT-RACING · © AWGNET-RACING &amp; AGENT AI TEAM · MIT · 100% lokal tanpa CDN</div>
+</div></div></div>
+
+<script src="../js/awg-core.js"></script>
+<script src="../js/awg-charts.js"></script>
+<script src="../js/awg-widgets.js"></script>
+<script src="assets/awg-shared.js"></script>
+<script>
+const cart=[];
+function fmt(n){return 'Rp '+n.toLocaleString('id-ID');}
+function renderCart(){
+    const el=document.getElementById('cartItems');
+    if(!cart.length){el.innerHTML='<div class="awg-empty"><span class="ico"><svg class="awg-ic"><use href="../assets/icons.svg#ic-box"></use></svg></span><b>Keranjang kosong</b><span class="awg-tiny awg-muted">Klik produk untuk menambah.</span></div>';}
+    else{el.innerHTML='<div class="awg-flex col" style="gap:.5rem">'+cart.map((it,i)=>
+        '<div class="awg-flex between" style="padding:.5rem;background:var(--awg-bg);border-radius:9px"><span class="awg-small" style="font-weight:600">'+it.name+'</span><span class="awg-flex" style="gap:.6rem"><span class="awg-num awg-small">'+fmt(it.price)+'</span><button class="awg-btn awg-btn-ghost awg-btn-icon awg-btn-sm" onclick="removeItem('+i+')">×</button></span></div>'
+    ).join('')+'</div>';}
+    document.getElementById('cartTotal').textContent=fmt(cart.reduce((a,b)=>a+b.price,0));
+}
+function addToCart(name,price){cart.push({name,price});renderCart();}
+function removeItem(i){cart.splice(i,1);renderCart();}
+function clearCart(){cart.length=0;renderCart();}
+renderCart();
+</script>
+</body>
+</html>

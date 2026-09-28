@@ -6,6 +6,9 @@
             3) Command palette   Ctrl+K / Cmd+K   window.AwgPalette
             4) Kanban drag-drop  window.AwgKanban
             5) Lightbox gambar   window.AwgLightbox
+            6) Skeleton loaders  window.AwgSkeleton
+            7) Timeline vert/horiz window.AwgTimeline
+            8) Tour / onboarding window.AwgTour
    Prinsip: deklaratif via data-awg-*, nol dependensi.
    ============================================================ */
 (function () {
@@ -321,12 +324,381 @@
         if (pal) { Palette.open(); }
     });
 
-    /* ============ auto-mount ============ */
+
+
+    /* ============ 6. UPLOAD GRID (drag-drop + preview + progress) ============ */
+    let _uploadId = 0;
+    class AwgUpload {
+        constructor(root, opts = {}) {
+            this.r = typeof root === 'string' ? d.querySelector(root) : root;
+            if (!this.r) return null;
+            this.o = Object.assign({
+                multiple: true, maxSize: 5 * 1024 * 1024, maxFiles: 12,
+                accept: '', url: '', autoUpload: true,
+                onAdd: null, onRemove: null, onProgress: null, onDone: null
+            }, opts);
+            if (this.r.dataset.awgUpload) {
+                try { Object.assign(this.o, JSON.parse(this.r.dataset.awgUpload)); } catch (e) {}
+            }
+            this.items = [];
+            this._ensureLayout();
+            this._bind();
+            this.r._awgUpload = this;
+        }
+        _ensureLayout() {
+            this.zone = this.r.querySelector('.awg-upload-zone') || this.r.querySelector('[data-awg-upload-zone]');
+            this.list = this.r.querySelector('.awg-upload-list') || this.r.querySelector('[data-awg-upload-list]');
+            this.input = this.r.querySelector('input[type=file]');
+            if (!this.zone) {
+                this.zone = d.createElement('label');
+                this.zone.className = 'awg-upload-zone';
+                this.zone.innerHTML = `<svg class="awg-ic icon" style="width:2.4rem;height:2.4rem"><use href="assets/icons.svg#ic-cloud-upload"></use></svg><b>Seret file ke sini</b><span class="awg-tiny">atau klik untuk pilih — max ${this._fmtSize(this.o.maxSize)}</span><input type="file" ${this.o.multiple ? 'multiple' : ''} ${this.o.accept ? 'accept="' + esc(this.o.accept) + '"' : ''}>`;
+                this.r.appendChild(this.zone);
+                this.input = this.zone.querySelector('input');
+            }
+            if (!this.list) {
+                this.list = d.createElement('div');
+                this.list.className = 'awg-upload-list';
+                this.r.appendChild(this.list);
+            }
+        }
+        _bind() {
+            ['dragenter','dragover','dragleave','drop'].forEach(evt => {
+                this.zone.addEventListener(evt, e => {
+                    e.preventDefault(); e.stopPropagation();
+                    this.zone.classList.toggle('dragover', evt === 'dragenter' || evt === 'dragover');
+                    if (evt === 'drop') this.add(e.dataTransfer.files);
+                });
+            });
+            this.input.addEventListener('change', e => { this.add(e.target.files); this.input.value = ''; });
+        }
+        _fmtSize(n) {
+            if (n < 1024) return n + ' B';
+            if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
+            return (n / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+        _accept(file) {
+            if (this.o.maxFiles && this.items.length >= this.o.maxFiles) {
+                Awg.toast(`Maksimal ${this.o.maxFiles} file`, 'warn'); return false;
+            }
+            if (file.size > this.o.maxSize) {
+                Awg.toast(`${file.name} melebihi ${this._fmtSize(this.o.maxSize)}`, 'warn'); return false;
+            }
+            if (this.o.accept) {
+                const ok = this.o.accept.split(',').some(p => {
+                    p = p.trim();
+                    if (p.startsWith('.')) return file.name.toLowerCase().endsWith(p.toLowerCase());
+                    if (p.includes('*')) return new RegExp('^' + p.replace(/\*/g, '.*') + '$', 'i').test(file.type);
+                    return file.type === p;
+                });
+                if (!ok) { Awg.toast(`${file.name} tidak sesuai format`, 'warn'); return false; }
+            }
+            return true;
+        }
+        add(files) {
+            Array.from(files || []).forEach(f => {
+                if (!this._accept(f)) return;
+                const id = ++_uploadId;
+                const item = { id, file: f, el: null, progress: 0 };
+                this.items.push(item);
+                this._renderCard(item);
+                this.o.onAdd && this.o.onAdd(item, this);
+                this.r.dispatchEvent(new CustomEvent('awg:upload', { bubbles: true, detail: { type: 'add', item, upload: this } }));
+                if (this.o.autoUpload) this._upload(item);
+            });
+        }
+        _renderCard(item) {
+            const isImg = item.file.type.startsWith('image/');
+            const el = d.createElement('div');
+            el.className = 'awg-upload-card';
+            el.dataset.awgUploadId = item.id;
+            el.innerHTML = `
+                <div class="awg-upload-thumb"></div>
+                <div class="awg-upload-info"><div class="name">${esc(item.file.name)}</div><div class="meta">${esc(this._fmtSize(item.file.size))}</div></div>
+                <div class="awg-upload-progress"><span></span></div>
+                <button type="button" class="rm" aria-label="Hapus">✕</button>`;
+            const thumb = el.querySelector('.awg-upload-thumb');
+            if (isImg) {
+                const img = d.createElement('img');
+                img.alt = esc(item.file.name);
+                const url = URL.createObjectURL(item.file);
+                item.objectUrl = url;
+                img.src = url;
+                thumb.appendChild(img);
+            } else {
+                thumb.innerHTML = `<svg class="awg-ic file-ico"><use href="assets/icons.svg#ic-file"></use></svg>`;
+            }
+            el.querySelector('.rm').addEventListener('click', () => this.remove(item.id));
+            item.el = el;
+            this.list.appendChild(el);
+        }
+        setProgress(id, pct, status) {
+            const item = this.items.find(i => i.id === id);
+            if (!item) return;
+            item.progress = Math.max(0, Math.min(100, pct));
+            const bar = item.el.querySelector('.awg-upload-progress > span');
+            bar.style.width = item.progress + '%';
+            if (status === 'ok') bar.parentElement.classList.add('ok');
+            if (status === 'bad') bar.parentElement.classList.add('bad');
+            this.o.onProgress && this.o.onProgress(item, this);
+            this.r.dispatchEvent(new CustomEvent('awg:upload', { bubbles: true, detail: { type: 'progress', item, upload: this } }));
+        }
+        _upload(item) {
+            if (this.o.url) {
+                const fd = new FormData();
+                fd.append('file', item.file);
+                fetch(this.o.url, { method: 'POST', body: fd })
+                    .then(r => { if (!r.ok) throw new Error(r.statusText); return r; })
+                    .then(() => { this.setProgress(item.id, 100, 'ok'); this.o.onDone && this.o.onDone(item, this); })
+                    .catch(e => { this.setProgress(item.id, 100, 'bad'); Awg.toast('Upload gagal: ' + e.message, 'bad'); });
+                return;
+            }
+            // demo simulation
+            let p = 0;
+            const t = setInterval(() => {
+                p += Math.random() * 14;
+                if (p >= 100) { p = 100; clearInterval(t); this.setProgress(item.id, 100, 'ok'); this.o.onDone && this.o.onDone(item, this); }
+                else this.setProgress(item.id, p);
+            }, 120);
+        }
+        remove(id) {
+            const idx = this.items.findIndex(i => i.id === id);
+            if (idx < 0) return;
+            const item = this.items[idx];
+            if (item.objectUrl) URL.revokeObjectURL(item.objectUrl);
+            item.el.remove();
+            this.items.splice(idx, 1);
+            this.o.onRemove && this.o.onRemove(item, this);
+            this.r.dispatchEvent(new CustomEvent('awg:upload', { bubbles: true, detail: { type: 'remove', item, upload: this } }));
+        }
+        files() { return this.items.map(i => i.file); }
+        clear() { [...this.items].forEach(i => this.remove(i.id)); }
+    }
+
+    /* ============ 7. INLINE-EDIT TABLE CELLS ============ */
+    class AwgEditable {
+        constructor(root, opts = {}) {
+            this.r = (typeof root === 'string' ? d.querySelector(root) : root) || d;
+            this.o = Object.assign({ onSave: null }, opts);
+            this._handler = e => {
+                const el = e.target.closest('.awg-editable');
+                if (el && !el.querySelector('input,select,textarea')) this._edit(el);
+            };
+            this.r.addEventListener('click', this._handler);
+            if (this.r !== d) this.r._awgEditable = this;
+        }
+        _edit(el) {
+            const type = el.dataset.awgEditable || 'text';
+            const old = el.textContent.trim();
+            const options = (el.dataset.awgOptions || '').split(',').filter(Boolean);
+            let field;
+            if (type === 'select' || options.length) {
+                field = d.createElement('select');
+                field.className = 'awg-editable-input awg-editable-select';
+                options.forEach(v => {
+                    const opt = d.createElement('option');
+                    opt.value = v; opt.textContent = v;
+                    if (v === old) opt.selected = true;
+                    field.appendChild(opt);
+                });
+            } else {
+                field = d.createElement('input');
+                field.type = type === 'number' ? 'number' : 'text';
+                field.className = 'awg-editable-input';
+                field.value = old;
+                if (el.dataset.awgPlaceholder) field.placeholder = el.dataset.awgPlaceholder;
+            }
+            el.textContent = '';
+            el.appendChild(field);
+            field.focus();
+            const save = () => {
+                const val = field.value.trim();
+                const evt = new CustomEvent('awg:edit', { bubbles: true, cancelable: true, detail: { el, name: el.dataset.awgName || '', oldValue: old, newValue: val } });
+                el.dispatchEvent(evt);
+                if (!evt.defaultPrevented) el.textContent = val || old;
+                this._finish(el, old);
+                if (!evt.defaultPrevented && this.o.onSave) this.o.onSave(el.dataset.awgName || '', val || old, el);
+            };
+            const cancel = () => { el.textContent = old; this._finish(el, old); };
+            field.addEventListener('blur', save);
+            field.addEventListener('keydown', e => {
+                if (e.key === 'Enter') { e.preventDefault(); field.blur(); }
+                else if (e.key === 'Escape') { e.preventDefault(); cancel(); }
+            });
+        }
+        _finish(el, old) {
+            el.textContent = el.textContent.trim() || old;
+        }
+        destroy() { this.r.removeEventListener('click', this._handler); }
+    }
+
+    /* ============ 8. SKELETON LOADER HELPERS ============ */
+    const Skeleton = {
+        show(elOrSel, variant = 'text') {
+            const el = typeof elOrSel === 'string' ? d.querySelector(elOrSel) : elOrSel;
+            if (!el) return null;
+            el.dataset.awgSkeletonOriginal = el.innerHTML;
+            el.setAttribute('aria-busy', 'true');
+            el.innerHTML = '<span class="awg-skel ' + variant + '"></span>';
+            return el;
+        },
+        hide(elOrSel) {
+            const el = typeof elOrSel === 'string' ? d.querySelector(elOrSel) : elOrSel;
+            if (!el || !el.dataset.awgSkeletonOriginal) return;
+            el.innerHTML = el.dataset.awgSkeletonOriginal;
+            el.removeAttribute('aria-busy');
+            delete el.dataset.awgSkeletonOriginal;
+            AwgWidgets.mount(el);
+        },
+        replace(sel, variant = 'text') {
+            const el = typeof sel === 'string' ? d.querySelector(sel) : sel;
+            if (!el) return;
+            el.innerHTML = '<span class="awg-skel ' + variant + '"></span>';
+            el.setAttribute('aria-busy', 'true');
+        }
+    };
+
+    /* ============ 7. TIMELINE COMPONENT (vertical/horizontal) ============ */
+    class AwgTimeline {
+        constructor(root, opts = {}) {
+            this.r = typeof root === 'string' ? d.querySelector(root) : root;
+            if (!this.r) return null;
+            this.o = Object.assign({ horizontal: false, onChange: null }, opts);
+            if (this.o.horizontal) this.r.classList.add('horizontal');
+            this.r.classList.add('awg-timeline');
+            this.items = [...this.r.querySelectorAll(':scope > .awg-tl-item')];
+            this._render();
+            this.r._awgTimeline = this;
+        }
+        setHorizontal(v) {
+            this.r.classList.toggle('horizontal', !!v);
+            this.o.horizontal = !!v;
+        }
+        mark(index, state = 'done') {
+            const it = this.items[index];
+            if (!it) return;
+            ['done','pending','bad'].forEach(s => it.classList.remove(s));
+            it.classList.add(state);
+            this.o.onChange && this.o.onChange(index, state, this);
+        }
+        _render() {
+            // ensure proper wrappers if missing
+            this.items.forEach((it, i) => {
+                if (!it.querySelector('.awg-tl-title')) {
+                    const b = it.querySelector('b');
+                    if (b) { b.classList.add('awg-tl-title'); }
+                }
+            });
+        }
+    }
+
+    /* ============ 8. TOUR / ONBOARDING OVERLAY ============ */
+    class AwgTour {
+        constructor(steps, opts = {}) {
+            this.steps = steps || [];
+            this.o = Object.assign({ onStep: null, onEnd: null, onSkip: null, labels: { next: 'Lanjut', prev: 'Kembali', finish: 'Selesai', skip: 'Lewati' } }, opts);
+            this.i = 0;
+            this.bd = null; this.spot = null; this.card = null;
+        }
+        start() {
+            if (!this.steps.length) return;
+            this.i = 0;
+            this._mount();
+            this._step(0);
+        }
+        _mount() {
+            if (this.bd) return;
+            this.bd = d.createElement('div');
+            this.bd.className = 'awg-tour-backdrop';
+            this.spot = d.createElement('div');
+            this.spot.className = 'awg-tour-spotlight';
+            this.card = d.createElement('div');
+            this.card.className = 'awg-tour-card';
+            this.card.setAttribute('role', 'dialog');
+            this.card.setAttribute('aria-modal', 'true');
+            d.body.appendChild(this.bd);
+            d.body.appendChild(this.spot);
+            d.body.appendChild(this.card);
+            setTimeout(() => this.bd.classList.add('open'), 10);
+            this.bd.addEventListener('click', () => this.end());
+        }
+        _step(n) {
+            this.i = Math.max(0, Math.min(this.steps.length - 1, n));
+            const s = this.steps[this.i];
+            const target = s.target ? (typeof s.target === 'string' ? d.querySelector(s.target) : s.target) : null;
+            this._position(target);
+            this._renderCard(s, target);
+            this.o.onStep && this.o.onStep(this.i, s, this);
+        }
+        _position(target) {
+            if (!target) { this.spot.style.display = 'none'; this.card.style.top = '15vh'; this.card.style.left = '50%'; this.card.style.transform = 'translateX(-50%)'; return; }
+            const r = target.getBoundingClientRect();
+            const pad = 8;
+            this.spot.style.display = 'block';
+            this.spot.style.top = (r.top - pad) + 'px';
+            this.spot.style.left = (r.left - pad) + 'px';
+            this.spot.style.width = (r.width + pad * 2) + 'px';
+            this.spot.style.height = (r.height + pad * 2) + 'px';
+            // position card below target, fallback above
+            const cardHeight = 180, margin = 12;
+            let top = r.bottom + margin + window.scrollY;
+            let left = Math.max(8, Math.min(window.innerWidth - this.card.offsetWidth - 8, r.left + window.scrollX));
+            if (top + cardHeight > window.innerHeight + window.scrollY && r.top - cardHeight - margin > 0) {
+                top = r.top - cardHeight - margin + window.scrollY;
+            }
+            this.card.style.top = top + 'px';
+            this.card.style.left = left + 'px';
+            this.card.style.transform = 'none';
+        }
+        _renderCard(s, target) {
+            const L = this.o.labels;
+            const isLast = this.i === this.steps.length - 1;
+            this.card.innerHTML = `
+                <div class="head"><h4>${esc(s.title || '')}</h4><button class="x awg-btn awg-btn-ghost awg-btn-sm awg-btn-icon" aria-label="Tutup">✕</button></div>
+                <p>${esc(s.text || '')}</p>
+                <div class="foot">
+                    <div class="steps">${this.steps.map((_, j) => `<i class="${j === this.i ? 'active' : ''}"></i>`).join('')}</div>
+                    <div class="nav">
+                        ${this.i > 0 ? `<button class="awg-btn awg-btn-ghost" data-tour-prev>${L.prev}</button>` : ''}
+                        ${!isLast ? `<button class="awg-btn awg-btn-ghost" data-tour-skip>${L.skip}</button>` : ''}
+                        <button class="awg-btn awg-btn-primary" data-tour-next>${isLast ? L.finish : L.next}</button>
+                    </div>
+                </div>`;
+            this.card.querySelector('[data-tour-next]').addEventListener('click', () => isLast ? this.end() : this._step(this.i + 1));
+            const prev = this.card.querySelector('[data-tour-prev]');
+            if (prev) prev.addEventListener('click', () => this._step(this.i - 1));
+            const skip = this.card.querySelector('[data-tour-skip]');
+            if (skip) skip.addEventListener('click', () => { this.o.onSkip && this.o.onSkip(this.i, this); this.end(); });
+            this.card.querySelector('.x').addEventListener('click', () => this.end());
+            // focus management
+            const first = this.card.querySelector('button');
+            if (first) first.focus();
+            // scroll target into view
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        next() { if (this.i < this.steps.length - 1) this._step(this.i + 1); else this.end(); }
+        prev() { this._step(Math.max(0, this.i - 1)); }
+        end() {
+            if (!this.bd) return;
+            this.bd.classList.remove('open');
+            setTimeout(() => { this.bd?.remove(); this.spot?.remove(); this.card?.remove(); this.bd = this.spot = this.card = null; }, 220);
+            this.o.onEnd && this.o.onEnd(this);
+        }
+    }
+
+    /* ============ AUTO-MOUNT UNIFIED ============ */
     function mount(root) {
         (root || d).querySelectorAll('[data-awg-wizard]').forEach(w => { if (!w._awgWizard) new AwgWizard(w); });
         (root || d).querySelectorAll('[data-awg-tree]').forEach(t => { if (!t._awgTree) new AwgTree(t); });
         (root || d).querySelectorAll('[data-awg-kanban]').forEach(k => { if (!k._awgKanban) new AwgKanban(k); });
-        // palette: kumpulkan item dari window.AwgPalette.items ATAU [data-palette-item]
+        (root || d).querySelectorAll('[data-awg-timeline]').forEach(t => {
+            if (!t._awgTimeline) new AwgTimeline(t, { horizontal: t.dataset.awgTimeline === 'horizontal' });
+        });
+        (root || d).querySelectorAll('[data-awg-upload]').forEach(u => { if (!u._awgUpload) new AwgUpload(u); });
+        (root || d).querySelectorAll('[data-awg-editable-scope], table[data-awg-editable], .awg-table[data-awg-editable]').forEach(scope => {
+            if (!scope._awgEditable) { new AwgEditable(scope); scope._awgEditable = true; }
+        });
+        // palette: collect from window.AwgPaletteItems OR [data-palette-item]
         const items = (window.AwgPaletteItems || []);
         if (items.length) Palette.init(items);
         else {
@@ -339,12 +711,13 @@
         }
     }
     if (d.readyState === 'loading')
-        d.addEventListener('DOMContentLoaded', mount);
+        d.addEventListener('DOMContentLoaded', () => mount());
     else
-        setTimeout(mount, 0);
-    mount();   // fail-safe: jalankan langsung saat script berakhir (idempoten)
+        setTimeout(() => mount(), 0);
 
     window.AwgWizard = AwgWizard; window.AwgTree = AwgTree;
     window.AwgPalette = Palette;   window.AwgKanban = AwgKanban; window.AwgLightbox = Lightbox;
+    window.AwgSkeleton = Skeleton; window.AwgTimeline = AwgTimeline; window.AwgTour = AwgTour;
+    window.AwgUpload = AwgUpload;  window.AwgEditable = AwgEditable;
     window.AwgWidgets = { mount };
 })();

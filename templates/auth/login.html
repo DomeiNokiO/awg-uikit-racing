@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Masuk · AWG-UIKIT-RACING</title>
+<link rel="stylesheet" href="../../css/awg-uikit.css">
+<link rel="icon" href="../../assets/icons.svg#ic-flag">
+<script>try{const t=localStorage.getItem('awg-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<style>
+.awg-auth-wall{min-height:100vh;display:grid;place-items:center;padding:1rem;background:linear-gradient(135deg,var(--awg-brand-grad),var(--awg-ink));}
+.awg-auth-card{width:100%;max-width:420px;background:var(--awg-surface);border:1px solid var(--awg-line);border-radius:var(--awg-radius-lg);box-shadow:var(--awg-shadow-lg);overflow:hidden;}
+.awg-auth-head{padding:1.75rem 1.5rem .5rem;text-align:center;}
+.awg-auth-head .logo{width:56px;height:56px;border-radius:14px;background:var(--awg-brand-grad);display:grid;place-items:center;color:#fff;margin:0 auto .75rem;}
+.awg-auth-head h1{font-size:1.2rem;margin:0;}
+.awg-auth-head p{font-size:.82rem;color:var(--awg-ink-3);margin:.25rem 0 0;}
+.awg-auth-body{padding:1.25rem 1.5rem 1.5rem;}
+.awg-auth-foot{padding:1rem 1.5rem 1.25rem;border-top:1px solid var(--awg-line);text-align:center;background:var(--awg-surface-2);}
+.awg-auth-foot a{font-weight:600;}
+.awg-auth-methods{display:flex;gap:.6rem;margin-bottom:1rem;}
+.awg-auth-methods .awg-btn{flex:1;}
+</style>
+</head>
+<body>
+<div class="awg-auth-wall">
+<div class="awg-auth-card">
+<div class="awg-auth-head">
+    <div class="logo"><svg class="awg-ic" style="width:1.6rem;height:1.6rem"><use href="../../assets/icons.svg#ic-flag"></use></svg></div>
+    <h1>Masuk ke NOC</h1>
+    <p>AWG-UIKIT-RACING · Author: AWGNET-RACING & AGENT AI TEAM</p>
+</div>
+<div class="awg-auth-body">
+    <div class="awg-auth-methods">
+        <button class="awg-btn awg-btn-dark awg-btn-sm" onclick="Awg.toast('SSO Google (demo)','info')"><svg class="awg-ic"><use href="../../assets/icons.svg#ic-globe"></use></svg> Google</button>
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" onclick="Awg.toast('SSO Mikrotik (demo)','info')"><svg class="awg-ic"><use href="../../assets/icons.svg#ic-router"></use></svg>_RADIUS</button>
+    </div>
+    <div class="awg-divider">atau email</div>
+    <form data-awg-validate novalidate onsubmit="event.preventDefault();Awg.toast('Redirect ke 2FA…','ok');setTimeout(()=>location.href='2fa.html',600)">
+        <div class="awg-field">
+            <label class="awg-label">Email / Username <span class="req">*</span></label>
+            <input class="awg-input" name="login" placeholder="noc@awgnet.id" required autofocus>
+            <div class="awg-error"></div>
+        </div>
+        <div class="awg-field">
+            <label class="awg-label">Password <span class="req">*</span></label>
+            <div class="awg-input-group">
+                <input class="awg-input" type="password" name="password" id="password" placeholder="••••••••" required data-awg-pass>
+                <button type="button" class="awg-addon-btn" onclick="const p=document.getElementById('password');p.type=p.type==='password'?'text':'password'">Lihat</button>
+            </div>
+            <div class="awg-error"></div>
+        </div>
+        <div class="awg-flex between awg-mb-2" style="flex-wrap:wrap;gap:.5rem">
+            <label class="awg-check"><input type="checkbox" checked> Ingat saya</label>
+            <a href="forgot-password.html">Lupa password?</a>
+        </div>
+        <button class="awg-btn awg-btn-primary awg-btn-lg awg-btn-block" type="submit"><svg class="awg-ic"><use href="../../assets/icons.svg#ic-check-circle"></use></svg> Masuk</button>
+    </form>
+</div>
+<div class="awg-auth-foot">
+    Belum punya akun? <a href="register.html">Daftar sekarang</a>
+</div>
+</div>
+</div>
+<script src="../../js/awg-core.js"></script>
+</body>
+</html>

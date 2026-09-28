@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daftar · AWG-UIKIT-RACING</title>
+<link rel="stylesheet" href="../../css/awg-uikit.css">
+<link rel="icon" href="../../assets/icons.svg#ic-flag">
+<script>try{const t=localStorage.getItem('awg-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<style>
+.awg-auth-wall{min-height:100vh;display:grid;place-items:center;padding:1rem;background:linear-gradient(135deg,var(--awg-brand-grad),var(--awg-ink));}
+.awg-auth-card{width:100%;max-width:460px;background:var(--awg-surface);border:1px solid var(--awg-line);border-radius:var(--awg-radius-lg);box-shadow:var(--awg-shadow-lg);overflow:hidden;}
+.awg-auth-head{padding:1.75rem 1.5rem .5rem;text-align:center;}
+.awg-auth-head .logo{width:56px;height:56px;border-radius:14px;background:var(--awg-brand-grad);display:grid;place-items:center;color:#fff;margin:0 auto .75rem;}
+.awg-auth-head h1{font-size:1.2rem;margin:0;}
+.awg-auth-head p{font-size:.82rem;color:var(--awg-ink-3);margin:.25rem 0 0;}
+.awg-auth-body{padding:1.25rem 1.5rem 1.5rem;}
+.awg-auth-foot{padding:1rem 1.5rem 1.25rem;border-top:1px solid var(--awg-line);text-align:center;background:var(--awg-surface-2);}
+</style>
+</head>
+<body>
+<div class="awg-auth-wall">
+<div class="awg-auth-card">
+<div class="awg-auth-head">
+    <div class="logo"><svg class="awg-ic" style="width:1.6rem;height:1.6rem"><use href="../../assets/icons.svg#ic-flag"></use></svg></div>
+    <h1>Buat akun tim</h1>
+    <p>Isi data diri untuk bergabung ke dashboard AWGNET-RACING</p>
+</div>
+<div class="awg-auth-body">
+    <form data-awg-validate novalidate onsubmit="event.preventDefault();Awg.toast('Akun didaftarkan (demo)','ok');setTimeout(()=>location.href='login.html',800)">
+        <div class="awg-grid cols-2">
+            <div class="awg-field">
+                <label class="awg-label">Nama lengkap <span class="req">*</span></label>
+                <input class="awg-input" name="nama" placeholder="Budi Santoso" required>
+                <div class="awg-error"></div>
+            </div>
+            <div class="awg-field">
+                <label class="awg-label">Username <span class="req">*</span></label>
+                <input class="awg-input" name="username" placeholder="budis" required>
+                <div class="awg-error"></div>
+            </div>
+        </div>
+        <div class="awg-field">
+            <label class="awg-label">Email <span class="req">*</span></label>
+            <input class="awg-input" type="email" name="email" placeholder="budi@awgnet.id" required data-awg-email>
+            <div class="awg-error"></div>
+        </div>
+        <div class="awg-grid cols-2">
+            <div class="awg-field">
+                <label class="awg-label">Password <span class="req">*</span></label>
+                <input class="awg-input" type="password" name="password" placeholder="min. 8 karakter" required data-awg-pass>
+                <div class="awg-error"></div>
+            </div>
+            <div class="awg-field">
+                <label class="awg-label">Ulangi password <span class="req">*</span></label>
+                <input class="awg-input" type="password" name="retype" placeholder="••••••••" required data-awg-pass-confirm>
+                <div class="awg-error"></div>
+            </div>
+        </div>
+        <div class="awg-field">
+            <label class="awg-label">Divisi</label>
+            <select class="awg-select" name="divisi">
+                <option value="">Pilih divisi…</option>
+                <option>NOC / Engineering</option>
+                <option>Franchise / Kasir</option>
+                <option>Admin / Finance</option>
+                <option>Sales / Marketing</option>
+            </select>
+        </div>
+        <label class="awg-check awg-mb-2"><input type="checkbox" required> Saya setuju dengan <a href="#">Kebijakan Privasi</a> & <a href="#">Syarat Layanan</a></label>
+        <button class="awg-btn awg-btn-primary awg-btn-lg awg-btn-block" type="submit"><svg class="awg-ic"><use href="../../assets/icons.svg#ic-user-plus"></use></svg> Daftar</button>
+    </form>
+</div>
+<div class="awg-auth-foot">
+    Sudah punya akun? <a href="login.html">Masuk</a>
+</div>
+</div>
+</div>
+<script src="../../js/awg-core.js"></script>
+</body>
+</html>

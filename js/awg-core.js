@@ -55,31 +55,71 @@
         }
     };
 
-    /* ---------- toast ---------- */
-    Awg.toast = function (msg, type = 'info', ms = 4000) {
+    /* ---------- toast stack with progress bar + swipe dismiss ---------- */
+    const toastIcons = {
+        info:  '<svg class="awg-ic" aria-hidden="true"><use href="assets/icons.svg#ic-info"></use></svg>',
+        ok:    '<svg class="awg-ic" aria-hidden="true"><use href="assets/icons.svg#ic-check-circle"></use></svg>',
+        bad:   '<svg class="awg-ic" aria-hidden="true"><use href="assets/icons.svg#ic-x-circle"></use></svg>',
+        warn:  '<svg class="awg-ic" aria-hidden="true"><use href="assets/icons.svg#ic-alert-triangle"></use></svg>'
+    };
+    Awg.toast = function (msg, type = 'info', msOrOpts = 4000) {
+        let ms = 4000, pauseOnHover = true;
+        if (typeof msOrOpts === 'number') ms = msOrOpts;
+        else if (msOrOpts && typeof msOrOpts === 'object') { ms = msOrOpts.ms || 4000; pauseOnHover = msOrOpts.pauseOnHover !== false; }
         let zone = Awg.$('.awg-toast-zone');
         if (!zone) {
             zone = document.createElement('div');
             zone.className = 'awg-toast-zone';
+            zone.setAttribute('aria-live', 'polite');
+            zone.setAttribute('aria-atomic', 'true');
             document.body.appendChild(zone);
         }
-        const icons = { info: 'ℹ️', ok: '✅', bad: '⛔', warn: '⚠️' };
         const el = document.createElement('div');
         el.className = 'awg-toast awg-flex ' + type;
         el.setAttribute('role', 'status');
-        el.setAttribute('aria-live', 'polite');
         el.setAttribute('aria-atomic', 'true');
-        const icon = document.createElement('span');
-        icon.setAttribute('aria-hidden', 'true');
-        icon.textContent = icons[type] || '';
-        const txt = document.createElement('span');
-        txt.className = 'awg-flex-1';
-        txt.textContent = msg; // teks aman (anti-XSS)
-        el.appendChild(icon);
-        el.appendChild(txt);
+        el.innerHTML = '<span class="awg-toast-ic" aria-hidden="true">' + (toastIcons[type] || toastIcons.info) + '</span>' +
+            '<span class="awg-flex-1">' + Awg.esc(msg) + '</span>' +
+            '<button class="x" aria-label="Tutup notifikasi">✕</button>' +
+            '<span class="bar" aria-hidden="true"></span>';
         zone.appendChild(el);
-        setTimeout(() => { el.classList.add('hide'); setTimeout(() => el.remove(), 250); }, ms);
-        return el;
+
+        const bar = el.querySelector('.bar');
+        let left = ms, raf, started = performance.now(), running = true;
+        function tick(now) {
+            if (!running) return;
+            const pct = Math.max(0, left - (now - started)) / ms * 100;
+            el.style.setProperty('--awg-toast-pct', pct + '%');
+            if (pct <= 0) { close(); return; }
+            raf = requestAnimationFrame(tick);
+        }
+        function close() {
+            running = false; cancelAnimationFrame(raf);
+            el.classList.add('hide'); setTimeout(() => el.remove(), 250);
+        }
+        el.querySelector('.x').addEventListener('click', close);
+        if (pauseOnHover) {
+            el.addEventListener('mouseenter', () => { if (running) { left = Math.max(0, left - (performance.now() - started)); running = false; cancelAnimationFrame(raf); el.classList.add('paused'); } });
+            el.addEventListener('mouseleave', () => { if (!running && el.isConnected) { started = performance.now(); running = true; el.classList.remove('paused'); raf = requestAnimationFrame(tick); } });
+        }
+        // swipe dismiss
+        let sx = 0, dx = 0;
+        el.addEventListener('pointerdown', e => { sx = e.clientX; el.classList.add('swiping'); el.setPointerCapture(e.pointerId); });
+        el.addEventListener('pointermove', e => {
+            if (!sx) return; dx = e.clientX - sx;
+            el.style.transform = 'translateX(' + dx + 'px)';
+            el.style.opacity = Math.max(.2, 1 - Math.abs(dx) / 220);
+        });
+        el.addEventListener('pointerup', e => {
+            sx = 0; el.classList.remove('swiping');
+            if (Math.abs(dx) > 90) { el.style.transform = 'translateX(' + (dx > 0 ? 300 : -300) + 'px)'; setTimeout(close, 160); }
+            else { el.style.transform = ''; el.style.opacity = ''; }
+            dx = 0;
+        });
+        el.addEventListener('pointercancel', () => { sx = 0; el.classList.remove('swiping'); el.style.transform = ''; el.style.opacity = ''; dx = 0; });
+
+        raf = requestAnimationFrame(tick);
+        return { el, close };
     };
 
     /* ---------- modal (a11y + focus trap) ---------- */
@@ -259,6 +299,26 @@
         }
     };
 
+    /* ---------- copy buttons ---------- */
+    Awg.copyButtons = {
+        init() {
+            document.addEventListener('click', e => {
+                const btn = e.target.closest('[data-awg-copy]');
+                if (!btn) return;
+                const target = btn.dataset.awgCopy ? Awg.$(btn.dataset.awgCopy) : null;
+                const text = target ? (target.value || target.textContent || target.dataset.value || '') : (btn.dataset.value || btn.textContent || '');
+                Awg.copy(text.trim()).then(() => {
+                    btn.classList.add('copied');
+                    const old = btn.innerHTML;
+                    const tmp = btn.dataset.awgCopyOk || '✓ Tersalin';
+                    if (btn.dataset.awgCopyOk !== '') btn.innerHTML = `<svg class="awg-ic sm"><use href="assets/icons.svg#ic-check"></use></svg> ${tmp}`;
+                    Awg.toast(`Disalin: ${text.trim().slice(0, 60)}${text.length > 60 ? '…' : ''}`, 'ok', 2500);
+                    setTimeout(() => { btn.classList.remove('copied'); if (btn.dataset.awgCopyOk !== '') btn.innerHTML = old; }, 1500);
+                }).catch(err => { Awg.toast('Gagal menyalin ke clipboard', 'bad'); console.error(err); });
+            });
+        }
+    };
+
     /* ---------- accordion ---------- */
     Awg.accordion = {
         init() {
@@ -392,6 +452,27 @@
         }
     };
 
+    /* ---------- copy to clipboard ---------- */
+    Awg.copy = function (text) {
+        return new Promise((resolve, reject) => {
+            text = String(text ?? '');
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(resolve).catch(reject);
+                return;
+            }
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy') ? resolve() : reject(new Error('execCommand copy failed')); }
+            catch (e) { reject(e); }
+            document.body.removeChild(ta);
+        });
+    };
+
     /* ---------- init otomatis ---------- */
     function init() {
         Awg.theme.init();
@@ -401,6 +482,7 @@
         Awg.dropdown.init();
         Awg.popover.init();
         Awg.tabs.init();
+        Awg.copyButtons.init();
         Awg.accordion.init();
         Awg.steppers.init();
         Awg.tagInputs.init();

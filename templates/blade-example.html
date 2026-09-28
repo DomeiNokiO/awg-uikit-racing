@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blade Layout Example · AWG-UIKIT-RACING</title>
+<link rel="stylesheet" href="../css/awg-uikit.css">
+<link rel="icon" href="../assets/icons.svg#ic-flag">
+<script>try{const t=localStorage.getItem('awg-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="awg-app">
+<aside class="awg-sidebar">
+    <div class="awg-brand-box"><div class="logo"><svg class="awg-ic"><use href="../assets/icons.svg#ic-flag"></use></svg></div><div><b>AWG-LARAVEL</b><small>Blade Demo</small></div></div>
+    <nav>
+        <div class="awg-nav-label">NOC</div>
+        <a class="awg-nav-link active" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-gauge"></use></svg> Dashboard</a>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-server"></use></svg> Devices</a>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-users"></use></svg> Users</a>
+    </nav>
+    <div class="awg-side-foot"><div class="awg-avatar">LA<i class="status"></i></div><div class="awg-flex-1"><b>AWGNET-RACING</b><small>& AGENT AI TEAM</small></div><button class="awg-nav-link" style="width:auto" data-awg-theme-toggle><svg class="awg-ic"><use href="../assets/icons.svg#ic-moon"></use></svg></button></div>
+</aside>
+<div class="awg-overlay"></div>
+
+<div class="awg-main">
+<header class="awg-topbar">
+    <button class="awg-menu-btn" data-awg-menu><svg class="awg-ic lg"><use href="../assets/icons.svg#ic-menu"></use></svg></button>
+    <div class="awg-crumbs"><b>Contoh Blade Layout</b></div>
+    <div class="awg-flex" style="margin-left:auto;gap:.5rem"><button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-theme-toggle><svg class="awg-ic"><use href="../assets/icons.svg#ic-contrast"></use></svg> Tema</button></div>
+</header>
+<div class="awg-content">
+<div class="awg-page-head"><h1>Integrasi Blade Laravel</h1><p>Cara menghubungkan layout AWG-UIKIT-RACING ke resources/views/layouts/awg.blade.php.</p></div>
+
+<div class="awg-card awg-mb-2"><div class="awg-card-head">Langkah integrasi</div>
+<div class="awg-card-body">
+    <ol>
+        <li>Copy folder <code>css/</code>, <code>js/</code>, <code>fonts/</code>, <code>assets/</code>, <code>libs/</code> ke <code>public/assets/awg/</code></li>
+        <li>Simpan <code>templates/blade/awg-layout.blade.php</code> sebagai <code>resources/views/layouts/awg.blade.php</code></li>
+        <li>Di controller kirim array <code>$menu</code> sesuai hak akses user</li>
+        <li>Halaman content: <code>@extends('layouts.awg') @section('content') … @endsection</code></li>
+    </ol>
+    <pre class="awg-mono awg-tiny" style="background:var(--awg-bg);padding:.8rem;border-radius:10px">&lt;?php
+// routes/web.php
+Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
+
+// DashboardController.php
+public function index() {
+    return view('dashboard', [
+        'menu' => [
+            'NMS' => [
+                ['label'=>'Dashboard','route'=>'dashboard','icon'=>'ic-gauge','active'=>true],
+                ['label'=>'Node','route'=>'nodes.index','icon'=>'ic-server'],
+            ],
+        ],
+    ]);
+}</pre>
+</div></div>
+
+<div class="awg-card"><div class="awg-card-head">Dummy Data Server</div>
+<div class="awg-card-body">
+    <p class="awg-small awg-muted">Endpoint API contoh untuk mengisi chart NMS:</p>
+    <pre class="awg-mono awg-tiny" style="background:var(--awg-bg);padding:.8rem;border-radius:10px">GET /api/nms/traffic
+{
+  "labels":["00","01","02",...],
+  "series":[[620,590,...],[210,205,...]],
+  "names":["Rx","Tx"]
+}</pre>
+</div></div>
+
+<div class="awg-divider">AWG-UIKIT-RACING · © AWGNET-RACING &amp; AGENT AI TEAM · MIT · 100% lokal tanpa CDN</div>
+</div></div></div>
+<script src="../js/awg-core.js"></script><script src="../js/awg-widgets.js"></script><script src="assets/awg-shared.js"></script>
+</body>
+</html>

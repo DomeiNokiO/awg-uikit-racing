@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profil Pengguna · AWG-UIKIT-RACING</title>
+<link rel="stylesheet" href="../css/awg-uikit.css">
+<link rel="icon" href="../assets/icons.svg#ic-flag">
+<script>try{const t=localStorage.getItem('awg-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="awg-app">
+<aside class="awg-sidebar">
+    <div class="awg-brand-box">
+        <div class="logo"><svg class="awg-ic"><use href="../assets/icons.svg#ic-flag"></use></svg></div>
+        <div><b>AWG-APP</b><small>User Center</small></div>
+    </div>
+    <nav>
+        <div class="awg-nav-label">Akun</div>
+        <a class="awg-nav-link active" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-user"></use></svg> Profil</a>
+        <a class="awg-nav-link" href="settings.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-sliders"></use></svg> Pengaturan</a>
+        <a class="awg-nav-link" href="billing.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-receipt"></use></svg> Tagihan</a>
+        <a class="awg-nav-link" href="security.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-shield"></use></svg> Keamanan</a>
+        <div class="awg-nav-label">Sistem</div>
+        <a class="awg-nav-link" href="admin-dashboard.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-gauge"></use></svg> Admin</a>
+        <a class="awg-nav-link" href="errors/404.html"><svg class="awg-ic"><use href="../assets/icons.svg#ic-alert-triangle"></use></svg> Error Pages</a>
+    </nav>
+    <div class="awg-side-foot">
+        <div class="awg-avatar">RA<i class="status"></i></div>
+        <div class="awg-flex-1"><b>AWGNET-RACING</b><small>& AGENT AI TEAM</small></div>
+        <button class="awg-nav-link" style="width:auto" data-awg-theme-toggle title="Tema"><svg class="awg-ic"><use href="../assets/icons.svg#ic-moon"></use></svg></button>
+    </div>
+</aside>
+<div class="awg-overlay"></div>
+
+<div class="awg-main">
+<header class="awg-topbar">
+    <button class="awg-menu-btn" data-awg-menu><svg class="awg-ic lg"><use href="../assets/icons.svg#ic-menu"></use></svg></button>
+    <div class="awg-crumbs"><a href="#">Akun</a><span class="sep">/</span><b>Profil</b></div>
+    <div class="awg-flex" style="margin-left:auto;gap:.5rem">
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-palette><svg class="awg-ic"><use href="../assets/icons.svg#ic-search"></use></svg> <span class="awg-hide-xs">Cari…</span></button>
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-theme-toggle><svg class="awg-ic"><use href="../assets/icons.svg#ic-contrast"></use></svg> <span class="awg-hide-xs">Tema</span></button>
+        <button class="awg-btn awg-btn-primary awg-btn-sm" onclick="Awg.toast('Profil disimpan','ok')"><svg class="awg-ic"><use href="../assets/icons.svg#ic-check"></use></svg> <span class="awg-hide-xs">Simpan</span></button>
+    </div>
+</header>
+
+<div class="awg-content">
+<div class="awg-page-head">
+    <div><h1>Profil Pengguna</h1><p>Kelola informasi akun Anda · Author: <b>AWGNET-RACING &amp; AGENT AI TEAM</b></p></div>
+    <div class="awg-flex" style="gap:.4rem"><span class="awg-badge ok"><span class="dot"></span>Terverifikasi</span></div>
+</div>
+
+<div class="awg-grid cols-1-2" style="margin-bottom:1rem">
+    <div class="awg-card"><div class="awg-card-body awg-text-c">
+        <div class="awg-avatar lg square" style="width:96px;height:96px;font-size:1.6rem;margin:0 auto 1rem;background:var(--awg-brand-grad)">RA</div>
+        <h3 class="awg-h3" style="margin-bottom:.1rem">Rizky AWG</h3>
+        <p class="awg-small awg-muted" style="margin:0 0 .75rem">rizky@awgnet.id · Superadmin</p>
+        <div class="awg-flex" style="justify-content:center;gap:.5rem">
+            <button class="awg-btn awg-btn-ghost awg-btn-sm">Ubah Foto</button>
+            <button class="awg-btn awg-btn-danger awg-btn-sm">Hapus</button>
+        </div>
+        <div class="awg-divider">Ringkasan</div>
+        <div class="awg-grid cols-2">
+            <div class="awg-stat soft"><b class="awg-stat-num">312</b><span class="awg-stat-label">Log masuk</span></div>
+            <div class="awg-stat soft"><b class="awg-stat-num">2FA</b><span class="awg-stat-label">Aktif</span></div>
+        </div>
+    </div></div>
+    <div class="awg-card"><div class="awg-card-head">Informasi Pribadi</div>
+    <div class="awg-card-body">
+        <form data-awg-validate novalidate onsubmit="event.preventDefault();Awg.toast('Profil diperbarui','ok')">
+            <div class="awg-grid cols-2">
+                <div class="awg-field"><label class="awg-label">Nama lengkap</label><input class="awg-input" value="Rizky AWG"></div>
+                <div class="awg-field"><label class="awg-label">Username</label><input class="awg-input" value="rizkyawg"></div>
+                <div class="awg-field"><label class="awg-label">Email</label><input class="awg-input" type="email" value="rizky@awgnet.id" required data-awg-email></div>
+                <div class="awg-field"><label class="awg-label">Telepon</label><input class="awg-input" value="0812-3456-7890"></div>
+            </div>
+            <div class="awg-field"><label class="awg-label">Bio</label><textarea class="awg-textarea">NOC engineer &amp; dashboard builder AWGNET-RACING.</textarea></div>
+            <div class="awg-field"><label class="awg-label">Bahasa</label>
+                <select class="awg-select"><option>Bahasa Indonesia</option><option>English</option></select>
+            </div>
+            <div class="awg-flex end" style="gap:.5rem"><button type="reset" class="awg-btn awg-btn-ghost">Reset</button><button type="submit" class="awg-btn awg-btn-primary">Simpan Perubahan</button></div>
+        </form>
+    </div></div>
+</div>
+
+<div class="awg-card"><div class="awg-card-head">Aktivitas Terakhir</div>
+    <div class="awg-card-body">
+        <div class="awg-timeline">
+            <div class="awg-tl-item done"><b class="awg-small">Login dari 192.168.1.10</b><div class="awg-tiny awg-muted">26 Sep 2026, 08:42 · Chrome / Linux</div></div>
+            <div class="awg-tl-item done"><b class="awg-small">Ubah password</b><div class="awg-tiny awg-muted">20 Sep 2026, 19:15</div></div>
+            <div class="awg-tl-item done"><b class="awg-small">Aktivasi 2FA</b><div class="awg-tiny awg-muted">15 Sep 2026, 09:30</div></div>
+        </div>
+    </div></div>
+
+<div class="awg-divider">AWG-UIKIT-RACING · © AWGNET-RACING &amp; AGENT AI TEAM · MIT · 100% lokal tanpa CDN</div>
+</div></div></div>
+
+<script src="../js/awg-core.js"></script>
+<script src="../js/awg-widgets.js"></script>
+<script src="assets/awg-shared.js"></script>
+</body>
+</html>

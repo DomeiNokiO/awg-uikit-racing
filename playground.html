@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWG-UIKIT-RACING Playground</title>
+  <link rel="stylesheet" href="css/awg-uikit.css">
+  <style>
+    .play-wrap { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+    .play-card { background: var(--awg-surface); border: 1px solid var(--awg-line); border-radius: var(--awg-radius); padding: 1rem; margin-bottom: 1rem; }
+    .play-props { display: flex; flex-wrap: wrap; gap: .75rem; margin-bottom: .75rem; }
+    .play-props label { display: flex; align-items: center; gap: .35rem; font-size: .85rem; color: var(--awg-ink-2); }
+    .play-stage { padding: 1rem; background: var(--awg-surface-2); border-radius: var(--awg-radius); }
+    .play-log { font-family: ui-monospace, monospace; font-size: .8rem; min-height: 3rem; background: #0b0c0f; color: #9ef916; padding: .75rem; border-radius: var(--awg-radius); white-space: pre-wrap; margin-top: .75rem; }
+    h2 { font-size: 1.1rem; margin: 0 0 .5rem; }
+  </style>
+</head>
+<body>
+  <div class="play-wrap">
+    <h1 class="awg-mb-3">AWG-UIKIT-RACING Playground</h1>
+    <p class="awg-muted awg-small">Ubah properti di setiap kartu untuk melihat komponen bereaksi secara real-time.</p>
+
+    <!-- Theme -->
+    <div class="play-card" data-play="theme">
+      <h2>Tema</h2>
+      <div class="play-props">
+        <label><input type="radio" name="theme" value="light" checked> Light</label>
+        <label><input type="radio" name="theme" value="dark"> Dark</label>
+      </div>
+      <button class="awg-btn awg-btn-primary" data-awg-theme-toggle>Toggle tema</button>
+      <div class="play-log" data-log></div>
+    </div>
+
+    <!-- Toast -->
+    <div class="play-card" data-play="toast">
+      <h2>Toast</h2>
+      <div class="play-props">
+        <label>Pesan: <input type="text" data-prop="msg" value="Data berhasil disimpan" class="awg-input awg-input-sm"></label>
+        <label>Tipe:
+          <select data-prop="type" class="awg-select awg-select-sm">
+            <option value="info">info</option>
+            <option value="ok">ok</option>
+            <option value="warn">warn</option>
+            <option value="bad">bad</option>
+          </select>
+        </label>
+        <label>Durasi (ms): <input type="number" data-prop="ms" value="3500" class="awg-input awg-input-sm" style="width:90px"></label>
+      </div>
+      <button class="awg-btn awg-btn-soft" data-act>Tampilkan toast</button>
+      <div class="play-log" data-log></div>
+    </div>
+
+    <!-- Select -->
+    <div class="play-card" data-play="select">
+      <h2>Select2-style</h2>
+      <div class="play-props">
+        <label><input type="checkbox" data-prop="multiple"> Multiple</label>
+        <label><input type="checkbox" data-prop="search" checked> Search</label>
+        <label><input type="checkbox" data-prop="tags"> Tags</label>
+        <label>Max: <input type="number" data-prop="max" value="0" class="awg-input awg-input-sm" style="width:60px"></label>
+        <label>Placeholder: <input type="text" data-prop="placeholder" value="Pilih pelanggan…" class="awg-input awg-input-sm"></label>
+      </div>
+      <div class="play-stage">
+        <select id="playSelect" class="awg-select">
+          <option value=""></option>
+          <option value="fiber-premium">Fiber Premium</option>
+          <option value="wireless-basic">Wireless Basic</option>
+          <option value="sdwan-pro">SD-WAN Pro</option>
+          <option value="dedicated-1g">Dedicated 1G</option>
+        </select>
+      </div>
+      <div class="play-log" data-log></div>
+    </div>
+
+    <!-- Chart -->
+    <div class="play-card" data-play="chart">
+      <h2>Chart</h2>
+      <div class="play-props">
+        <label>Tipe:
+          <select data-prop="type" class="awg-select awg-select-sm">
+            <option value="line" selected>line</option>
+            <option value="bar">bar</option>
+            <option value="donut">donut</option>
+            <option value="gauge">gauge</option>
+          </select>
+        </label>
+        <label>Tinggi: <input type="number" data-prop="height" value="220" class="awg-input awg-input-sm" style="width:80px"></label>
+        <label><input type="checkbox" data-prop="smooth" checked> Smooth</label>
+        <label><input type="checkbox" data-prop="legend" checked> Legend</label>
+      </div>
+      <div class="play-stage" id="playChart"></div>
+      <div class="play-log" data-log></div>
+    </div>
+
+    <!-- DataTable -->
+    <div class="play-card" data-play="datatable">
+      <h2>DataTable</h2>
+      <div class="play-props">
+        <label><input type="checkbox" data-prop="search" checked> Search</label>
+        <label><input type="checkbox" data-prop="sort" checked> Sort</label>
+        <label><input type="checkbox" data-prop="select"> Selectable</label>
+        <label>Per page: <input type="number" data-prop="page" value="4" class="awg-input awg-input-sm" style="width:70px"></label>
+      </div>
+      <div class="play-stage">
+        <table id="playTable" class="awg-table">
+          <thead><tr><th>Nama</th><th>Layanan</th><th>Tagihan</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Andi Surya</td><td>Fiber Premium</td><td>Rp 450.000</td><td>Aktif</td></tr>
+            <tr><td>Budi Raharjo</td><td>Wireless Basic</td><td>Rp 275.000</td><td>Isolir</td></tr>
+            <tr><td>Citra Lestari</td><td>SD-WAN Pro</td><td>Rp 1.300.000</td><td>Aktif</td></tr>
+            <tr><td>Dedi Pratama</td><td>Fiber Premium</td><td>Rp 450.000</td><td>Tenggang</td></tr>
+            <tr><td>Eka Wijaya</td><td>Dedicated 1G</td><td>Rp 8.750.000</td><td>Aktif</td></tr>
+            <tr><td>Fani Kusuma</td><td>Wireless Basic</td><td>Rp 275.000</td><td>Isolir</td></tr>
+            <tr><td>Gita Maharani</td><td>Fiber Premium</td><td>Rp 450.000</td><td>Aktif</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="play-log" data-log></div>
+    </div>
+
+    <!-- Datepicker -->
+    <div class="play-card" data-play="datepicker">
+      <h2>Datepicker</h2>
+      <div class="play-props">
+        <label>Min ISO: <input type="date" data-prop="min" class="awg-input awg-input-sm"></label>
+        <label>Max ISO: <input type="date" data-prop="max" class="awg-input awg-input-sm"></label>
+      </div>
+      <div class="play-stage">
+        <input id="playDate" class="awg-input awg-dp-input" data-awg-date placeholder="Pilih tanggal">
+      </div>
+      <div class="play-log" data-log></div>
+    </div>
+
+    <!-- Wizard -->
+    <div class="play-card" data-play="wizard">
+      <h2>Wizard</h2>
+      <div class="play-props">
+        <label><input type="checkbox" data-prop="validate" checked> Validasi required</label>
+      </div>
+      <div class="play-stage">
+        <div id="playWizard" data-awg-wizard>
+          <div class="awg-wizard-steps">
+            <button data-awg-wstep>Data</button>
+            <button data-awg-wstep>Layanan</button>
+            <button data-awg-wstep>Konfirmasi</button>
+          </div>
+          <div data-awg-wpane>
+            <div class="awg-field"><label>Nama</label><input class="awg-input" required placeholder="Nama pelanggan"></div>
+          </div>
+          <div data-awg-wpane class="awg-hide">
+            <div class="awg-field"><label>Paket</label><input class="awg-input" required placeholder="Nama paket"></div>
+          </div>
+          <div data-awg-wpane class="awg-hide">
+            <p>Silakan periksa kembali sebelum simpan.</p>
+          </div>
+          <div class="awg-flex awg-gap-2 awg-mt-2">
+            <button type="button" class="awg-btn awg-btn-ghost awg-hide" data-awg-wprev>Kembali</button>
+            <button type="button" class="awg-btn awg-btn-primary" data-awg-wnext>Lanjut</button>
+            <button type="button" class="awg-btn awg-btn-success awg-hide" data-awg-wfinish>Simpan</button>
+          </div>
+        </div>
+      </div>
+      <div class="play-log" data-log></div>
+    </div>
+  </div>
+
+  <script src="js/awg-core.js"></script>
+  <script src="js/awg-select2.js"></script>
+  <script src="js/awg-charts.js"></script>
+  <script src="js/awg-datatable.js"></script>
+  <script src="js/awg-datepicker.js"></script>
+  <script src="js/awg-widgets.js"></script>
+  <script>
+    const log = (card, text) => card.querySelector('[data-log]').textContent = '> ' + text;
+
+    // theme
+    document.querySelector('[data-play="theme"]').addEventListener('change', e => {
+      if (e.target.name === 'theme') Awg.theme.set(e.target.value);
+      log(e.currentTarget, 'theme=' + Awg.theme.get());
+    });
+    document.addEventListener('awg:theme', e => {
+      document.querySelectorAll('input[name="theme"][value="' + e.detail.theme + '"]').forEach(r => r.checked = true);
+      log(document.querySelector('[data-play="theme"]'), 'event theme=' + e.detail.theme);
+    });
+
+    // toast
+    document.querySelector('[data-play="toast"] [data-act]').addEventListener('click', e => {
+      const c = e.target.closest('[data-play]');
+      Awg.toast(c.querySelector('[data-prop="msg"]').value, c.querySelector('[data-prop="type"]').value, +c.querySelector('[data-prop="ms"]').value);
+      log(c, 'toast fired');
+    });
+
+    // select
+    let playSel;
+    const selCard = document.querySelector('[data-play="select"]');
+    function rebuildSelect() {
+      const el = document.getElementById('playSelect');
+      const opts = {
+        multiple: selCard.querySelector('[data-prop="multiple"]').checked,
+        search: selCard.querySelector('[data-prop="search"]').checked,
+        tags: selCard.querySelector('[data-prop="tags"]').checked,
+        max: +selCard.querySelector('[data-prop="max"]').value || 0,
+        placeholder: selCard.querySelector('[data-prop="placeholder"]').value,
+        onChange: v => log(selCard, 'value=' + JSON.stringify(v))
+      };
+      if (playSel) playSel.destroy();
+      playSel = new AwgSelect(el, opts);
+      log(selCard, 'select rebuilt');
+    }
+    selCard.addEventListener('change', rebuildSelect);
+    selCard.addEventListener('input', e => { if (e.target.dataset.prop === 'placeholder') rebuildSelect(); });
+    rebuildSelect();
+
+    // chart
+    let playChart;
+    const chartCard = document.querySelector('[data-play="chart"]');
+    function rebuildChart() {
+      const type = chartCard.querySelector('[data-prop="type"]').value;
+      const height = +chartCard.querySelector('[data-prop="height"]').value || 220;
+      const smooth = chartCard.querySelector('[data-prop="smooth"]').checked;
+      const legend = chartCard.querySelector('[data-prop="legend"]').checked;
+      let data, opts = { type, height, smooth, legend };
+      if (type === 'donut') { data = [35, 25, 40]; opts.names = ['Aktif','Isolir','Tenggang']; }
+      else if (type === 'gauge') { data = 82; opts.gaugeMax = 100; opts.gaugeZones = [60,85]; }
+      else { data = { labels: ['Sen','Sel','Rab','Kam','Jum','Sab','Min'], series: [[120,135,128,142,155,98,110], [80,95,90,105,115,70,85]] }; opts.names = ['Up','Down']; }
+      if (!playChart) playChart = new AwgChart('#playChart', opts);
+      else playChart.update(data, opts);
+      log(chartCard, 'chart type=' + type);
+    }
+    chartCard.addEventListener('change', rebuildChart);
+    chartCard.addEventListener('input', e => { if (e.target.dataset.prop === 'height') rebuildChart(); });
+    rebuildChart();
+
+    // datatable
+    let playTable;
+    const dtCard = document.querySelector('[data-play="datatable"]');
+    function rebuildTable() {
+      const opts = {
+        search: dtCard.querySelector('[data-prop="search"]').checked,
+        sort: dtCard.querySelector('[data-prop="sort"]').checked,
+        select: dtCard.querySelector('[data-prop="select"]').checked,
+        page: +dtCard.querySelector('[data-prop="page"]').value || 10,
+        onBulk: ids => log(dtCard, 'bulk=' + ids.join(','))
+      };
+      if (playTable) playTable.destroy();
+      playTable = new AwgTable('#playTable', opts);
+      log(dtCard, 'table rebuilt');
+    }
+    dtCard.addEventListener('change', rebuildTable);
+    dtCard.addEventListener('input', e => { if (e.target.dataset.prop === 'page') rebuildTable(); });
+    rebuildTable();
+
+    // datepicker
+    let playDate;
+    const dpCard = document.querySelector('[data-play="datepicker"]');
+    function rebuildDate() {
+      if (playDate) playDate.wrap?.remove?.(); // safe cleanup skipped; destroy not present
+      const el = document.getElementById('playDate');
+      const opts = { min: dpCard.querySelector('[data-prop="min"]').value || null, max: dpCard.querySelector('[data-prop="max"]').value || null };
+      playDate = new AwgDate(el, opts);
+      el.addEventListener('awg:date', e => log(dpCard, 'date=' + e.detail.iso));
+      log(dpCard, 'datepicker rebuilt');
+    }
+    dpCard.addEventListener('change', rebuildDate);
+    rebuildDate();
+
+    // wizard
+    const wizCard = document.querySelector('[data-play="wizard"]');
+    let playWiz = new AwgWizard('#playWizard', {
+      validate: wizCard.querySelector('[data-prop="validate"]').checked,
+      onChange: (n, w) => log(wizCard, 'step=' + n),
+      onDone: () => log(wizCard, 'wizard done!')
+    });
+    wizCard.querySelector('[data-prop="validate"]').addEventListener('change', e => {
+      playWiz.o.validate = e.target.checked;
+      playWiz.r.dataset.awgWizardValidate = e.target.checked ? 'true' : 'false';
+      log(wizCard, 'validate=' + e.target.checked);
+    });
+    document.querySelectorAll('[data-play]').forEach(c => {
+      const h = c.querySelector('h2');
+      if (h && !c.querySelector('[data-log]').textContent) log(c, 'ready');
+    });
+  </script>
+</body>
+</html>

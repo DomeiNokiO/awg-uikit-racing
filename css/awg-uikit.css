@@ -258,6 +258,24 @@ body.awg-sidebar-open .awg-overlay, .awg-overlay.show { opacity: 1; pointer-even
     font-size: .75em; font-family: var(--awg-mono); color: var(--awg-ink-2);
 }
 
+/* === copy to clipboard === */
+.awg-copy {
+    display: inline-flex; align-items: center; gap: .35rem;
+    border: 1px solid var(--awg-line); background: var(--awg-surface);
+    color: var(--awg-ink-2); border-radius: 8px; padding: .32rem .55rem;
+    font-size: .78rem; font-weight: 600; cursor: pointer; user-select: none;
+    transition: all var(--awg-motion); font-family: inherit;
+}
+.awg-copy:hover { border-color: var(--awg-brand); color: var(--awg-brand); background: var(--awg-brand-soft); }
+.awg-copy.copied { border-color: var(--awg-ok); color: var(--awg-ok); background: var(--awg-ok-soft); }
+.awg-copy:focus-visible { outline: 2px solid var(--awg-brand); outline-offset: 2px; }
+.awg-code {
+    font-family: var(--awg-mono); background: var(--awg-surface-2); border: 1px solid var(--awg-line);
+    border-radius: 8px; padding: .5rem .7rem; font-size: .8rem; overflow-x: auto;
+    display: flex; align-items: center; gap: .55rem; justify-content: space-between;
+}
+.awg-code code { word-break: break-all; }
+
 .awg-chip {
     display: inline-flex; align-items: center; gap: .4rem;
     background: var(--awg-surface-2); border: 1px solid var(--awg-line);
@@ -372,6 +390,48 @@ body.awg-sidebar-open .awg-overlay, .awg-overlay.show { opacity: 1; pointer-even
 }
 .awg-file-item .x { margin-left: auto; cursor: pointer; color: var(--awg-ink-3); border: 0; background: none; }
 .awg-file-item .x:hover { color: var(--awg-bad); }
+
+/* === upload grid (drag-drop + preview + progress) === */
+.awg-upload-grid { width: 100%; }
+.awg-upload-zone {
+    border: 2px dashed var(--awg-line); border-radius: var(--awg-radius);
+    padding: 1.8rem 1rem; text-align: center; color: var(--awg-ink-3);
+    cursor: pointer; transition: all var(--awg-motion); background: var(--awg-surface);
+}
+.awg-upload-zone:hover, .awg-upload-zone.dragover { border-color: var(--awg-brand); background: var(--awg-brand-soft); color: var(--awg-brand); }
+.awg-upload-zone .icon { width: 2.6rem; height: 2.6rem; margin: 0 auto .6rem; color: inherit; }
+.awg-upload-zone b { display: block; font-size: .9rem; margin-bottom: .2rem; }
+.awg-upload-zone input[type=file] { display: none; }
+.awg-upload-list {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: .75rem;
+    margin-top: .9rem;
+}
+.awg-upload-card {
+    position: relative; border: 1px solid var(--awg-line); border-radius: 12px;
+    background: var(--awg-surface); overflow: hidden; aspect-ratio: 1;
+    display: flex; flex-direction: column; transition: transform .12s ease, border-color .12s ease;
+}
+.awg-upload-card:hover { transform: translateY(-2px); border-color: var(--awg-ink-3); }
+.awg-upload-thumb {
+    flex: 1; min-height: 0; display: grid; place-items: center;
+    background: var(--awg-surface-2); padding: .5rem;
+}
+.awg-upload-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; }
+.awg-upload-thumb .file-ico { color: var(--awg-brand); width: 2.2rem; height: 2.2rem; }
+.awg-upload-info { padding: .5rem .6rem; border-top: 1px solid var(--awg-line); }
+.awg-upload-info .name { font-size: .72rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.awg-upload-info .meta { font-size: .68rem; color: var(--awg-ink-3); }
+.awg-upload-progress { position: absolute; left: .5rem; right: .5rem; bottom: .5rem; height: 5px; border-radius: 999px; background: var(--awg-line); overflow: hidden; }
+.awg-upload-progress > span { display: block; height: 100%; border-radius: 999px; background: var(--awg-brand); width: 0; transition: width .2s ease; }
+.awg-upload-progress.ok > span { background: var(--awg-ok); }
+.awg-upload-progress.bad > span { background: var(--awg-bad); }
+.awg-upload-card .rm {
+    position: absolute; top: .35rem; right: .35rem; width: 22px; height: 22px; border-radius: 6px;
+    border: 0; background: rgba(15, 23, 42, .55); color: #fff; cursor: pointer;
+    display: grid; place-items: center; font-size: .8rem; opacity: 0; transition: opacity .12s ease;
+}
+.awg-upload-card:hover .rm, .awg-upload-card:focus-within .rm { opacity: 1; }
+.awg-upload-card .rm:hover { background: var(--awg-bad); }
 
 /* tags input */
 .awg-tags {
@@ -592,18 +652,34 @@ body.awg-sidebar-open .awg-overlay, .awg-overlay.show { opacity: 1; pointer-even
 .awg-toast-zone {
     position: fixed; top: 1rem; right: 1rem; z-index: 2060;
     display: flex; flex-direction: column; gap: .5rem; max-width: min(360px, calc(100vw - 2rem));
+    pointer-events: none;
 }
+.awg-toast-zone > * { pointer-events: auto; }
 .awg-toast {
-    display: flex; align-items: center; gap: .6rem;
+    display: flex; align-items: center; gap: .6rem; position: relative; overflow: hidden; touch-action: pan-y;
     background: var(--awg-surface); color: var(--awg-ink);
     border: 1px solid var(--awg-line); border-left: 4px solid var(--awg-brand);
     border-radius: 12px; padding: .8rem 1rem; font-size: .85rem; font-weight: 500;
     box-shadow: var(--awg-shadow-lg); animation: awg-slide-in .25s ease;
+    user-select: none; cursor: grab;
 }
 .awg-toast.ok { border-left-color: var(--awg-ok); }
 .awg-toast.bad { border-left-color: var(--awg-bad); }
 .awg-toast.warn { border-left-color: var(--awg-warn); }
 .awg-toast.hide { animation: awg-slide-out .2s ease forwards; }
+.awg-toast.swiping { transition: none; cursor: grabbing; }
+.awg-toast .bar {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--awg-line);
+}
+.awg-toast .bar::after {
+    content: ''; display: block; height: 100%; width: var(--awg-toast-pct, 100%);
+    background: currentColor; opacity: .55;
+}
+.awg-toast .x {
+    margin-left: auto; border: 0; background: none; color: inherit; cursor: pointer;
+    padding: .15rem .4rem; font-size: 1rem; line-height: 1; opacity: .55; border-radius: 6px;
+}
+.awg-toast .x:hover { opacity: 1; background: rgba(128,128,128,.12); }
 @keyframes awg-slide-in { from { transform: translateX(16px); opacity: 0; } }
 @keyframes awg-slide-out { to { transform: translateX(16px); opacity: 0; } }
 
@@ -636,9 +712,17 @@ body.awg-sidebar-open .awg-overlay, .awg-overlay.show { opacity: 1; pointer-even
     background-size: 200% 100%; animation: awg-shimmer 1.4s infinite;
 }
 .awg-skel.text { height: .9em; margin: .35rem 0; }
+.awg-skel.h1 { height: 1.5rem; margin: .5rem 0; border-radius: 10px; }
+.awg-skel.h2 { height: 1.25rem; margin: .45rem 0; border-radius: 9px; }
 .awg-skel.circle { border-radius: 50%; }
+.awg-skel.avatar { width: 36px; height: 36px; border-radius: 50%; }
 .awg-skel.rect { height: 90px; }
+.awg-skel.card { height: 120px; border-radius: var(--awg-radius); }
+.awg-skel.wave { animation: awg-shimmer 1.6s infinite linear; }
+.awg-skel-wrap { display: flex; flex-direction: column; gap: .5rem; }
+.awg-skel-pulse { animation: awg-skel-pulse 1.5s ease-in-out infinite; background: var(--awg-line); }
 @keyframes awg-shimmer { to { background-position: -200% 0; } }
+@keyframes awg-skel-pulse { 0%,100%{opacity:1} 50%{opacity:.45} }
 
 /* tooltip (CSS-only) */
 [data-awg-tip] { position: relative; }
@@ -716,6 +800,31 @@ body.awg-sidebar-open .awg-overlay, .awg-overlay.show { opacity: 1; pointer-even
 .awg-tab.active { color: var(--awg-brand); border-bottom-color: var(--awg-brand); }
 .awg-tabpane.awg-hide { display: none; }
 
+/* === tabs: pill === */
+.awg-tabs.pill { border-bottom: 0; gap: .4rem; }
+.awg-tabs.pill .awg-tab {
+    border: 1px solid var(--awg-line); border-radius: 999px;
+    padding: .45rem 1rem; margin-bottom: 0;
+}
+.awg-tabs.pill .awg-tab:hover { border-color: var(--awg-brand); }
+.awg-tabs.pill .awg-tab.active { background: var(--awg-brand); border-color: var(--awg-brand); color: #fff; }
+
+/* === tabs: underline vertical === */
+.awg-tabs.vertical {
+    flex-direction: column; align-items: stretch;
+    border-bottom: 0; border-right: 1px solid var(--awg-line); width: 180px; min-width: 180px;
+}
+.awg-tabs.vertical .awg-tab {
+    text-align: left; border-bottom: 0; border-right: 2px solid transparent;
+    margin-bottom: 0; margin-right: -1px; border-radius: 0;
+}
+.awg-tabs.vertical .awg-tab.active { border-right-color: var(--awg-brand); }
+
+/* scope agar panel sejajar vertical */
+.awg-tabscope.vertical { display: flex; gap: 1.25rem; align-items: flex-start; }
+.awg-tabscope.vertical .awg-tabs.vertical { flex: none; }
+.awg-tabscope.vertical .awg-tabpanels { flex: 1; min-width: 0; width: 100%; }
+
 .awg-pills { display: flex; gap: .4rem; flex-wrap: wrap; }
 .awg-pill {
     border: 1px solid var(--awg-line); background: var(--awg-surface); border-radius: 999px;
@@ -731,15 +840,33 @@ body.awg-sidebar-open .awg-overlay, .awg-overlay.show { opacity: 1; pointer-even
 }
 .awg-seg button.active { background: var(--awg-surface); color: var(--awg-ink); box-shadow: var(--awg-shadow-sm); }
 
-.awg-pager { display: flex; gap: .3rem; align-items: center; flex-wrap: wrap; }
-.awg-pager button {
-    min-width: 34px; height: 34px; border-radius: 9px; font: 600 .8rem var(--awg-font);
-    border: 1px solid var(--awg-line); background: var(--awg-surface); color: var(--awg-ink-2); cursor: pointer;
+/* === pagination === */
+.awg-pagination { display: flex; gap: .35rem; align-items: center; flex-wrap: wrap; }
+.awg-pagination .page,
+.awg-pagination .prev,
+.awg-pagination .next {
+    min-width: 36px; height: 36px; border-radius: 9px; font: 600 .8rem var(--awg-font);
+    border: 1px solid var(--awg-line); background: var(--awg-surface); color: var(--awg-ink-2);
+    cursor: pointer; display: inline-grid; place-items: center; padding: 0 .6rem;
 }
-.awg-pager button:hover { background: var(--awg-surface-2); }
-.awg-pager button.active { background: var(--awg-brand); border-color: var(--awg-brand); color: #fff; }
-.awg-pager button:disabled { opacity: .4; pointer-events: none; }
-.awg-pager .gap { color: var(--awg-ink-3); padding: 0 .2rem; }
+.awg-pagination .page:hover,
+.awg-pagination .prev:hover,
+.awg-pagination .next:hover { background: var(--awg-surface-2); }
+.awg-pagination .page.active { background: var(--awg-brand); border-color: var(--awg-brand); color: #fff; }
+.awg-pagination .page:disabled,
+.awg-pagination .prev:disabled,
+.awg-pagination .next:disabled { opacity: .4; pointer-events: none; }
+.awg-pagination .ellipsis { color: var(--awg-ink-3); padding: 0 .25rem; }
+.awg-pagination .info { font-size: .78rem; color: var(--awg-ink-3); margin-left: auto; }
+
+/* === breadcrumb === */
+.awg-breadcrumb { display: flex; align-items: center; gap: .5rem; font-size: .8rem; color: var(--awg-ink-3); flex-wrap: wrap; min-width: 0; }
+.awg-breadcrumb li { display: flex; align-items: center; gap: .5rem; }
+.awg-breadcrumb a { color: var(--awg-ink-3); }
+.awg-breadcrumb a:hover { color: var(--awg-brand); }
+.awg-breadcrumb .sep { opacity: .5; }
+.awg-breadcrumb .active { color: var(--awg-ink); font-weight: 600; }
+.awg-breadcrumb [aria-current="page"] { pointer-events: none; }
 
 .awg-crumbs { display: flex; align-items: center; gap: .4rem; font-size: .8rem; color: var(--awg-ink-3); flex-wrap: wrap; min-width: 0; }
 .awg-crumbs a { color: var(--awg-ink-3); }
@@ -895,6 +1022,27 @@ body.awg-sidebar-open .awg-overlay, .awg-overlay.show { opacity: 1; pointer-even
 .awg-dt-pager { margin-top: .9rem; }
 .awg-dt-empty-row td { padding: 2rem 0 !important; }
 
+/* === inline-edit table cells === */
+.awg-editable {
+    cursor: pointer; border-bottom: 1px dashed var(--awg-ink-3);
+    display: inline-flex; align-items: center; gap: .35rem;
+    min-width: 40px; padding: .15rem .25rem; margin: -.15rem -.25rem; border-radius: 6px;
+}
+.awg-editable:hover { border-bottom-color: var(--awg-brand); background: var(--awg-brand-soft); }
+.awg-editable::after {
+    content: ''; display: inline-block; width: .8em; height: .8em;
+    background: currentColor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z'/%3E%3C/svg%3E") center/contain no-repeat;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z'/%3E%3C/svg%3E") center/contain no-repeat;
+    opacity: .5;
+}
+.awg-editable-input {
+    font: inherit; font-size: inherit; padding: .25rem .4rem; margin: -.25rem -.4rem;
+    border: 1px solid var(--awg-brand); border-radius: 6px; background: var(--awg-surface);
+    color: var(--awg-ink); min-width: 0; width: 100%; outline: none;
+    box-shadow: 0 0 0 .2rem var(--awg-brand-soft);
+}
+.awg-editable-select { min-width: 120px; }
+
 /* ================= 17. DATEPICKER (js/awg-datepicker.js) ================= */
 .awg-dp-input { cursor: pointer; background-image: none; }
 .awg-field.awg-dp-active .awg-dp-input { border-color: var(--awg-brand); box-shadow: 0 0 0 3px rgba(37, 99, 235, .15); }
@@ -1013,4 +1161,66 @@ body.awg-lock { overflow: hidden; }
     .awg-dp { width: calc(100vw - 24px); }
     .awg-dp-cell { height: 40px; }
     .awg-kanban { grid-auto-flow: row; grid-auto-columns: auto; }
+    .awg-tabscope.vertical { flex-direction: column; }
+    .awg-tabs.vertical { width: 100%; border-right: 0; border-bottom: 1px solid var(--awg-line); flex-direction: row; }
+    .awg-tabs.vertical .awg-tab { border-right: 0; border-bottom: 2px solid transparent; margin-right: 0; margin-bottom: -1px; white-space: nowrap; }
+    .awg-tabs.vertical .awg-tab.active { border-bottom-color: var(--awg-brand); }
+    .awg-upload-list { grid-template-columns: repeat(2, 1fr); }
+    .awg-pagination .info { width: 100%; margin-left: 0; margin-top: .3rem; }
+}
+
+/* ================= 24. TIMELINE V2 + HORIZONTAL ================= */
+.awg-timeline { position: relative; padding-left: 1.5rem; }
+.awg-timeline::before { content: ''; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: var(--awg-line); }
+.awg-tl-item { position: relative; padding-bottom: 1.1rem; }
+.awg-tl-item::before {
+    content: ''; position: absolute; left: -1.5rem; top: 5px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--awg-brand); border: 2.5px solid var(--awg-surface);
+    box-shadow: 0 0 0 1.5px var(--awg-brand);
+}
+.awg-tl-item.done::before { background: var(--awg-ok); box-shadow: 0 0 0 1.5px var(--awg-ok); }
+.awg-tl-item.pending::before { background: #cbd5e1; box-shadow: 0 0 0 1.5px #cbd5e1; }
+.awg-tl-item.bad::before { background: var(--awg-bad); box-shadow: 0 0 0 1.5px var(--awg-bad); }
+.awg-tl-item:last-child { padding-bottom: 0; }
+.awg-tl-title { display: block; font-weight: 600; font-size: .86rem; color: var(--awg-ink); }
+.awg-tl-sub { display: block; font-size: .74rem; color: var(--awg-ink-3); }
+.awg-timeline.horizontal { padding-left: 0; display: flex; gap: .5rem; }
+.awg-timeline.horizontal::before { left: 0; right: 0; top: 11px; bottom: auto; height: 2px; width: auto; }
+.awg-timeline.horizontal .awg-tl-item { flex: 1; padding: 1.6rem .3rem 0; text-align: center; }
+.awg-timeline.horizontal .awg-tl-item::before { left: 50%; top: 0; transform: translateX(-50%); }
+.awg-timeline.horizontal .awg-tl-item.done::before { background: var(--awg-ok); }
+.awg-timeline.horizontal .awg-tl-item.pending::before { background: var(--awg-line); }
+
+/* ================= 25. TOUR / ONBOARDING OVERLAY ================= */
+.awg-tour-backdrop {
+    position: fixed; inset: 0; z-index: 3200;
+    background: rgba(2, 6, 23, .55); backdrop-filter: blur(1px);
+    opacity: 0; pointer-events: none; transition: opacity .2s ease;
+}
+.awg-tour-backdrop.open { opacity: 1; pointer-events: auto; }
+.awg-tour-spotlight {
+    position: fixed; z-index: 3201; border-radius: 12px;
+    box-shadow: 0 0 0 9999px rgba(2, 6, 23, .55), 0 0 0 4px var(--awg-brand);
+    transition: all .3s ease; pointer-events: none;
+}
+.awg-tour-card {
+    position: fixed; z-index: 3202; width: min(360px, calc(100vw - 2rem));
+    background: var(--awg-surface); border: 1px solid var(--awg-line);
+    border-radius: 16px; box-shadow: var(--awg-shadow-lg);
+    padding: 1rem 1.15rem; animation: awg-fadeUp .18s ease;
+}
+.awg-tour-card .head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .5rem; }
+.awg-tour-card .head h4 { margin: 0; font-size: .98rem; }
+.awg-tour-card p { margin: 0 0 .8rem; font-size: .86rem; color: var(--awg-ink-2); line-height: 1.55; }
+.awg-tour-card .foot { display: flex; justify-content: space-between; align-items: center; }
+.awg-tour-card .steps { display: flex; gap: .3rem; }
+.awg-tour-card .steps i { width: 7px; height: 7px; border-radius: 50%; background: var(--awg-line); }
+.awg-tour-card .steps i.active { background: var(--awg-brand); }
+.awg-tour-card .nav { display: flex; gap: .4rem; }
+.awg-tour-card .nav button { min-height: 34px; padding: .38rem .85rem; font-size: .8rem; }
+/* responsive tour */
+@media (max-width: 575.98px) {
+    .awg-tour-card { left: 1rem !important; right: 1rem !important; width: auto !important; bottom: 1rem !important; top: auto !important; }
+    .awg-tour-spotlight { display: none; }
 }

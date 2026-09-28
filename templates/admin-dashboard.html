@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin CRUD Dashboard · AWG-UIKIT-RACING</title>
+<link rel="stylesheet" href="../css/awg-uikit.css">
+<link rel="icon" href="../assets/icons.svg#ic-flag">
+<script>try{const t=localStorage.getItem('awg-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="awg-app">
+<aside class="awg-sidebar">
+    <div class="awg-brand-box">
+        <div class="logo"><svg class="awg-ic"><use href="../assets/icons.svg#ic-flag"></use></svg></div>
+        <div><b>AWG-ADMIN</b><small>CRUD Manager</small></div>
+    </div>
+    <nav>
+        <div class="awg-nav-label">Master Data</div>
+        <a class="awg-nav-link active" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-gauge"></use></svg> Dashboard</a>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-users"></use></svg> Users</a>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-server"></use></svg> Roles</a>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-box"></use></svg> Products</a>
+        <div class="awg-nav-label">Sistem</div>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-sliders"></use></svg> Settings</a>
+        <a class="awg-nav-link" href="#"><svg class="awg-ic"><use href="../assets/icons.svg#ic-activity"></use></svg> Logs</a>
+    </nav>
+    <div class="awg-side-foot">
+        <div class="awg-avatar">AW<i class="status"></i></div>
+        <div class="awg-flex-1"><b>AWGNET-RACING</b><small>& AGENT AI TEAM</small></div>
+        <button class="awg-nav-link" style="width:auto" data-awg-theme-toggle title="Tema"><svg class="awg-ic"><use href="../assets/icons.svg#ic-moon"></use></svg></button>
+    </div>
+</aside>
+<div class="awg-overlay"></div>
+
+<div class="awg-main">
+<header class="awg-topbar">
+    <button class="awg-menu-btn" data-awg-menu><svg class="awg-ic lg"><use href="../assets/icons.svg#ic-menu"></use></svg></button>
+    <div class="awg-crumbs"><a href="#">Admin</a><span class="sep">/</span><b>Dashboard</b></div>
+    <div class="awg-flex" style="margin-left:auto;gap:.5rem">
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-palette><svg class="awg-ic"><use href="../assets/icons.svg#ic-search"></use></svg> <span class="awg-hide-xs">Cari…</span></button>
+        <button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-theme-toggle><svg class="awg-ic"><use href="../assets/icons.svg#ic-contrast"></use></svg> <span class="awg-hide-xs">Tema</span></button>
+        <button class="awg-btn awg-btn-primary awg-btn-sm" data-awg-modal-open="userModal"><svg class="awg-ic"><use href="../assets/icons.svg#ic-plus"></use></svg> <span class="awg-hide-xs">User</span></button>
+    </div>
+</header>
+
+<div class="awg-content">
+<div class="awg-page-head">
+    <div><h1>Admin CRUD Dashboard</h1><p>Manajemen user, role &amp; produk · Author: <b>AWGNET-RACING &amp; AGENT AI TEAM</b></p></div>
+    <div class="awg-flex" style="gap:.4rem"><span class="awg-badge ok"><span class="dot"></span>Semua layanan up</span><span class="awg-badge">Admin</span></div>
+</div>
+
+<div class="awg-grid cols-4" style="margin-bottom:1rem">
+    <div class="awg-card"><div class="awg-stat"><div class="ico"><svg class="awg-ic"><use href="../assets/icons.svg#ic-users"></use></svg></div><div><div class="num">1.248</div><div class="lbl">Total Users</div><div class="trend up">▲ 24</div></div></div></div>
+    <div class="awg-card"><div class="awg-stat"><div class="ico ok"><svg class="awg-ic"><use href="../assets/icons.svg#ic-check-circle"></use></svg></div><div><div class="num">1.186</div><div class="lbl">User aktif</div><div class="trend up">95%</div></div></div></div>
+    <div class="awg-card"><div class="awg-stat"><div class="ico info"><svg class="awg-ic"><use href="../assets/icons.svg#ic-server"></use></svg></div><div><div class="num">7</div><div class="lbl">Roles</div></div></div></div>
+    <div class="awg-card"><div class="awg-stat"><div class="ico warn"><svg class="awg-ic"><use href="../assets/icons.svg#ic-alert-triangle"></use></svg></div><div><div class="num">3</div><div class="lbl">Pending verifikasi</div></div></div></div>
+</div>
+
+<div class="awg-card awg-mb-2"><div class="awg-card-head">Distribusi Status User</div>
+    <div class="awg-card-body"><div data-awg-chart="bar" data-awg-height="180" data-awg-unit="user"
+        data-labels='["Aktif","Pending","Nonaktif","Diblokir"]'
+        data-series='[[1186,24,21,17]]' data-names='["Jumlah"]'
+        data-colors='["var(--awg-ok)"]'
+        data-awg-max="1300"></div></div></div>
+
+<div class="awg-card"><div class="awg-card-head">Daftar User<span class="h-sub">— CRUD demo inline</span>
+    <div class="h-actions"><button class="awg-btn awg-btn-soft awg-btn-sm" onclick="exportUsers()"><svg class="awg-ic sm"><use href="../assets/icons.svg#ic-download"></use></svg> Export</button></div></div>
+<div class="awg-card-body">
+<div class="awg-dt-bar awg-mb-2">
+    <div class="awg-dt-search"><svg class="awg-ic"><use href="../assets/icons.svg#ic-search"></use></svg><input class="awg-input" id="userSearch" placeholder="Cari nama / email…" oninput="renderUsers()"></div>
+    <select class="awg-select" id="roleFilter" onchange="renderUsers()" style="width:auto">
+        <option value="">Semua role</option><option>Superadmin</option><option>Admin</option><option>NOC</option><option>Kasir</option><option>Pelanggan</option>
+    </select>
+</div>
+<div class="awg-table-wrap"><table class="awg-table striped compact" id="userTable">
+    <thead><tr><th>Nama</th><th>Email</th><th>Role</th><th>Status</th><th>Dibuat</th><th class="t-end">Aksi</th></tr></thead>
+    <tbody id="userTbody"></tbody>
+</table></div>
+<div class="awg-pager awg-mt-2" id="userPager"></div>
+</div></div>
+
+<div class="awg-divider">AWG-UIKIT-RACING · © AWGNET-RACING &amp; AGENT AI TEAM · MIT · 100% lokal tanpa CDN</div>
+</div></div></div>
+
+<div class="awg-backdrop" id="userModal"><div class="awg-modal" role="dialog">
+    <div class="awg-modal-head"><h3>Tambah / Edit User</h3><button class="x" data-awg-modal-close="userModal">✕</button></div>
+    <form data-awg-validate novalidate id="userForm" onsubmit="event.preventDefault();saveUser()">
+    <div class="awg-modal-body">
+        <input type="hidden" id="uId">
+        <div class="awg-grid cols-2">
+            <div class="awg-field"><label class="awg-label">Nama <span class="req">*</span></label><input class="awg-input" id="uName" required><div class="awg-error"></div></div>
+            <div class="awg-field"><label class="awg-label">Email <span class="req">*</span></label><input class="awg-input" type="email" id="uEmail" required data-awg-email><div class="awg-error"></div></div>
+        </div>
+        <div class="awg-grid cols-2">
+            <div class="awg-field"><label class="awg-label">Role <span class="req">*</span></label><select class="awg-select" id="uRole" required><option value="">Pilih…</option><option>Superadmin</option><option>Admin</option><option>NOC</option><option>Kasir</option><option>Pelanggan</option></select><div class="awg-error"></div></div>
+            <div class="awg-field"><label class="awg-label">Status <span class="req">*</span></label><select class="awg-select" id="uStatus" required><option>Aktif</option><option>Pending</option><option>Nonaktif</option><option>Diblokir</option></select></div>
+        </div>
+    </div>
+    <div class="awg-modal-foot">
+        <button type="button" class="awg-btn awg-btn-ghost" data-awg-modal-close="userModal">Batal</button>
+        <button type="submit" class="awg-btn awg-btn-primary"><svg class="awg-ic sm"><use href="../assets/icons.svg#ic-check"></use></svg> Simpan</button>
+    </div>
+    </form>
+</div></div>
+
+<script src="../js/awg-core.js"></script>
+<script src="../js/awg-charts.js"></script>
+<script src="../js/awg-widgets.js"></script>
+<script src="assets/awg-shared.js"></script>
+<script>
+let users=[
+    {id:1,name:'Andi Wijaya',email:'andi@awgnet.id',role:'Admin',status:'Aktif',created:'2026-09-01'},
+    {id:2,name:'Budi Santoso',email:'budi@awgnet.id',role:'NOC',status:'Aktif',created:'2026-09-03'},
+    {id:3,name:'Citra Dewi',email:'citra@awgnet.id',role:'Kasir',status:'Aktif',created:'2026-09-05'},
+    {id:4,name:'Damar Prakoso',email:'damar@awgnet.id',role:'Pelanggan',status:'Pending',created:'2026-09-10'},
+    {id:5,name:'Eka Putri',email:'eka@awgnet.id',role:'Pelanggan',status:'Aktif',created:'2026-09-12'},
+    {id:6,name:'Fajar Ramadhan',email:'fajar@awgnet.id',role:'NOC',status:'Nonaktif',created:'2026-09-14'},
+    {id:7,name:'Gita Nourma',email:'gita@awgnet.id',role:'Kasir',status:'Aktif',created:'2026-09-15'},
+    {id:8,name:'Hendra Gus',email:'hendra@awgnet.id',role:'Pelanggan',status:'Diblokir',created:'2026-09-18'},
+    {id:9,name:'Indah Lestari',email:'indah@awgnet.id',role:'Admin',status:'Aktif',created:'2026-09-20'},
+    {id:10,name:'Joko Susilo',email:'joko@awgnet.id',role:'Superadmin',status:'Aktif',created:'2026-09-22'},
+    {id:11,name:'Kartika Sari',email:'kartika@awgnet.id',role:'Pelanggan',status:'Pending',created:'2026-09-23'},
+    {id:12,name:'Lukman Hakim',email:'lukman@awgnet.id',role:'NOC',status:'Aktif',created:'2026-09-25'},
+];
+let page=1, per=5;
+function badgeStatus(s){
+    const cls={'Aktif':'ok','Pending':'warn','Nonaktif':'gray','Diblokir':'bad'};
+    return '<span class="awg-badge '+cls[s]+'">'+s+'</span>';
+}
+function renderUsers(){
+    const q=document.getElementById('userSearch').value.toLowerCase(), r=document.getElementById('roleFilter').value;
+    let filtered=users.filter(u=>(u.name.toLowerCase().includes(q)||u.email.toLowerCase().includes(q))&&(!r||u.role===r));
+    const totalPages=Math.max(1,Math.ceil(filtered.length/per)); if(page>totalPages)page=totalPages;
+    const start=(page-1)*per, pag=filtered.slice(start,start+per);
+    document.getElementById('userTbody').innerHTML=pag.map(u=>
+        '<tr><td><div class="awg-flex"><span class="awg-avatar sm">'+u.name.split(' ').map(x=>x[0]).join('').slice(0,2)+'</span><b>'+u.name+'</b></div></td>'+
+        '<td class="awg-mono awg-tiny">'+u.email+'</td><td>'+u.role+'</td><td>'+badgeStatus(u.status)+'</td><td class="awg-tiny">'+u.created+'</td>'+
+        '<td class="t-end"><div class="awg-flex end" style="gap:.25rem"><button class="awg-btn awg-btn-ghost awg-btn-sm" onclick="editUser('+u.id+')">Edit</button>'+
+        '<button class="awg-btn awg-btn-danger awg-btn-sm" onclick="deleteUser('+u.id+')">Hapus</button></div></td></tr>'
+    ).join('')+(pag.length?'':'<tr><td colspan="6" class="awg-text-c awg-muted" style="padding:2rem">Tidak ada data.</td></tr>');
+    const p=document.getElementById('userPager'); p.innerHTML='';
+    for(let i=1;i<=totalPages;i++){
+        const b=document.createElement('button'); b.textContent=i; if(i===page)b.classList.add('active');
+        b.onclick=()=>{page=i;renderUsers();}; p.appendChild(b);
+    }
+}
+function openModal(){document.getElementById('userForm').reset();document.getElementById('uId').value='';}
+document.querySelector('[data-awg-modal-open="userModal"]').addEventListener('click',openModal);
+function saveUser(){
+    const id=parseInt(document.getElementById('uId').value)||0;
+    const obj={
+        id:id?id:Date.now(),
+        name:document.getElementById('uName').value,
+        email:document.getElementById('uEmail').value,
+        role:document.getElementById('uRole').value,
+        status:document.getElementById('uStatus').value,
+        created:(id?users.find(x=>x.id===id):null)?.created||new Date().toISOString().slice(0,10)
+    };
+    if(id){const i=users.findIndex(x=>x.id===id);users[i]=obj;}else{users.unshift(obj);}
+    Awg.closeModal&&Awg.closeModal('userModal');
+    renderUsers();
+    Awg.toast('User disimpan','ok');
+}
+function editUser(id){
+    const u=users.find(x=>x.id===id); if(!u)return;
+    document.getElementById('uId').value=u.id;
+    document.getElementById('uName').value=u.name;
+    document.getElementById('uEmail').value=u.email;
+    document.getElementById('uRole').value=u.role;
+    document.getElementById('uStatus').value=u.status;
+    document.querySelector('[data-awg-modal-open="userModal"]').click();
+}
+function deleteUser(id){
+    const u=users.find(x=>x.id===id);
+    Awg.confirm('Hapus user?',u.name+(' ('+u.email+')'),()=>{
+        users=users.filter(x=>x.id!==id);renderUsers();Awg.toast('User dihapus','ok');
+    },{danger:true,yes:'Hapus'});
+}
+function exportUsers(){
+    const csv=['nama,email,role,status,dibuat'].concat(users.map(u=>Object.values(u).join(','))).join('\n');
+    const blob=new Blob([csv],{type:'text/csv'}), url=URL.createObjectURL(blob), a=document.createElement('a');
+    a.href=url; a.download='users-awgnet.csv'; a.click(); URL.revokeObjectURL(url);
+}
+document.addEventListener('DOMContentLoaded',renderUsers);
+</script>
+</body>
+</html>

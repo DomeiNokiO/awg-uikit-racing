@@ -1,16 +1,61 @@
 {
   "name": "awg-uikit-racing",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "description": "Design system + komponen CSS/JS standalone (Frences dashboard). Author: AWGNET-RACING & AGENT AI TEAM. Framework-agnostic: PHP, Node, Python, Go, Rails, React/Vue.",
-  "main": "js/awg-core.js",
+  "main": "dist/awg-uikit.cjs",
+  "module": "dist/awg-uikit.mjs",
+  "types": "js/awg-uikit.d.ts",
   "style": "css/awg-uikit.css",
   "author": "AWGNET-RACING & AGENT AI TEAM",
   "license": "MIT",
-  "files": ["css/", "js/", "fonts/", "assets/", "dist/", "docs/", "templates/", "adapters/"],
+  "files": [
+    "css/",
+    "js/",
+    "fonts/",
+    "assets/",
+    "dist/",
+    "docs/",
+    "templates/",
+    "adapters/",
+    "playground.html",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./js/awg-uikit.d.ts",
+      "import": "./dist/awg-uikit.mjs",
+      "require": "./dist/awg-uikit.cjs",
+      "style": "./css/awg-uikit.css"
+    },
+    "./css": "./css/awg-uikit.css",
+    "./dist/*": "./dist/*",
+    "./js/*": "./js/*",
+    "./fonts/*": "./fonts/*",
+    "./assets/*": "./assets/*"
+  },
   "scripts": {
-    "build": "bash scripts/build.sh",
+    "build": "bash scripts/build.sh && node scripts/build-mjs-cjs.js",
+    "build:mjs-cjs": "node scripts/build-mjs-cjs.js",
     "serve": "python3 -m http.server 8877"
   },
-  "keywords": ["design-system", "ui-kit", "css", "vanilla-js", "select2", "dropdown", "forms", "charts", "nms", "monitoring", "dashboard", "laravel", "awgnet-racing"],
-  "repository": { "type": "git", "url": "https://github.com/DomeiNokiO/awg-uikit-racing" }
+  "keywords": [
+    "design-system",
+    "ui-kit",
+    "css",
+    "vanilla-js",
+    "select2",
+    "dropdown",
+    "forms",
+    "charts",
+    "nms",
+    "monitoring",
+    "dashboard",
+    "laravel",
+    "awgnet-racing"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DomeiNokiO/awg-uikit-racing"
+  }
 }
