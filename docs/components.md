@@ -80,21 +80,33 @@ Semua kelas berprefix `awg-`. Ikon contoh memakai sprite lokal `assets/icons.svg
 ```html
 <div class="awg-alert ok"><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-check-circle"></use></svg> Pesan <button class="x" onclick="this.parentElement.remove()">✕</button></div>
 Awg.toast('Tersimpan', 'ok');            <!-- info|ok|warn|bad -->
+Awg.toast('Timeout', 'bad', { ms: 8000, pauseOnHover: true });  // progress bar, swipe dismiss, hover pause
 <div class="awg-empty"><span class="ico"><svg class="awg-ic"><use href="/assets/assets/icons.svg#ic-folder"></use></svg></span><b>Kosong</b><span class="awg-small">…</span></div>
 <span class="awg-spinner sm"></span> <!-- .lg -->
 <div class="awg-progress ok striped"><span style="width:100%"></span></div>
-<div class="awg-skel text" style="width:60%"></div> <!-- .rect .circle -->
+<div class="awg-skel text" style="width:60%"></div> <!-- .rect .circle .h1 .h2 .avatar .card .wave -->
 <span data-awg-tip="teks tooltip">hover</span>
+```
+
+## Skeleton loader (JS)
+```js
+AwgSkeleton.show('#card', 'card');   // replace content with skeleton variant
+AwgSkeleton.hide('#card');           // restore original content
+AwgSkeleton.replace('#list', 'text'); // overwrite without backup
 ```
 
 ## Timeline
 ```html
-<div class="awg-timeline">
-    <div class="awg-tl-item done"><b class="awg-small">Selesai</b><div class="awg-tiny awg-muted">08.14</div></div>
-    <div class="awg-tl-item"><b class="awg-small">Proses</b></div>
-    <div class="awg-tl-item pending"><b class="awg-small">Menunggu</b></div>
+<!-- Vertical -->
+<div class="awg-timeline" data-awg-timeline>
+    <div class="awg-tl-item done"><span class="awg-tl-title">Selesai</span><span class="awg-tl-sub">08.14</span></div>
+    <div class="awg-tl-item"><span class="awg-tl-title">Proses</span></div>
+    <div class="awg-tl-item pending"><span class="awg-tl-title">Menunggu</span></div>
 </div>
+<!-- Horizontal -->
+<div class="awg-timeline horizontal" data-awg-timeline="horizontal">...</div>
 ```
+API: `new AwgTimeline(el, { horizontal: true }); timeline.mark(index, 'done'|'bad'|'pending');`
 
 ## Accordion
 ```html
@@ -195,3 +207,16 @@ Global fallback: `Awg.copy('teks').then(() => ...)`.
 ```
 Event: `awg:edit` dengan `{ el, name, oldValue, newValue }`. `preventDefault()` akan membatalkan perubahan teks.
 
+
+
+## Tour / Onboarding overlay
+```html
+<button id="btn1">Aksi 1</button>
+<script>
+new AwgTour([
+    { target: '#btn1', title: 'Selamat datang', text: 'Ini highlight elemen pertama.' },
+    { target: '#btn2', title: 'Langkah 2', text: 'Navigasi via tombol atau keyboard.' }
+]).start();
+</script>
+```
+Opsi: `onStep`, `onEnd`, `onSkip`, `labels: { next, prev, finish, skip }`. Status: `tour.next()`, `tour.prev()`, `tour.end()`.

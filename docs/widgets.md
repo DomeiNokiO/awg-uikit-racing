@@ -69,3 +69,11 @@ Semua komponen auto-mount saat DOM siap. Setelah konten dinamis dimuat, panggil:
 ```js
 AwgTable.mount(); AwgDate.mount(); AwgWidgets.mount();
 ```
+
+
+## Skeleton, Timeline & Tour
+| Widget | Cara pakai |
+|---|---|
+| Skeleton | `AwgSkeleton.show(sel, 'card\|text')` / `AwgSkeleton.hide(sel)` |
+| Timeline | `<div data-awg-timeline="horizontal">...</div>` → `AwgTimeline.mark(idx, 'done')` |
+| Tour | `new AwgTour([{target:'#el', title:'...', text:'...'}]).start()` |

@@ -609,7 +609,7 @@
         _mount() {
             if (this.bd) return;
             this.bd = d.createElement('div');
-            this.bd.className = 'awg-tour-backdrop';
+            this.bd.className = 'awg-tour-backdrop open';
             this.spot = d.createElement('div');
             this.spot.className = 'awg-tour-spotlight';
             this.card = d.createElement('div');
@@ -619,7 +619,6 @@
             d.body.appendChild(this.bd);
             d.body.appendChild(this.spot);
             d.body.appendChild(this.card);
-            setTimeout(() => this.bd.classList.add('open'), 10);
             this.bd.addEventListener('click', () => this.end());
         }
         _step(n) {
@@ -681,7 +680,10 @@
         end() {
             if (!this.bd) return;
             this.bd.classList.remove('open');
-            setTimeout(() => { this.bd?.remove(); this.spot?.remove(); this.card?.remove(); this.bd = this.spot = this.card = null; }, 220);
+            this.spot?.remove();
+            this.card?.remove();
+            this.bd.remove();
+            this.bd = this.spot = this.card = null;
             this.o.onEnd && this.o.onEnd(this);
         }
     }
