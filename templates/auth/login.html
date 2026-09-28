@@ -38,13 +38,13 @@
     <form data-awg-validate novalidate onsubmit="event.preventDefault();Awg.toast('Redirect ke 2FA…','ok');setTimeout(()=>location.href='2fa.html',600)">
         <div class="awg-field">
             <label class="awg-label">Email / Username <span class="req">*</span></label>
-            <input class="awg-input" name="login" placeholder="noc@awgnet.id" required autofocus>
+            <input class="awg-input" name="login" placeholder="noc@awgnet.id" required autofocus autocomplete="username">
             <div class="awg-error"></div>
         </div>
         <div class="awg-field">
             <label class="awg-label">Password <span class="req">*</span></label>
             <div class="awg-input-group">
-                <input class="awg-input" type="password" name="password" id="password" placeholder="••••••••" required data-awg-pass>
+                <input class="awg-input" type="password" name="password" id="password" placeholder="••••••••" required data-awg-pass autocomplete="current-password">
                 <button type="button" class="awg-addon-btn" onclick="const p=document.getElementById('password');p.type=p.type==='password'?'text':'password'">Lihat</button>
             </div>
             <div class="awg-error"></div>

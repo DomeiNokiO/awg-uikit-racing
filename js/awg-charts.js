@@ -293,7 +293,7 @@
             if (v >= 1000) return (v / 1000).toFixed(v >= 10000 ? 0 : 1) + 'k';
             return v % 1 ? v.toFixed(1) : String(v);
         }
-        _esc(s) { return String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+        _esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
         destroy() { this._ro && this._ro.disconnect(); this.el.innerHTML = ''; }
     }
 

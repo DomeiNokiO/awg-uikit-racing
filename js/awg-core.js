@@ -311,7 +311,7 @@
                     btn.classList.add('copied');
                     const old = btn.innerHTML;
                     const tmp = btn.dataset.awgCopyOk || '✓ Tersalin';
-                    if (btn.dataset.awgCopyOk !== '') btn.innerHTML = `<svg class="awg-ic sm"><use href="assets/icons.svg#ic-check"></use></svg> ${tmp}`;
+                    if (btn.dataset.awgCopyOk !== '') btn.innerHTML = `<svg class="awg-ic sm"><use href="assets/icons.svg#ic-check"></use></svg> ${Awg.esc(tmp)}`;
                     Awg.toast(`Disalin: ${text.trim().slice(0, 60)}${text.length > 60 ? '…' : ''}`, 'ok', 2500);
                     setTimeout(() => { btn.classList.remove('copied'); if (btn.dataset.awgCopyOk !== '') btn.innerHTML = old; }, 1500);
                 }).catch(err => { Awg.toast('Gagal menyalin ke clipboard', 'bad'); console.error(err); });

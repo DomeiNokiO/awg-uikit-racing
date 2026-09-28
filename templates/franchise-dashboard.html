@@ -137,11 +137,12 @@
 <script>
 const cart=[];
 function fmt(n){return 'Rp '+n.toLocaleString('id-ID');}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function renderCart(){
     const el=document.getElementById('cartItems');
     if(!cart.length){el.innerHTML='<div class="awg-empty"><span class="ico"><svg class="awg-ic"><use href="../assets/icons.svg#ic-box"></use></svg></span><b>Keranjang kosong</b><span class="awg-tiny awg-muted">Klik produk untuk menambah.</span></div>';}
     else{el.innerHTML='<div class="awg-flex col" style="gap:.5rem">'+cart.map((it,i)=>
-        '<div class="awg-flex between" style="padding:.5rem;background:var(--awg-bg);border-radius:9px"><span class="awg-small" style="font-weight:600">'+it.name+'</span><span class="awg-flex" style="gap:.6rem"><span class="awg-num awg-small">'+fmt(it.price)+'</span><button class="awg-btn awg-btn-ghost awg-btn-icon awg-btn-sm" onclick="removeItem('+i+')">×</button></span></div>'
+        '<div class="awg-flex between" style="padding:.5rem;background:var(--awg-bg);border-radius:9px"><span class="awg-small" style="font-weight:600">'+esc(it.name)+'</span><span class="awg-flex" style="gap:.6rem"><span class="awg-num awg-small">'+fmt(it.price)+'</span><button class="awg-btn awg-btn-ghost awg-btn-icon awg-btn-sm" onclick="removeItem('+i+')">×</button></span></div>'
     ).join('')+'</div>';}
     document.getElementById('cartTotal').textContent=fmt(cart.reduce((a,b)=>a+b.price,0));
 }

@@ -13,6 +13,16 @@
     'use strict';
     const d = document, w = window, L = w.L;
 
+    /* Popup/tooltip content aman: buang tag & event handler (mitigasi CVE-2025-69993
+       pada Leaflet <= 1.9.4 yang merender bindPopup() sebagai HTML mentah). */
+    function safePopupText(s) {
+        return String(s ?? '')
+            .replace(/<[^>]*>/g, ' ')                 // buang semua tag HTML
+            .replace(/javascript:/gi, '')             // buang skema js di href/url
+            .replace(/\son\w+\s*=/gi, ' data-x=')     // netralkan event handler tersisa
+            .trim();
+    }
+
     class AwgMap {
         constructor(root, opts) {
             this.el = typeof root === 'string' ? d.querySelector(root) : root;
@@ -63,7 +73,7 @@
             this.markers = [];
             (this.o.markers || []).forEach(m => {
                 const gm = new google.maps.Marker({ position: { lat: m.lat, lng: m.lng }, map: this.map, title: m.title || '' });
-                if (m.popup) { const inf = new google.maps.InfoWindow({ content: m.popup }); gm.addListener('click', () => inf.open(this.map, gm)); }
+                if (m.popup) { const inf = new google.maps.InfoWindow({ content: safePopupText(m.popup) }); gm.addListener('click', () => inf.open(this.map, gm)); }
                 this.markers.push(gm);
             });
             this.o.onReady && this.o.onReady(this);
@@ -76,7 +86,7 @@
             (this.o.markers || []).forEach(m => {
                 const el = document.createElement('div'); el.className = 'awg-map-pin';
                 const mk = new maplibregl.Marker(el).setLngLat([m.lng, m.lat]).addTo(this.map);
-                if (m.popup) mk.setPopup(new maplibregl.Popup({ offset: 25 }).setHTML(m.popup));
+                if (m.popup) mk.setPopup(new maplibregl.Popup({ offset: 25 }).setContent(safePopupText(m.popup)));
                 this.markers.push(mk);
             });
             this.o.onReady && this.o.onReady(this);
@@ -170,7 +180,7 @@
                 g.appendChild(label);
 
                 const tip = document.createElementNS(svgNS, 'title');
-                tip.textContent = m.popup ? String(m.popup).replace(/<[^>]+>/g, ' ') : (m.title || 'Node');
+                tip.textContent = m.popup ? safePopupText(m.popup) : (m.title || 'Node');
                 g.appendChild(tip);
                 svg.appendChild(g);
             });
@@ -182,7 +192,7 @@
         _drawMarkers() {
             (this.o.markers || []).forEach(m => {
                 const mk = L.marker([m.lat, m.lng]).addTo(this.map);
-                if (m.popup) mk.bindPopup(m.popup);
+                if (m.popup) mk.bindPopup(safePopupText(m.popup));
                 if (m.title) mk.bindTooltip(m.title);
                 this.markers.push(mk);
             });
@@ -192,7 +202,7 @@
             if (!this.map) return;
             if (L && this.map instanceof L.Map) {
                 const mk = L.marker([m.lat, m.lng]).addTo(this.map);
-                if (m.popup) mk.bindPopup(m.popup);
+                if (m.popup) mk.bindPopup(safePopupText(m.popup));
                 this.markers.push(mk);
             }
         }

@@ -128,14 +128,21 @@ function badgeStatus(s){
     const cls={'Aktif':'ok','Pending':'warn','Nonaktif':'gray','Diblokir':'bad'};
     return '<span class="awg-badge '+cls[s]+'">'+s+'</span>';
 }
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function csvField(s){
+    s=String(s??'');
+    if(/^[=+\-@\t\r]/.test(s)) s="'"+s;   // netralkan formula Excel/Sheets (CSV injection)
+    if(/[",\n\r]/.test(s)) s='"'+s.replace(/"/g,'""')+'"';
+    return s;
+}
 function renderUsers(){
     const q=document.getElementById('userSearch').value.toLowerCase(), r=document.getElementById('roleFilter').value;
     let filtered=users.filter(u=>(u.name.toLowerCase().includes(q)||u.email.toLowerCase().includes(q))&&(!r||u.role===r));
     const totalPages=Math.max(1,Math.ceil(filtered.length/per)); if(page>totalPages)page=totalPages;
     const start=(page-1)*per, pag=filtered.slice(start,start+per);
     document.getElementById('userTbody').innerHTML=pag.map(u=>
-        '<tr><td><div class="awg-flex"><span class="awg-avatar sm">'+u.name.split(' ').map(x=>x[0]).join('').slice(0,2)+'</span><b>'+u.name+'</b></div></td>'+
-        '<td class="awg-mono awg-tiny">'+u.email+'</td><td>'+u.role+'</td><td>'+badgeStatus(u.status)+'</td><td class="awg-tiny">'+u.created+'</td>'+
+        '<tr><td><div class="awg-flex"><span class="awg-avatar sm">'+esc(u.name.split(' ').map(x=>x[0]).join('').slice(0,2))+'</span><b>'+esc(u.name)+'</b></div></td>'+
+        '<td class="awg-mono awg-tiny">'+esc(u.email)+'</td><td>'+esc(u.role)+'</td><td>'+badgeStatus(u.status)+'</td><td class="awg-tiny">'+esc(u.created)+'</td>'+
         '<td class="t-end"><div class="awg-flex end" style="gap:.25rem"><button class="awg-btn awg-btn-ghost awg-btn-sm" onclick="editUser('+u.id+')">Edit</button>'+
         '<button class="awg-btn awg-btn-danger awg-btn-sm" onclick="deleteUser('+u.id+')">Hapus</button></div></td></tr>'
     ).join('')+(pag.length?'':'<tr><td colspan="6" class="awg-text-c awg-muted" style="padding:2rem">Tidak ada data.</td></tr>');
@@ -178,7 +185,7 @@ function deleteUser(id){
     },{danger:true,yes:'Hapus'});
 }
 function exportUsers(){
-    const csv=['nama,email,role,status,dibuat'].concat(users.map(u=>Object.values(u).join(','))).join('\n');
+    const csv=['nama,email,role,status,dibuat'].concat(users.map(u=>Object.values(u).map(csvField).join(','))).join('\n');
     const blob=new Blob([csv],{type:'text/csv'}), url=URL.createObjectURL(blob), a=document.createElement('a');
     a.href=url; a.download='users-awgnet.csv'; a.click(); URL.revokeObjectURL(url);
 }
