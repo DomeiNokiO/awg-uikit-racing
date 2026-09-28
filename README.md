@@ -4,6 +4,26 @@
 Murni CSS + vanilla JS — **tanpa Bootstrap, tanpa jQuery** — bisa dipakai di PHP, Laravel,
 Node.js, Python, Go, Ruby, React/Vue/Svelte, atau bahasa apa pun yang menghasilkan HTML.
 
+## 📸 Preview
+
+| Desktop (light) | Dark mode |
+|---|---|
+| ![Desktop](docs/screenshots/shot01-desktop.png) | ![Dark](docs/screenshots/shot06-dark.png) |
+
+| Select2 — search + highlight | Select2 — multiple chips |
+|---|---|
+| ![Select2 single](docs/screenshots/shot02-select2-open.png) | ![Select2 multi](docs/screenshots/shot03-select2-multi.png) |
+
+| Dropdown + submenu 2-level | Modal + select2 di dalamnya |
+|---|---|
+| ![Dropdown](docs/screenshots/shot04-dropdown-submenu.png) | ![Modal](docs/screenshots/shot05-modal-select.png) |
+
+| Mobile 320px (0 scroll) | Mobile — sidebar drawer |
+|---|---|
+| ![Mobile 320](docs/screenshots/shot07-mobile320.png) | ![Drawer](docs/screenshots/shot08-mobile-drawer.png) |
+
+*Screenshot diambil dengan Chrome headless (viewport asli) — lihat `docs/screenshots/README.md`.*
+
 | | |
 |---|---|
 | **Author** | **AWGNET-RACING & AGENT AI TEAM** |
