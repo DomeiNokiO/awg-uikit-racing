@@ -9,8 +9,11 @@ minify_css() {
     perl -0pe 's{/\*.*?\*/}{}gs; s/\s+/ /g; s/\s*([{}:;,>])\s*/$1/g; s/;}/}/g; s/^ //; s/ $//' "$1"
 }
 minify_js() {
+    if [ -x node_modules/.bin/terser ]; then
+        node_modules/.bin/terser -c -m -- "$1" 2>/dev/null && return
+    fi
     if command -v npx >/dev/null 2>&1; then
-        npx --yes terser@5 -c -m -- "$1" 2>/dev/null && return
+        npx --no-install terser -c -m -- "$1" 2>/dev/null && return
     fi
     perl -0pe 's{^\s*/\*.*?\*/}{}gsm; s{^\s*//.*$}{}gm; s/\n{2,}/\n/g' "$1"
 }

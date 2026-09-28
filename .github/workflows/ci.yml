@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies (lockfile, frozen)
+        run: npm ci
+
+      - name: Syntax check semua JS
+        run: |
+          for f in js/*.js test/*.js scripts/*.js; do
+            node --check "$f"
+          done
+
+      - name: Jalankan test keamanan & util
+        run: npm test
+
+      - name: Build dist
+        run: npm run build
+
+      - name: Verifikasi dist sinkron
+        run: |
+          for f in awg-core awg-maps awg-widgets awg-charts awg-select2 awg-datatable awg-datepicker; do
+            [ dist/$f.js -nt js/$f.js ] || { echo "::error::dist/$f.js stale"; exit 1; }
+          done
+
+      - name: Smoke test halaman (HTTP 200)
+        run: |
+          python3 -m http.server 8899 --directory . &
+          SERVER_PID=$!
+          sleep 2
+          FAILED=0
+          for p in index.html playground.html \
+                   templates/nms-dashboard.html templates/franchise-dashboard.html \
+                   templates/admin-dashboard.html templates/profile.html templates/settings.html \
+                   templates/billing.html templates/security.html \
+                   templates/auth/login.html templates/auth/register.html \
+                   templates/auth/forgot-password.html templates/auth/2fa.html \
+                   templates/errors/403.html templates/errors/404.html \
+                   templates/errors/500.html templates/errors/503.html; do
+            CODE=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:8899/$p")
+            if [ "$CODE" != "200" ]; then
+              echo "::error::$p returned $CODE"
+              FAILED=1
+            fi
+          done
+          kill $SERVER_PID
+          exit $FAILED
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/

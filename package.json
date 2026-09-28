@@ -37,6 +37,7 @@
   "scripts": {
     "build": "bash scripts/build.sh && node scripts/build-mjs-cjs.js",
     "build:mjs-cjs": "node scripts/build-mjs-cjs.js",
+    "test": "node test/run-tests.js",
     "serve": "python3 -m http.server 8877"
   },
   "keywords": [
@@ -57,5 +58,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/DomeiNokiO/awg-uikit-racing"
+  },
+  "devDependencies": {
+    "terser": "^5.37.0"
   }
 }

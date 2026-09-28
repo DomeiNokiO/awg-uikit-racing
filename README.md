@@ -1,5 +1,10 @@
 # 🏁 AWG-UIKIT-RACING
 
+[![CI](https://github.com/DomeiNokiO/awg-uikit-racing/actions/workflows/ci.yml/badge.svg)](https://github.com/DomeiNokiO/awg-uikit-racing/actions/workflows/ci.yml)
+![Version](https://img.shields.io/badge/version-1.4.0-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)
+
 **Design system standalone** yang di-ekstrak dari UI dashboard Franchise Management (Frences).
 Murni CSS + vanilla JS — **tanpa Bootstrap, tanpa jQuery** — bisa dipakai di PHP, Laravel,
 Node.js, Python, Go, Ruby, React/Vue/Svelte, atau bahasa apa pun yang menghasilkan HTML.

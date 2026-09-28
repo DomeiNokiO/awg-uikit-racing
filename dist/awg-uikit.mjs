@@ -43,6 +43,7 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
     Awg.esc = s => String(s ?? '').replace(/[&<>"']/g, c => (
         { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
     ));
+    Awg.version = '1.4.0';
     Awg.rupiah = (v, prefix = 'Rp ') => prefix + Number(v || 0).toLocaleString('id-ID');
     Awg.num = v => Number(v || 0).toLocaleString('id-ID');
     Awg.$ = (sel, root) => (root || document).querySelector(sel);
