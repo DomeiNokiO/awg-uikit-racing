@@ -42,7 +42,9 @@
     "qa": "node qa/run-qa.js && node qa/interaction-tests.js",
     "qa:console": "node qa/verify-console.js",
     "qa:icons": "node qa/verify-final.js",
-    "qa:dom": "node qa/visual-dom-audit.js"
+    "qa:dom": "node qa/visual-dom-audit.js",
+    "qa:links": "node qa/verify-links.js",
+    "qa:drawer": "node qa/verify-drawer.js"
   },
   "keywords": [
     "design-system",
