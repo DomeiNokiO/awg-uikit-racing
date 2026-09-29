@@ -11,13 +11,16 @@
     'use strict';
     const d = document;
     const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    function assetRoot() {
+        return /\/templates\//.test(location.pathname) ? '../assets' : 'assets';
+    }
+
     function toNum(t) {
         const n = parseFloat(String(t).replace(/[^\d.,-]/g, '').replace(/\.(?=\d{3}\b)/g, '').replace(',', '.'));
         return isNaN(n) ? null : n;
     }
 
     class AwgTable {
-        static icon = 'assets/icons.svg';
         constructor(target, opts) {
             const t = typeof target === 'string' ? d.querySelector(target) : target;
             if (!t) return null;
@@ -37,7 +40,7 @@
             const bar = d.createElement('div');
             bar.className = 'awg-dt-bar';
             if (o.search) bar.insertAdjacentHTML('beforeend',
-                `<label class="awg-dt-search"><svg class="awg-ic sm"><use href="${AwgTable.icon}#ic-search"></use></svg>
+                `<label class="awg-dt-search"><svg class="awg-ic sm"><use href="${assetRoot()}/icons.svg#ic-search"></use></svg>
                  <input class="awg-input awg-input-sm" type="search" placeholder="${esc(o.placeholder)}" aria-label="Cari"></label>`);
             if (o.info) bar.insertAdjacentHTML('beforeend', '<span class="awg-dt-info awg-small awg-muted"></span>');
             if (o.search && o.per.length) bar.insertAdjacentHTML('beforeend',
@@ -115,7 +118,7 @@
             const tb = this.t.querySelector('tbody');
             if (!rows.length) {
                 tb.innerHTML = `<tr class="awg-dt-empty-row"><td colspan="99"><div class="awg-empty">
-                    <span class="ico"><svg class="awg-ic lg"><use href="${AwgTable.icon}#ic-folder"></use></svg></span>
+                    <span class="ico"><svg class="awg-ic lg"><use href="${assetRoot()}/icons.svg#ic-folder"></use></svg></span>
                     <b>Tidak ada hasil</b><span class="awg-tiny awg-muted">Coba kata kunci lain</span></div></td></tr>`;
             } else {
                 tb.innerHTML = '';

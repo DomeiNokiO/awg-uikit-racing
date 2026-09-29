@@ -38,7 +38,11 @@
     "build": "bash scripts/build.sh && node scripts/build-mjs-cjs.js",
     "build:mjs-cjs": "node scripts/build-mjs-cjs.js",
     "test": "node test/run-tests.js",
-    "serve": "python3 -m http.server 8877"
+    "serve": "python3 -m http.server 8877",
+    "qa": "node qa/run-qa.js && node qa/interaction-tests.js",
+    "qa:console": "node qa/verify-console.js",
+    "qa:icons": "node qa/verify-final.js",
+    "qa:dom": "node qa/visual-dom-audit.js"
   },
   "keywords": [
     "design-system",
@@ -60,6 +64,8 @@
     "url": "https://github.com/DomeiNokiO/awg-uikit-racing"
   },
   "devDependencies": {
+    "playwright-core": "^1.47.0",
+    "puppeteer-core": "^23.3.0",
     "terser": "^5.37.0"
   }
 }

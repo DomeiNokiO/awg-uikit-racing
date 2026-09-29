@@ -4,3 +4,6 @@ node_modules/
 .env.*
 !.env.example
 .DS_Store
+
+# QA render artifacts (generated)
+qa-render-out/

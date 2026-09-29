@@ -6,6 +6,10 @@
     'use strict';
     const d = document;
 
+    const base = document.querySelector('base') ? document.querySelector('base').href.replace(/[^/]*$/, '')
+        : location.pathname.split('/').filter((_,i,a)=>i < a.length-1).join('/') + '/' || './';
+    const assetRoot = base.replace(/\/$/, '').split('/').includes('templates') ? '../assets' : 'assets';
+    const icon = (name = 'bell') => `${assetRoot}/icons.svg#ic-${name}`;
     const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
     /* ============ NOTIFICATION CENTER ============ */
@@ -20,6 +24,13 @@
                 const btn = host.querySelector('[data-awg-notif-btn]');
                 const panel = host.querySelector('.awg-notif-panel');
                 if (!btn || !panel) return;
+                /* IDEMPOTEN: halaman memanggil AwgNotif.init() dua kali (auto-init
+                   di file ini + AwgNotif.init() eksplisit di template), dan tiap
+                   pemanggilan menambah satu listener klik. Dua listener membuat
+                   toggle buka-lalu-tutup seketika sehingga panel notifikasi
+                   tidak pernah bisa dibuka. */
+                if (btn._awgNotifWired) return;
+                btn._awgNotifWired = true;
                 btn.addEventListener('click', e => {
                     e.stopPropagation();
                     const open = panel.classList.toggle('open');
@@ -64,11 +75,11 @@
             const rows = this.filter === 'all' ? this.items : this.items.filter(i => i.type === this.filter);
             list.innerHTML = rows.length ? rows.map(i => `
                 <button type="button" class="awg-notif-item${i.unread ? ' unread' : ''}" data-id="${esc(String(i.id))}">
-                    <span class="ic ${esc(i.type)}"><svg class="awg-ic"><use href="${esc(i.icon || 'assets/icons.svg#ic-bell')}"></use></svg></span>
+                    <span class="ic ${esc(i.type)}"><svg class="awg-ic"><use href="${esc(i.icon || icon('bell'))}"></use></svg></span>
                     <span class="body"><b>${esc(i.title)}</b><small>${esc(i.text)}</small><time>${esc(i.time)}</time></span>
                     ${i.unread ? '<span class="dot-unread" aria-label="Belum dibaca"></span>' : ''}
                 </button>`).join('')
-                : `<div class="awg-notif-empty"><svg class="awg-ic"><use href="assets/icons.svg#ic-bell"></use></svg><p class="awg-small">Tidak ada notifikasi di kategori ini.</p></div>`;
+                : `<div class="awg-notif-empty"><svg class="awg-ic"><use href="${icon('bell')}"></use></svg><p class="awg-small">Tidak ada notifikasi di kategori ini.</p></div>`;
             list.querySelectorAll('.awg-notif-item').forEach(el =>
                 el.addEventListener('click', () => {
                     const it = this.items.find(x => String(x.id) === el.dataset.id);

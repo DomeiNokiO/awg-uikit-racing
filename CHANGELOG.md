@@ -6,6 +6,28 @@ Format mengikuti [Keep a Changelog](https://keepachangelog.com/), dan proyek ini
 
 ## [Unreleased]
 
+### Fixed
+
+- **Panel notifikasi tidak bisa dibuka (NMS & Chat)**: `AwgNotif.init()` dipanggil dua kali (auto-init + panggilan eksplisit di template) sehingga tombol bell punya **dua** listener klik — satu klik membuka lalu langsung menutup panel. `init()` kini idempoten (`btn._awgNotifWired`). Terverifikasi via CDP: 1 listener.
+- **Panel notifikasi keluar layar di HP**: dengan panel ber-anchor ke tombol bell (`right: 0`, lebar 288–380px), tombol yang berada di tengah baris membuat panel meleset ke kiri (`left ≈ -43px` di 320px). Di ≤576px `.awg-notif-wrap` dibuat `position: static` sehingga panel ber-anchor ke `.awg-topbar` dan dibentangkan penuh dengan margin.
+- **Baris header panel notifikasi tumpang tindih**: tombol "Tandai dibaca" menimpa judul di layar sempit. `.awg-notif-head` kini `flex-wrap: wrap` + `gap`.
+- **Nav dokumentasi tidak ter-style**: `docs.html` mengirim token literal `class="awg-nav-link{active}"` (placeholder template yang tidak pernah disubstitusi) sehingga 9 link hanya `<a>` inline tanpa padding/hover dan state aktif tidak pernah menyala. Diganti `awg-nav-link`.
+- **`Awg.theme.toggle()` tidak ada** padahal didokumentasikan (`docs/js-api.md`, `docs/getting-started.md`) dan dipakai command palette → `TypeError`. Ditambahkan sebagai alias `cycle()`.
+- **Datepicker: "bulan berikutnya" melompat 2 bulan**: `open()` sudah memanggil `bind()`, lalu wrapper di bawahnya memasang listener klik kedua pada elemen yang sama. Wrapper ganda dihapus.
+- **Datepicker: `TypeError: Cannot read properties of null (reading 'focus')`** saat panel ditutup cepat (Escape / klik luar) sebelum `requestAnimationFrame` pertama jalan — `close()` sudah men-`null`-kan `this.pop`. Kini memakai referensi lokal + guard.
+- **Lightbox (tiga regresi dari refactor markup ikon)**
+  - ikon X ganda (satu `<svg>` nyasar di luar tombol) sehingga `figure` terdorong keluar pusat viewport; posisi fig sekarang tepat di tengah.
+  - panah "sebelumnya" kehilangan rotasi 180° (chevron menunjuk arah salah). Rotasi dipindah ke ikon dalam agar tidak menimpa `transform: translateY(-50%)` tombolnya.
+  - kelas `.icon` (zona upload) dan `.file-ico` (thumbnail file) hilang saat markup dipindah ke helper `ic()`; `ic(name, cls)` kini menerima kelas tambahan.
+- **8 ikon dipakai tapi tidak ada di sprite** (`ic-arrow-left`, `ic-mail`, `ic-map`, `ic-monitor`, `ic-pie-chart`, `ic-shield`, `ic-smartphone`, `ic-user`) → tampil kosong. Ditambahkan ke `assets/icons.svg` (80 → 88 simbol).
+- **Overflow horizontal di 320px** pada toolbar `.awg-flex` (tanpa wrap), `.play-stage` (tanpa scroll), nav landing, dan grid `.awg-pos`; plus jaring pengaman `html, body { overflow-x: clip }` sebagai *failsafe*.
+- **Teks dokumen terpotong di layar sempit**: token panjang (path, `Bootstrap/jQuery/Tailwind/FontAwesome`) meluber keluar paragraf lalu terpotong. Ditambahkan `overflow-wrap: break-word` pada `p, li, td, th, .doc-body` dan `overflow-wrap: anywhere` untuk `<code>` inline.
+
+### Added
+
+- **Template Notifikasi di `templates/chat.html`**: halaman chat sebelumnya punya tombol bell **tanpa** panel (tombol mati). Panel notifikasi kini lengkap dengan tab filter dan "tandai dibaca", sama seperti NMS.
+- **Suite QA berbasis browser** (`qa/`): render 24 halaman × 4 viewport (320/375/768/1440), uji interaksi 25 skenario (toast, modal, drawer, DataTable, tabs, wizard, select2, chart, datepicker, peta, lightbox, kanban, upload, treeview, tour, anti-XSS, tema), audit DOM (tumpang tindih/kliping/overflow), verifikasi ikon & konsol. Jalankan: `npm run qa`, `npm run qa:console`, `npm run qa:icons`, `npm run qa:dom`.
+
 ## [1.4.0] - 2026-09-28
 
 ### Added

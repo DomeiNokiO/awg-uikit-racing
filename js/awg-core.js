@@ -37,6 +37,11 @@
             this._apply();
         },
         cycle() { this.set(this.get() === 'light' ? 'dark' : this.get() === 'dark' ? 'system' : 'light'); },
+        /* toggle() = API publik yang didokumentasikan (docs/js-api.md,
+           docs/getting-started.md) dan dipakai command palette. Alias cycle():
+           sebelumnya hanya cycle() yang ada, sehingga palette melempar
+           "Awg.theme.toggle is not a function". */
+        toggle() { this.cycle(); },
         init() {
             this._apply();
             matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (this.get() === 'system') this._apply(); });
@@ -74,11 +79,13 @@
     };
 
     /* ---------- toast stack with progress bar + swipe dismiss ---------- */
+    const assetRoot = /\/templates\//.test(location.pathname) ? '../assets' : 'assets';
+    const ic = name => `<svg class="awg-ic" aria-hidden="true"><use href="${assetRoot}/icons.svg#ic-${name}"></use></svg>`;
     const toastIcons = {
-        info:  '<svg class="awg-ic" aria-hidden="true"><use href="assets/icons.svg#ic-info"></use></svg>',
-        ok:    '<svg class="awg-ic" aria-hidden="true"><use href="assets/icons.svg#ic-check-circle"></use></svg>',
-        bad:   '<svg class="awg-ic" aria-hidden="true"><use href="assets/icons.svg#ic-x-circle"></use></svg>',
-        warn:  '<svg class="awg-ic" aria-hidden="true"><use href="assets/icons.svg#ic-alert-triangle"></use></svg>'
+        info:  ic('info'),
+        ok:    ic('check-circle'),
+        bad:   ic('x-circle'),
+        warn:  ic('alert-triangle')
     };
     Awg.toast = function (msg, type = 'info', msOrOpts = 4000) {
         let ms = 4000, pauseOnHover = true;
@@ -329,7 +336,7 @@
                     btn.classList.add('copied');
                     const old = btn.innerHTML;
                     const tmp = btn.dataset.awgCopyOk || '✓ Tersalin';
-                    if (btn.dataset.awgCopyOk !== '') btn.innerHTML = `<svg class="awg-ic sm"><use href="assets/icons.svg#ic-check"></use></svg> ${Awg.esc(tmp)}`;
+                    if (btn.dataset.awgCopyOk !== '') btn.innerHTML = `${ic('check')} ${Awg.esc(tmp)}`;
                     Awg.toast(`Disalin: ${text.trim().slice(0, 60)}${text.length > 60 ? '…' : ''}`, 'ok', 2500);
                     setTimeout(() => { btn.classList.remove('copied'); if (btn.dataset.awgCopyOk !== '') btn.innerHTML = old; }, 1500);
                 }).catch(err => { Awg.toast('Gagal menyalin ke clipboard', 'bad'); console.error(err); });

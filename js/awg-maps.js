@@ -12,6 +12,9 @@
 (function () {
     'use strict';
     const d = document, w = window, L = w.L;
+    const assetRoot = (document.currentScript && document.currentScript.src.includes('/templates/')) ? '../assets' : 'assets';
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const ic = name => `<svg class="awg-ic" aria-hidden="true"><use href="${assetRoot}/icons.svg#ic-${name}"></use></svg>`;
 
     /* Popup/tooltip content aman: buang tag & event handler (mitigasi CVE-2025-69993
        pada Leaflet <= 1.9.4 yang merender bindPopup() sebagai HTML mentah). */
@@ -93,7 +96,7 @@
         }
 
         _noLib(msg) {
-            this.el.innerHTML = '<div class="awg-map-fallback"><svg class="awg-ic xl"><use href="assets/icons.svg#ic-map"></use></svg><p>' + (msg || 'Library peta tidak tersedia.') + '</p><small>Muat Leaflet, Google Maps, atau MapLibre.</small></div>';
+            this.el.innerHTML = '<div class="awg-map-fallback">' + ic('map') + '<p>' + esc(msg || 'Library peta tidak tersedia.') + '</p><small>Muat Leaflet, Google Maps, atau MapLibre.</small></div>';
         }
 
         __renderDemoFallback() {
@@ -218,9 +221,9 @@
     function mount(root) {
         (root || d).querySelectorAll('[data-awg-map]').forEach(el => { if (!el._awgMap) new AwgMap(el); });
     }
-    if (d.readyState === 'complete') setTimeout(mount, 0);
-    else if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', mount);
+    if (d.readyState === 'complete') setTimeout(() => mount(), 0);
+    else if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', () => mount());
     else mount();
-    w.addEventListener('load', () => { setTimeout(mount, 50); });
+    w.addEventListener('load', () => { setTimeout(() => mount(), 50); });
     w.AwgMap = AwgMap; w.AwgMap.mount = mount;
 })();

@@ -15,6 +15,8 @@
     'use strict';
     const d = document;
     const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const assetRoot = /\/templates\//.test(location.pathname) ? '../assets' : 'assets';
+    const ic = (name, cls = '') => `<svg class="awg-ic${cls ? ' ' + cls : ''}" aria-hidden="true"><use href="${assetRoot}/icons.svg#ic-${name}"></use></svg>`;
 
     /* ============ 1. WIZARD STEPPER ============ */
     class AwgWizard {
@@ -168,7 +170,7 @@
                 this._idx = Math.min(this._idx, Math.max(0, hits.length - 1));
                 list.innerHTML = hits.length ? hits.map((it, i) => `
                     <button type="button" class="awg-palette-item${i === this._idx ? ' cur' : ''}" data-i="${i}" role="option">
-                        <svg class="awg-ic sm"><use href="assets/icons.svg#${it.icon || 'ic-pointer'}"></use></svg>
+                        <svg class="awg-ic sm"><use href="${assetRoot}/icons.svg#${it.icon || 'ic-pointer'}"></use></svg>
                         <span>${esc(it.label)}</span><small class="awg-tiny awg-muted">${esc(it.hint || '')}</small>
                     </button>`).join('')
                     : '<div class="awg-palette-empty awg-small awg-muted">Tidak ada hasil</div>';
@@ -279,10 +281,10 @@
             if (!this._el) {
                 this._el = d.createElement('div');
                 this._el.className = 'awg-lightbox';
-                this._el.innerHTML = `<button class="awg-lb-x" aria-label="Tutup"><svg class="awg-ic xl"><use href="assets/icons.svg#ic-x"></use></svg></button>
+                this._el.innerHTML = `<button class="awg-lb-x" aria-label="Tutup">${ic('x')}</button>
                     <figure><img alt=""><figcaption></figcaption></figure>
-                    <button class="awg-lb-nav prev" aria-label="Sebelumnya"><svg class="awg-ic lg" style="transform:rotate(180deg)"><use href="assets/icons.svg#ic-chevron-right"></use></svg></button>
-                    <button class="awg-lb-nav next" aria-label="Berikutnya"><svg class="awg-ic lg"><use href="assets/icons.svg#ic-chevron-right"></use></svg></button>`;
+                    <button class="awg-lb-nav prev" aria-label="Sebelumnya">${ic('chevron-right')}</button>
+                    <button class="awg-lb-nav next" aria-label="Berikutnya">${ic('chevron-right')}</button>`;
                 d.body.appendChild(this._el);
                 d.body.classList.add('awg-lock');
                 const close = () => { this._el?.remove(); this._el = null; d.body.classList.remove('awg-lock'); d.removeEventListener('keydown', keys); };
@@ -352,7 +354,7 @@
             if (!this.zone) {
                 this.zone = d.createElement('label');
                 this.zone.className = 'awg-upload-zone';
-                this.zone.innerHTML = `<svg class="awg-ic icon" style="width:2.4rem;height:2.4rem"><use href="assets/icons.svg#ic-cloud-upload"></use></svg><b>Seret file ke sini</b><span class="awg-tiny">atau klik untuk pilih — max ${this._fmtSize(this.o.maxSize)}</span><input type="file" ${this.o.multiple ? 'multiple' : ''} ${this.o.accept ? 'accept="' + esc(this.o.accept) + '"' : ''}>`;
+                this.zone.innerHTML = `${ic('cloud-upload', 'icon')}<b>Seret file ke sini</b><span class="awg-tiny">atau klik untuk pilih — max ${this._fmtSize(this.o.maxSize)}</span><input type="file" ${this.o.multiple ? 'multiple' : ''} ${this.o.accept ? 'accept="' + esc(this.o.accept) + '"' : ''}>`;
                 this.r.appendChild(this.zone);
                 this.input = this.zone.querySelector('input');
             }
@@ -426,7 +428,7 @@
                 img.src = url;
                 thumb.appendChild(img);
             } else {
-                thumb.innerHTML = `<svg class="awg-ic file-ico"><use href="assets/icons.svg#ic-file"></use></svg>`;
+                thumb.innerHTML = `${ic('file', 'file-ico')}`;
             }
             el.querySelector('.rm').addEventListener('click', () => this.remove(item.id));
             item.el = el;

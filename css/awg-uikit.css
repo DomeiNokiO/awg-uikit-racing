@@ -163,8 +163,11 @@ body.awg-sidebar-open .awg-overlay, .awg-overlay.show { opacity: 1; pointer-even
 .awg-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
 .awg-grid.cols-1-2 { grid-template-columns: 1fr 2fr; }
 .awg-grid.cols-2-1 { grid-template-columns: 2fr 1fr; }
-.awg-flex { display: flex; gap: .75rem; align-items: center; }
+.awg-flex { display: flex; gap: .75rem; align-items: center; min-width: 0; }
 .awg-flex > * { min-width: 0; }
+/* min-width:0 saja tidak cukup: tombol ber-white-space:nowrap tetap memaksa
+   lebar induk. Kontainer flex di HP harus boleh wrap. */
+@media (max-width: 575.98px) { .awg-flex { flex-wrap: wrap; } }
 .awg-flex.wrap { flex-wrap: wrap; }
 .awg-flex.between { justify-content: space-between; }
 .awg-flex.end { justify-content: flex-end; }
@@ -575,12 +578,15 @@ body.awg-sidebar-open .awg-overlay, .awg-overlay.show { opacity: 1; pointer-even
 .awg-sel-footer button { border: 0; background: none; color: var(--awg-brand); font: 600 .76rem var(--awg-font); cursor: pointer; }
 
 /* ================= 9. CARDS / STATS / LIST / TABLE ================= */
-.awg-card { background: var(--awg-surface); border: 1px solid var(--awg-line); border-radius: var(--awg-radius); box-shadow: var(--awg-shadow); }
+.awg-card { background: var(--awg-surface); border: 1px solid var(--awg-line); border-radius: var(--awg-radius); box-shadow: var(--awg-shadow); min-width: 0; }
 .awg-card-head {
     padding: .95rem 1.25rem; border-bottom: 1px solid var(--awg-line);
     display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
-    font-weight: 600; font-size: .9rem;
+    font-weight: 600; font-size: .9rem; min-width: 0;
 }
+/* Toolbar fleksibel di dalam card-head WAJIB bisa wrap, kalau tidak tombol
+   ketiga memaksa lebar halaman > viewport di layar 320-375px. */
+.awg-card-head > .awg-flex { flex-wrap: wrap; }
 .awg-card-head .h-sub { font-weight: 500; color: var(--awg-ink-3); font-size: .78rem; }
 .awg-card-head .h-actions { margin-left: auto; display: flex; gap: .4rem; }
 .awg-card-body { padding: 1.25rem; }
@@ -618,7 +624,9 @@ body.awg-sidebar-open .awg-overlay, .awg-overlay.show { opacity: 1; pointer-even
 .awg-list-item .li-title { font-weight: 600; font-size: .88rem; }
 .awg-list-item .li-sub { color: var(--awg-ink-3); font-size: .76rem; }
 
-.awg-table-wrap { overflow-x: auto; }
+.awg-table-wrap { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; }
+/* Tabel di dalam kontainer non-scroll (mis. .play-stage) harus bisa di-scroll
+   sendiri; tanpa ini tabel lebar melebarkan halaman. */
 .awg-table { width: 100%; border-collapse: collapse; font-size: .855rem; }
 .awg-table thead th {
     font-size: .7rem; text-transform: uppercase; letter-spacing: .05em;
@@ -1154,7 +1162,10 @@ body.awg-sidebar-open .awg-overlay, .awg-overlay.show { opacity: 1; pointer-even
 .awg-lb-x { position: absolute; top: 1rem; right: 1rem; width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(148, 163, 184, .3); background: rgba(15, 23, 42, .5); color: #e2e8f0; cursor: pointer; display: grid; place-items: center; }
 .awg-lb-x:hover { background: rgba(15, 23, 42, .8); }
 .awg-lb-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 64px; border-radius: 12px; border: 1px solid rgba(148, 163, 184, .3); background: rgba(15, 23, 42, .5); color: #e2e8f0; cursor: pointer; display: grid; place-items: center; }
-.awg-lb-nav.prev { left: 1rem; } .awg-lb-nav.next { right: 1rem; }
+.awg-lb-nav.prev { left: 1rem; }
+/* Panah "sebelumnya" = chevron-right diputar. Rotasi HARUS di ikon dalam,
+   bukan di tombolnya, karena tombol memakai transform: translateY(-50%). */
+.awg-lb-nav.prev .awg-ic { transform: rotate(180deg); } .awg-lb-nav.next { right: 1rem; }
 .awg-lb-nav:hover { background: rgba(15, 23, 42, .8); }
 .awg-lb-nav[hidden] { display: none; }
 body.awg-lock { overflow: hidden; }
@@ -1246,9 +1257,9 @@ body.awg-lock { overflow: hidden; }
     opacity: 0; transform: translateY(-4px); pointer-events: none; transition: opacity .16s ease, transform .16s ease;
 }
 .awg-notif-panel.open { opacity: 1; transform: none; pointer-events: auto; }
-.awg-notif-head { display: flex; align-items: center; justify-content: space-between; padding: .8rem 1rem; border-bottom: 1px solid var(--awg-line); }
-.awg-notif-head h4 { margin: 0; font-size: .92rem; }
-.awg-notif-head .awg-btn { min-height: 30px; padding: .25rem .6rem; font-size: .74rem; }
+.awg-notif-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; flex-wrap: wrap; padding: .8rem 1rem; border-bottom: 1px solid var(--awg-line); }
+.awg-notif-head h4 { margin: 0; font-size: .92rem; flex: none; }
+.awg-notif-head .awg-btn { min-height: 30px; padding: .25rem .6rem; font-size: .74rem; white-space: nowrap; }
 .awg-notif-tabs { display: flex; gap: .25rem; padding: .5rem 1rem 0; }
 .awg-notif-tabs button {
     border: 0; background: none; cursor: pointer; font: 600 .76rem/1 var(--awg-font);
@@ -1378,3 +1389,41 @@ body.awg-lock { overflow: hidden; }
 [data-density="compact"] .awg-btn:not(.awg-btn-sm):not(.awg-btn-lg) { min-height: 34px; padding: .34rem .8rem; font-size: .82rem; }
 [data-density="compact"] .awg-content { padding: 1rem; }
 [data-density="compact"] .awg-topbar { min-height: 56px; }
+
+/* ================= 32. ANTI-OVERFLOW HORIZONTAL (WAJIB TERAKHIR) ================= */
+/* Jaring pengaman: apa pun yang lebih lebar dari viewport TIDAK boleh
+   melebarkan <html>. Bug 320px nyata (diuji Chrome 154): toolbar .awg-flex
+   tanpa wrap, .play-stage tanpa scroll, dan <pre> tanpa pembungkus. */
+html { overflow-x: clip; }
+body { overflow-x: clip; }
+/* Blok kode panjang: biarkan scroll di dalamnya, jangan dorong lebar halaman. */
+pre { max-width: 100%; overflow-x: auto; }
+/* <code> inline dengan identifier panjang (mis. path file) memaksa lebar;
+   boleh dipatahkan di tengah kata, KECUALI di dalam <pre> yang sudah scroll. */
+:not(pre) > code { overflow-wrap: anywhere; }
+pre > code { overflow-wrap: normal; }
+@media (max-width: 575.98px) {
+    /* Target nyata: dokumen tidak boleh lebih lebar dari layar. */
+    html, body { max-width: 100%; }
+    /* Drawer lebar tetap tidak boleh melebarkan dokumen saat tertutup. */
+    .awg-drawer { max-width: 100vw; }
+}
+/* Kontainer teks: token panjang (path, identifier, daftar pustaka) harus
+   WRAP, bukan meluber lalu terpotong oleh overflow-x: clip di atas. Menulis
+   overflow-wrap di p/li/td/.doc-body menimpa default 'normal' sehingga bug
+   "teks hilang" di layar sempit tidak terjadi. */
+p, li, td, th, .doc-body, .awg-card-body, .awg-notif-item .body {
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+@media (max-width: 575.98px) {
+    /* Panel notifikasi ber-anchor ke tombol bell. Setelah toolbar wrap, tombol
+       bell bisa berada di tengah baris sehingga panel (288-380px, right:0)
+       meleset keluar layar kiri. Di HP: matikan positioning .awg-notif-wrap
+       supaya panel ber-anchor ke .awg-topbar (position: sticky = containing
+       block), lalu bentangkan penuh dengan margin. */
+    .awg-notif-wrap { position: static; }
+    .awg-notif-panel {
+        left: .75rem; right: .75rem; width: auto; max-width: none;
+    }
+}

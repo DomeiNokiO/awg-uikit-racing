@@ -63,6 +63,11 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
             this._apply();
         },
         cycle() { this.set(this.get() === 'light' ? 'dark' : this.get() === 'dark' ? 'system' : 'light'); },
+        /* toggle() = API publik yang didokumentasikan (docs/js-api.md,
+           docs/getting-started.md) dan dipakai command palette. Alias cycle():
+           sebelumnya hanya cycle() yang ada, sehingga palette melempar
+           "Awg.theme.toggle is not a function". */
+        toggle() { this.cycle(); },
         init() {
             this._apply();
             matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (this.get() === 'system') this._apply(); });
@@ -100,11 +105,13 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
     };
 
     /* ---------- toast stack with progress bar + swipe dismiss ---------- */
+    const assetRoot = /\/templates\//.test(location.pathname) ? '../assets' : 'assets';
+    const ic = name => `<svg class="awg-ic" aria-hidden="true"><use href="${assetRoot}/icons.svg#ic-${name}"></use></svg>`;
     const toastIcons = {
-        info:  '<svg class="awg-ic" aria-hidden="true"><use href="assets/icons.svg#ic-info"></use></svg>',
-        ok:    '<svg class="awg-ic" aria-hidden="true"><use href="assets/icons.svg#ic-check-circle"></use></svg>',
-        bad:   '<svg class="awg-ic" aria-hidden="true"><use href="assets/icons.svg#ic-x-circle"></use></svg>',
-        warn:  '<svg class="awg-ic" aria-hidden="true"><use href="assets/icons.svg#ic-alert-triangle"></use></svg>'
+        info:  ic('info'),
+        ok:    ic('check-circle'),
+        bad:   ic('x-circle'),
+        warn:  ic('alert-triangle')
     };
     Awg.toast = function (msg, type = 'info', msOrOpts = 4000) {
         let ms = 4000, pauseOnHover = true;
@@ -355,7 +362,7 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
                     btn.classList.add('copied');
                     const old = btn.innerHTML;
                     const tmp = btn.dataset.awgCopyOk || '✓ Tersalin';
-                    if (btn.dataset.awgCopyOk !== '') btn.innerHTML = `<svg class="awg-ic sm"><use href="assets/icons.svg#ic-check"></use></svg> ${Awg.esc(tmp)}`;
+                    if (btn.dataset.awgCopyOk !== '') btn.innerHTML = `${ic('check')} ${Awg.esc(tmp)}`;
                     Awg.toast(`Disalin: ${text.trim().slice(0, 60)}${text.length > 60 ? '…' : ''}`, 'ok', 2500);
                     setTimeout(() => { btn.classList.remove('copied'); if (btn.dataset.awgCopyOk !== '') btn.innerHTML = old; }, 1500);
                 }).catch(err => { Awg.toast('Gagal menyalin ke clipboard', 'bad'); console.error(err); });
@@ -1215,13 +1222,16 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
     'use strict';
     const d = document;
     const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    function assetRoot() {
+        return /\/templates\//.test(location.pathname) ? '../assets' : 'assets';
+    }
+
     function toNum(t) {
         const n = parseFloat(String(t).replace(/[^\d.,-]/g, '').replace(/\.(?=\d{3}\b)/g, '').replace(',', '.'));
         return isNaN(n) ? null : n;
     }
 
     class AwgTable {
-        static icon = 'assets/icons.svg';
         constructor(target, opts) {
             const t = typeof target === 'string' ? d.querySelector(target) : target;
             if (!t) return null;
@@ -1241,7 +1251,7 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
             const bar = d.createElement('div');
             bar.className = 'awg-dt-bar';
             if (o.search) bar.insertAdjacentHTML('beforeend',
-                `<label class="awg-dt-search"><svg class="awg-ic sm"><use href="${AwgTable.icon}#ic-search"></use></svg>
+                `<label class="awg-dt-search"><svg class="awg-ic sm"><use href="${assetRoot()}/icons.svg#ic-search"></use></svg>
                  <input class="awg-input awg-input-sm" type="search" placeholder="${esc(o.placeholder)}" aria-label="Cari"></label>`);
             if (o.info) bar.insertAdjacentHTML('beforeend', '<span class="awg-dt-info awg-small awg-muted"></span>');
             if (o.search && o.per.length) bar.insertAdjacentHTML('beforeend',
@@ -1319,7 +1329,7 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
             const tb = this.t.querySelector('tbody');
             if (!rows.length) {
                 tb.innerHTML = `<tr class="awg-dt-empty-row"><td colspan="99"><div class="awg-empty">
-                    <span class="ico"><svg class="awg-ic lg"><use href="${AwgTable.icon}#ic-folder"></use></svg></span>
+                    <span class="ico"><svg class="awg-ic lg"><use href="${assetRoot()}/icons.svg#ic-folder"></use></svg></span>
                     <b>Tidak ada hasil</b><span class="awg-tiny awg-muted">Coba kata kunci lain</span></div></td></tr>`;
             } else {
                 tb.innerHTML = '';
@@ -1418,6 +1428,10 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
 (function () {
     'use strict';
     const d = document;
+    const assetRoot = (function(){
+        return /\/templates\//.test(location.pathname) ? '../assets' : 'assets';
+    })();
+    const ic = name => `<svg class="awg-ic" aria-hidden="true"><use href="${assetRoot}/icons.svg#ic-${name}"></use></svg>`;
     const MON = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     const DAY = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
     const pad = n => String(n).padStart(2, '0');
@@ -1490,7 +1504,12 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
             this.pop.addEventListener('mousedown', e => e.preventDefault());
             this.pop.addEventListener('keydown', e => this._keys(e));
             this.pop.tabIndex = -1;
-            requestAnimationFrame(() => this.pop.focus());
+            /* rAF ditunda satu frame; kalau pengguna menutup panel lebih cepat
+               (Escape / klik luar), close() sudah men-`null`-kan this.pop dan
+               this.pop.focus() melempar "Cannot read properties of null".
+               Simpan referensi lokal + guard. */
+            const pop = this.pop;
+            requestAnimationFrame(() => pop.focus());
             const out = e => { if (!this.pop.contains(e.target) && e.target !== this.i) this.close(); };
             setTimeout(() => d.addEventListener('mousedown', out), 0);
             this._out = out;
@@ -1518,9 +1537,9 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
             const today = new Date();
             const first = mondayFirst(v);
             let h = `<div class="awg-dp-head">
-                <button type="button" class="awg-dp-nav" data-nav="-1" aria-label="Bulan sebelumnya"><svg class="awg-ic sm" style="transform:rotate(180deg)"><use href="assets/icons.svg#ic-chevron-right"></use></svg></button>
+                <button type="button" class="awg-dp-nav" data-nav="-1" aria-label="Bulan sebelumnya">${ic('chevron-right')}</button>
                 <b>${MON[v.getMonth()]} ${v.getFullYear()}</b>
-                <button type="button" class="awg-dp-nav" data-nav="1" aria-label="Bulan berikutnya"><svg class="awg-ic sm"><use href="assets/icons.svg#ic-chevron-right"></use></svg></button>
+                <button type="button" class="awg-dp-nav" data-nav="1" aria-label="Bulan berikutnya">${ic('chevron-right')}</button>
               </div><div class="awg-dp-days">` + DAY.map(x => `<span>${x}</span>`).join('') + `</div><div class="awg-dp-grid" role="grid">`;
             for (let i = 0; i < 42; i++) {
                 const dt = new Date(first); dt.setDate(first.getDate() + i);
@@ -1585,9 +1604,11 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
             });
         }
     }
-    /* open() panggil bind dulu */
-    const _open = AwgDate.prototype.open;
-    AwgDate.prototype.open = function () { _open.call(this); this.pop && this.bind(); };
+    /* JANGAN pasang listener klik kedua di sini: open() sudah memanggil
+       this.bind(), dan listener-nya menempel di this.pop (kontainer) sehingga
+       tetap hidup setelah render() mengganti innerHTML. Wrapper ini dulu
+       mendaftarkan bind() dua kali, sehingga satu klik "bulan berikutnya"
+       melompat DUA bulan (Sep -> Nov). */
 
     function isoOf(input) { return input.dataset.iso || disp2iso(input.value) || null; }
 
@@ -1595,9 +1616,9 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
         (root || d).querySelectorAll('input[data-awg-date]').forEach(i => { if (!i._awgDate) new AwgDate(i); });
     }
     if (d.readyState === 'loading')
-        d.addEventListener('DOMContentLoaded', mount);
+        d.addEventListener('DOMContentLoaded', () => mount());
     else
-        setTimeout(mount, 0);
+        setTimeout(() => mount(), 0);
     mount();   // fail-safe: jalankan langsung saat script berakhir (idempoten)
 
     window.AwgDate = AwgDate;
@@ -1609,6 +1630,8 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
     'use strict';
     const d = document;
     const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const assetRoot = /\/templates\//.test(location.pathname) ? '../assets' : 'assets';
+    const ic = (name, cls = '') => `<svg class="awg-ic${cls ? ' ' + cls : ''}" aria-hidden="true"><use href="${assetRoot}/icons.svg#ic-${name}"></use></svg>`;
 
     /* ============ 1. WIZARD STEPPER ============ */
     class AwgWizard {
@@ -1762,7 +1785,7 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
                 this._idx = Math.min(this._idx, Math.max(0, hits.length - 1));
                 list.innerHTML = hits.length ? hits.map((it, i) => `
                     <button type="button" class="awg-palette-item${i === this._idx ? ' cur' : ''}" data-i="${i}" role="option">
-                        <svg class="awg-ic sm"><use href="assets/icons.svg#${it.icon || 'ic-pointer'}"></use></svg>
+                        <svg class="awg-ic sm"><use href="${assetRoot}/icons.svg#${it.icon || 'ic-pointer'}"></use></svg>
                         <span>${esc(it.label)}</span><small class="awg-tiny awg-muted">${esc(it.hint || '')}</small>
                     </button>`).join('')
                     : '<div class="awg-palette-empty awg-small awg-muted">Tidak ada hasil</div>';
@@ -1873,10 +1896,10 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
             if (!this._el) {
                 this._el = d.createElement('div');
                 this._el.className = 'awg-lightbox';
-                this._el.innerHTML = `<button class="awg-lb-x" aria-label="Tutup"><svg class="awg-ic xl"><use href="assets/icons.svg#ic-x"></use></svg></button>
+                this._el.innerHTML = `<button class="awg-lb-x" aria-label="Tutup">${ic('x')}</button>
                     <figure><img alt=""><figcaption></figcaption></figure>
-                    <button class="awg-lb-nav prev" aria-label="Sebelumnya"><svg class="awg-ic lg" style="transform:rotate(180deg)"><use href="assets/icons.svg#ic-chevron-right"></use></svg></button>
-                    <button class="awg-lb-nav next" aria-label="Berikutnya"><svg class="awg-ic lg"><use href="assets/icons.svg#ic-chevron-right"></use></svg></button>`;
+                    <button class="awg-lb-nav prev" aria-label="Sebelumnya">${ic('chevron-right')}</button>
+                    <button class="awg-lb-nav next" aria-label="Berikutnya">${ic('chevron-right')}</button>`;
                 d.body.appendChild(this._el);
                 d.body.classList.add('awg-lock');
                 const close = () => { this._el?.remove(); this._el = null; d.body.classList.remove('awg-lock'); d.removeEventListener('keydown', keys); };
@@ -1946,7 +1969,7 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
             if (!this.zone) {
                 this.zone = d.createElement('label');
                 this.zone.className = 'awg-upload-zone';
-                this.zone.innerHTML = `<svg class="awg-ic icon" style="width:2.4rem;height:2.4rem"><use href="assets/icons.svg#ic-cloud-upload"></use></svg><b>Seret file ke sini</b><span class="awg-tiny">atau klik untuk pilih — max ${this._fmtSize(this.o.maxSize)}</span><input type="file" ${this.o.multiple ? 'multiple' : ''} ${this.o.accept ? 'accept="' + esc(this.o.accept) + '"' : ''}>`;
+                this.zone.innerHTML = `${ic('cloud-upload', 'icon')}<b>Seret file ke sini</b><span class="awg-tiny">atau klik untuk pilih — max ${this._fmtSize(this.o.maxSize)}</span><input type="file" ${this.o.multiple ? 'multiple' : ''} ${this.o.accept ? 'accept="' + esc(this.o.accept) + '"' : ''}>`;
                 this.r.appendChild(this.zone);
                 this.input = this.zone.querySelector('input');
             }
@@ -2020,7 +2043,7 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
                 img.src = url;
                 thumb.appendChild(img);
             } else {
-                thumb.innerHTML = `<svg class="awg-ic file-ico"><use href="assets/icons.svg#ic-file"></use></svg>`;
+                thumb.innerHTML = `${ic('file', 'file-ico')}`;
             }
             el.querySelector('.rm').addEventListener('click', () => this.remove(item.id));
             item.el = el;
@@ -2388,6 +2411,9 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
 (function () {
     'use strict';
     const d = document, w = window, L = w.L;
+    const assetRoot = (document.currentScript && document.currentScript.src.includes('/templates/')) ? '../assets' : 'assets';
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const ic = name => `<svg class="awg-ic" aria-hidden="true"><use href="${assetRoot}/icons.svg#ic-${name}"></use></svg>`;
 
     /* Popup/tooltip content aman: buang tag & event handler (mitigasi CVE-2025-69993
        pada Leaflet <= 1.9.4 yang merender bindPopup() sebagai HTML mentah). */
@@ -2469,7 +2495,7 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
         }
 
         _noLib(msg) {
-            this.el.innerHTML = '<div class="awg-map-fallback"><svg class="awg-ic xl"><use href="assets/icons.svg#ic-map"></use></svg><p>' + (msg || 'Library peta tidak tersedia.') + '</p><small>Muat Leaflet, Google Maps, atau MapLibre.</small></div>';
+            this.el.innerHTML = '<div class="awg-map-fallback">' + ic('map') + '<p>' + esc(msg || 'Library peta tidak tersedia.') + '</p><small>Muat Leaflet, Google Maps, atau MapLibre.</small></div>';
         }
 
         __renderDemoFallback() {
@@ -2592,10 +2618,10 @@ if (!globalThis.sessionStorage) globalThis.sessionStorage = globalThis.localStor
     function mount(root) {
         (root || d).querySelectorAll('[data-awg-map]').forEach(el => { if (!el._awgMap) new AwgMap(el); });
     }
-    if (d.readyState === 'complete') setTimeout(mount, 0);
-    else if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', mount);
+    if (d.readyState === 'complete') setTimeout(() => mount(), 0);
+    else if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', () => mount());
     else mount();
-    w.addEventListener('load', () => { setTimeout(mount, 50); });
+    w.addEventListener('load', () => { setTimeout(() => mount(), 50); });
     w.AwgMap = AwgMap; w.AwgMap.mount = mount;
 })();
 

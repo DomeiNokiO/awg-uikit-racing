@@ -12,6 +12,10 @@
 (function () {
     'use strict';
     const d = document;
+    const assetRoot = (function(){
+        return /\/templates\//.test(location.pathname) ? '../assets' : 'assets';
+    })();
+    const ic = name => `<svg class="awg-ic" aria-hidden="true"><use href="${assetRoot}/icons.svg#ic-${name}"></use></svg>`;
     const MON = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     const DAY = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
     const pad = n => String(n).padStart(2, '0');
@@ -84,7 +88,12 @@
             this.pop.addEventListener('mousedown', e => e.preventDefault());
             this.pop.addEventListener('keydown', e => this._keys(e));
             this.pop.tabIndex = -1;
-            requestAnimationFrame(() => this.pop.focus());
+            /* rAF ditunda satu frame; kalau pengguna menutup panel lebih cepat
+               (Escape / klik luar), close() sudah men-`null`-kan this.pop dan
+               this.pop.focus() melempar "Cannot read properties of null".
+               Simpan referensi lokal + guard. */
+            const pop = this.pop;
+            requestAnimationFrame(() => pop.focus());
             const out = e => { if (!this.pop.contains(e.target) && e.target !== this.i) this.close(); };
             setTimeout(() => d.addEventListener('mousedown', out), 0);
             this._out = out;
@@ -112,9 +121,9 @@
             const today = new Date();
             const first = mondayFirst(v);
             let h = `<div class="awg-dp-head">
-                <button type="button" class="awg-dp-nav" data-nav="-1" aria-label="Bulan sebelumnya"><svg class="awg-ic sm" style="transform:rotate(180deg)"><use href="assets/icons.svg#ic-chevron-right"></use></svg></button>
+                <button type="button" class="awg-dp-nav" data-nav="-1" aria-label="Bulan sebelumnya">${ic('chevron-right')}</button>
                 <b>${MON[v.getMonth()]} ${v.getFullYear()}</b>
-                <button type="button" class="awg-dp-nav" data-nav="1" aria-label="Bulan berikutnya"><svg class="awg-ic sm"><use href="assets/icons.svg#ic-chevron-right"></use></svg></button>
+                <button type="button" class="awg-dp-nav" data-nav="1" aria-label="Bulan berikutnya">${ic('chevron-right')}</button>
               </div><div class="awg-dp-days">` + DAY.map(x => `<span>${x}</span>`).join('') + `</div><div class="awg-dp-grid" role="grid">`;
             for (let i = 0; i < 42; i++) {
                 const dt = new Date(first); dt.setDate(first.getDate() + i);
@@ -179,9 +188,11 @@
             });
         }
     }
-    /* open() panggil bind dulu */
-    const _open = AwgDate.prototype.open;
-    AwgDate.prototype.open = function () { _open.call(this); this.pop && this.bind(); };
+    /* JANGAN pasang listener klik kedua di sini: open() sudah memanggil
+       this.bind(), dan listener-nya menempel di this.pop (kontainer) sehingga
+       tetap hidup setelah render() mengganti innerHTML. Wrapper ini dulu
+       mendaftarkan bind() dua kali, sehingga satu klik "bulan berikutnya"
+       melompat DUA bulan (Sep -> Nov). */
 
     function isoOf(input) { return input.dataset.iso || disp2iso(input.value) || null; }
 
@@ -189,9 +200,9 @@
         (root || d).querySelectorAll('input[data-awg-date]').forEach(i => { if (!i._awgDate) new AwgDate(i); });
     }
     if (d.readyState === 'loading')
-        d.addEventListener('DOMContentLoaded', mount);
+        d.addEventListener('DOMContentLoaded', () => mount());
     else
-        setTimeout(mount, 0);
+        setTimeout(() => mount(), 0);
     mount();   // fail-safe: jalankan langsung saat script berakhir (idempoten)
 
     window.AwgDate = AwgDate;

@@ -42,6 +42,16 @@
             <button class="awg-btn awg-btn-ghost awg-btn-sm awg-bell-btn" data-awg-notif-btn aria-label="Notifikasi">
                 <svg class="awg-ic"><use href="../assets/icons.svg#ic-bell"></use></svg><span class="cnt" data-awg-notif-count hidden>0</span>
             </button>
+            <div class="awg-notif-panel" role="dialog" aria-label="Panel notifikasi">
+                <div class="awg-notif-head"><h4>Notifikasi</h4><button class="awg-btn awg-btn-ghost" data-awg-notif-mark>Tandai dibaca</button></div>
+                <div class="awg-notif-tabs">
+                    <button class="active" data-filter="all">Semua</button>
+                    <button data-filter="ticket">Tiket</button>
+                    <button data-filter="billing">Tagihan</button>
+                    <button data-filter="system">Sistem</button>
+                </div>
+                <div class="awg-notif-list"></div>
+            </div>
         </div>
         <button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-density-toggle><svg class="awg-ic"><use href="../assets/icons.svg#ic-sliders"></use></svg> <span class="awg-hide-xs">Padat</span></button>
         <button class="awg-btn awg-btn-ghost awg-btn-sm" data-awg-theme-toggle><svg class="awg-ic"><use href="../assets/icons.svg#ic-contrast"></use></svg> <span class="awg-hide-xs">Tema</span></button>

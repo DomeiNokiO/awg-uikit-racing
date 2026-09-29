@@ -39,8 +39,11 @@
     .lp-nav { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--awg-bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--awg-line); }
     .lp-nav .in { max-width: 1120px; margin: 0 auto; display: flex; align-items: center; gap: 1rem; padding: .8rem 1.5rem; }
     .lp-nav .brand { font-weight: 800; display: flex; align-items: center; gap: .5rem; }
-    .lp-nav .links { margin-left: auto; display: flex; gap: 1.2rem; align-items: center; font-size: .88rem; }
+    .lp-nav .links { margin-left: auto; display: flex; gap: 1.2rem; align-items: center; font-size: .88rem; flex-wrap: wrap; justify-content: flex-end; }
     @media (max-width: 640px) { .lp-nav .links a:not(.awg-btn) { display: none; } }
+    /* Di 320px dua tombol CTA + brand tidak muat satu baris; biarkan brand dan
+       links turun baris, bukan melebarkan halaman. */
+    @media (max-width: 400px) { .lp-nav .in { flex-wrap: wrap; row-gap: .5rem; } .lp-nav .links { margin-left: 0; width: 100%; } }
     .lp-nav a { color: var(--awg-ink-2); font-weight: 500; }
     .lp-foot { border-top: 1px solid var(--awg-line); margin-top: 3rem; padding: 2rem 1.5rem 3rem; text-align: center; color: var(--awg-ink-3); font-size: .8rem; line-height: 1.7; }
 </style>
